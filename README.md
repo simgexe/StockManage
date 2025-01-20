@@ -1,2 +1,2 @@
 # LogiManage
-#Asp.Net MVC logistic management project 
+Asp.Net MVC logistic management project 
