@@ -1,0 +1,55 @@
+﻿
+@{
+    Layout = null;
+    ViewBag.Title = "Login";
+}
+
+
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+
+    <title> LogiManage </title>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/sign-in.css" rel="stylesheet" />
+
+</head>
+<body class="d-flex align-items-center py-4 bg-body-tertiary">
+
+    <main class="form-signin w-100 m-auto">
+        @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+        {
+            <h1 class="h3 mb-3 fw-normal">Inventory Management Login Page</h1>
+            <br />
+            <div class="form-floating">
+                <input type="text" class="form-control" id="Username" name="Username">
+                <label for="Username"> User name</label>
+            </div>
+            <br />
+            <div class="form-floating">
+                <input type="password" class="form-control" id="Userpassword" name="Userpassword">
+                <label for="Userpassword">Password</label>
+            </div>
+            <br />
+            <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+            <br /> <br />
+
+            if (!string.IsNullOrEmpty(ViewBag.Message as string))
+            {
+                <div class="alert alert-info" role="alert">
+                    @ViewBag.Message
+                </div>
+            }
+            <p class="mt-5 mb-3 text-body-secondary">&copy; 2025–2025</p>
+
+        }
+    </main>
+
+
+</body>
+</html>
