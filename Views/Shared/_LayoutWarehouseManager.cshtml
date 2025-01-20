@@ -13,7 +13,9 @@
 
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">Inventionary Management Systems</a>
+            <a class="navbar-brand" href="#">Warehouse Management </a>
+            
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -21,21 +23,23 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                     <li class="nav-item">
-                        @Html.ActionLink("Home", "Index", "WarehouseManager", new { }, new { @class = "nav-link" })
+                        @Html.ActionLink("Home ", "Index", "Warehouse", new { }, new { @class = "nav-link" })
+                        <
+                    </li>
+
+                    <li class="nav-item">
+                        @Html.ActionLink("StockUpdate", "StockUpdate", "Warehouse", new { }, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
-                        @Html.ActionLink("StockUpdate", "StockUpdate", "WarehouseManager", new { }, new { @class = "nav-link" })
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Transfer", "Transfer", "WarehouseManager", new { }, new { @class = "nav-link" })
+                        @Html.ActionLink("Transfer", "Transfer", "Warehouse", new { }, new { @class = "nav-link" })
                     </li>
                     <li>
-                        @Html.ActionLink("Warehouse Control", "StockUpdate", "WarehouseManager", new { }, new { @class = "nav-link" })
+                        @Html.ActionLink("Warehouse Control", "WarehouseControl", "Warehouse", new { }, new { @class = "nav-link" })
                     </li>
 
                 </ul>
                 <div class="d-flex nav-item">
-                    @Html.ActionLink("Logout", "Logout", "Home", new { }, new { @class = "btn btn-danger" })
+                    @Html.ActionLink("Logout", "Logout", "Account", new { }, new { @class = "btn btn-danger" })
 
                 </div>
 
