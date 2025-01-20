@@ -13,20 +13,6 @@ namespace LogiManage.Controllers
         {
             return View();
         }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
         LogiManageDbEntities entity = new LogiManageDbEntities();
         // GET: Login
         [HttpGet]
@@ -39,8 +25,6 @@ namespace LogiManage.Controllers
         public ActionResult Login(string Username, string Userpassword,string roleid)
         {
           
-            
-
             var user = (from u in entity.Users
                         where u.Username == Username && u.Userpassword ==Userpassword
                         select u).FirstOrDefault(); 

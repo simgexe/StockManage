@@ -1,14 +1,11 @@
 ﻿
-@{
-    Layout = null;
-}
 
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>İş Takip Admin Yönetici</title>
+    <title>Warehouse Manager</title>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 </head>
@@ -16,7 +13,7 @@
 
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">İş Takip Yönetici</a>
+            <a class="navbar-brand" href="#">Inventionary Management Systems</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -27,15 +24,18 @@
                         @Html.ActionLink("Home", "Index", "WarehouseManager", new { }, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
-                        @Html.ActionLink("Stocks", "Ata", "WarehouseManager", new { }, new { @class = "nav-link" })
+                        @Html.ActionLink("StockUpdate", "StockUpdate", "WarehouseManager", new { }, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
-                        @Html.ActionLink("Transfer", "Takip", "WarehouseManager", new { }, new { @class = "nav-link" })
+                        @Html.ActionLink("Transfer", "Transfer", "WarehouseManager", new { }, new { @class = "nav-link" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("Warehouse Control", "StockUpdate", "WarehouseManager", new { }, new { @class = "nav-link" })
                     </li>
 
                 </ul>
                 <div class="d-flex nav-item">
-                    @Html.ActionLink("Logout", "Index", "Logout", new { }, new { @class = "btn btn-danger" })
+                    @Html.ActionLink("Logout", "Logout", "Home", new { }, new { @class = "btn btn-danger" })
 
                 </div>
 

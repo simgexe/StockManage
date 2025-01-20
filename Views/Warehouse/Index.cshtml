@@ -1,7 +1,93 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "Depo Ürünleri";
+   
+}
+@model List<LogiManage.ViewModels.WarehouseProductViewModel>
+
+<h2>Depo Ürün Kontrolü</h2>
+     
+
+<!-- Depo Seçimi -->
+<form method="get" action="@Url.Action("Index", "Warehouse")">
+    <label for="warehouseId">Depo Seç:</label>
+    <select id="warehouseId" name="warehouseId" onchange="this.form.submit()">
+        @foreach (var warehouse in ViewBag.Warehouses)
+        {
+            <option value="@warehouse.WarehouseID" @(ViewBag.SelectedWarehouseId == warehouse.WarehouseID ? "selected" : "")>
+                @warehouse.WarehouseName
+            </option>
+        }
+    </select>
+</form>
+
+<hr />
+
+<!-- Depodaki Ürün Listesi -->
+@if (Model != null && Model.Count > 0)
+{
+    <h3>Depodaki Ürünler</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Ürün Adı</th>
+                <th>Kategori</th>
+                <th>Fiyat</th>
+                <th>Miktar</th>
+                <th>Kritik Seviye</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.ProductName</td>
+                    <td>@product.Category</td>
+                    <td>@product.Price.ToString("C")</td>
+                    <td>@product.Quantity</td>
+                    <td>@product.CriticalStockLevel</td>
+                    <td>
+                        <!-- Stok Güncelleme -->
+                        <form method="post" action="@Url.Action("StockUpdate", "Warehouse")" style="display:inline;">
+                            <input type="hidden" name="warehouseId" value="@ViewBag.SelectedWarehouseId" />
+                            <input type="hidden" name="productId" value="@product.ProductID" />
+                            <button type="submit" name="quantityChange" value="1">+</button>
+                            <button type="submit" name="quantityChange" value="-1">-</button>
+                        </form>
+
+                        <!-- Ürün Sil -->
+                        <form method="post" action="@Url.Action("DeleteProduct", "Warehouse")" style="display:inline;">
+                            <input type="hidden" name="warehouseId" value="@ViewBag.SelectedWarehouseId" />
+                            <input type="hidden" name="productId" value="@product.ProductID" />
+                            <button type="submit" onclick="return confirm('Bu ürünü silmek istediğinize emin misiniz?')">Sil</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Bu depoda henüz ürün yok.</p>
 }
 
-<h2>Index</h2>
+<hr />
 
+<!-- Yeni Ürün Ekle -->
+<h3>Yeni Ürün Ekle</h3>
+<form method="post" action="@Url.Action("AddProduct", "Warehouse")">
+    <input type="hidden" name="warehouseId" value="@ViewBag.SelectedWarehouseId" />
+    <label for="productId">Ürün Seç:</label>
+    <select id="productId" name="productId">
+        @foreach (var product in ViewBag.Products)
+        {
+            <option value="@product.ProductID">@product.ProductName</option>
+        }
+    </select>
+
+    <label for="quantity">Miktar:</label>
+    <input type="number" id="quantity" name="quantity" min="1" required />
+
+    <button type="submit">Ekle</button>
+</form>
