@@ -1,7 +1,43 @@
 ﻿
 @{
     ViewBag.Title = "ManageUsers";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <h2>ManageUser</h2>
-s
+@model IEnumerable<LogiManage.ViewModels.UserViewModel>
+
+
+<form method="get" action="@Url.Action("ManageUsers", "Admin")">
+    <div>
+        <label for="WarehouseID">Select Warehouse:</label>
+        @Html.DropDownList("WarehouseID", (SelectList)ViewBag.WarehouseID, "Select a Warehouse", new { @onchange = "this.form.submit();" })
+    </div>
+</form>
+
+<table>
+    <tr>
+        <th> Kullanıcı Adı</th>
+        <th> Ad</th>
+        <th> Soyad</th>
+        <th> Email</th>
+        <th> Rol</th>
+        <th> Depo Adı</th>
+
+    </tr>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td> @Html.DisplayFor(modelItem => user.Username)</td>
+            <td> @Html.DisplayFor(modelItem => user.UserFirstName)</td>
+            <td> @Html.DisplayFor(modelItem => user.UserLastName)</td>
+            <td> @Html.DisplayFor(modelItem => user.UserEmail)</td>
+            <td> @Html.DisplayFor(modelItem => user.RoleName)</td>
+            <td> @Html.DisplayFor(modelItem => user.WarehouseName)</td>
+            <td>@Html.ActionLink("edit", "UserUpdate", new { userid = user.UserID })</td>
+            <td>@Html.ActionLink("delete", "UserDelete", new { userid = user.UserID })</td>
+
+        </tr>
+            }
+    </table>
+

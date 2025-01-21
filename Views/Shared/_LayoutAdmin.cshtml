@@ -1,11 +1,9 @@
-﻿
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Purchase Officer</title>
+    <title>Warehouse Management</title>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 </head>
@@ -13,7 +11,7 @@
 
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">Purchase Management </a>
+            <a class="navbar-brand" href="#"> Admin  </a>
 
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,17 +21,20 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                     <li class="nav-item">
-                        @Html.ActionLink("Home ", "Index", "Purchase", new { }, new { @class = "nav-link" })
+                        @Html.ActionLink("Home ", "Index", "Admin", new { }, new { @class = "nav-link" })
                         <
                     </li>
 
                     <li class="nav-item">
-                        @Html.ActionLink("CreateOrder", "CreateOrder", "Purchase", new { }, new { @class = "nav-link" })
+                        @Html.ActionLink("Manage Users", "ManageUsers", "Admin", new { }, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
-                        @Html.ActionLink("ViewOrder", "ViewOrder", "Purchase", new { }, new { @class = "nav-link" })
+                        @Html.ActionLink("Transfer", "Transfer", "Warehouse", new { }, new { @class = "nav-link" })
                     </li>
-                   
+                    <li>
+                        @Html.ActionLink("Reports", "Reports", "Admin", new { }, new { @class = "nav-link" })
+                    </li>
+
                 </ul>
                 <div class="d-flex nav-item">
                     @Html.ActionLink("Logout", "Logout", "Account", new { }, new { @class = "btn btn-danger" })
@@ -49,4 +50,3 @@
     </main>
 </body>
 </html>
-

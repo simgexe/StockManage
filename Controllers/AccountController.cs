@@ -29,8 +29,7 @@ namespace LogiManage.Controllers
             var user = (from u in entity.Users
                         where u.Username == Username && u.Userpassword == Userpassword
                         select u).FirstOrDefault();
-            System.Diagnostics.Debug.WriteLine($"Gelen Username: {Username}");
-            System.Diagnostics.Debug.WriteLine($"Gelen Password: {Userpassword}");
+            
 
             if (user != null)
             {
@@ -49,7 +48,7 @@ namespace LogiManage.Controllers
                     case 4:
                         return RedirectToAction("Index", "Operator");
                     default:
-                        ViewBag.Message = "Invalid Role or Unrecognized RoleID";
+                      
                         return View();
                 }
             }

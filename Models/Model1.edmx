@@ -87,6 +87,7 @@
           <Property Name="Userpassword" Type="nvarchar" MaxLength="255" />
           <Property Name="RoleID" Type="int" />
           <Property Name="Username" Type="nvarchar" MaxLength="50" />
+          <Property Name="WarehouseID" Type="int" />
         </EntityType>
         <EntityType Name="Warehouses">
           <Key>
@@ -214,6 +215,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Users_Warehouses">
+          <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouses">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="WarehouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_WarehouseStocks_Products">
           <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
           <End Role="WarehouseStocks" Type="Self.WarehouseStocks" Multiplicity="*" />
@@ -316,6 +329,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Users_Roles1" Association="Self.FK_Users_Roles1">
             <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Warehouses" Association="Self.FK_Users_Warehouses">
+            <End Role="Warehouses" EntitySet="Warehouses" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_WarehouseStocks_Products" Association="Self.FK_WarehouseStocks_Products">
@@ -441,6 +458,8 @@
           <Property Name="RoleID" Type="Int32" />
           <NavigationProperty Name="Roles" Relationship="Self.FK_Users_Roles1" FromRole="Users" ToRole="Roles" />
           <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseID" Type="Int32" />
+          <NavigationProperty Name="Warehouses" Relationship="LogiManageDbModel.FK_Users_Warehouses" FromRole="Users" ToRole="Warehouses" />
         </EntityType>
         <EntityType Name="Warehouses">
           <Key>
@@ -455,6 +474,7 @@
           <NavigationProperty Name="WarehouseStocks" Relationship="Self.FK_WarehouseStocks_Warehouses" FromRole="Warehouses" ToRole="WarehouseStocks" />
           <NavigationProperty Name="WarehouseTransfers" Relationship="Self.FK_WarehousTransfers_Warehouses" FromRole="Warehouses" ToRole="WarehouseTransfers" />
           <NavigationProperty Name="WarehouseTransfers1" Relationship="Self.FK_WarehousTransfers_Warehouses1" FromRole="Warehouses" ToRole="WarehouseTransfers" />
+          <NavigationProperty Name="Users" Relationship="LogiManageDbModel.FK_Users_Warehouses" FromRole="Warehouses" ToRole="Users" />
         </EntityType>
         <EntityType Name="WarehouseStocks">
           <Key>
@@ -702,7 +722,23 @@
             <End Role="Warehouses" EntitySet="Warehouses" />
             <End Role="WarehouseTransfers" EntitySet="WarehouseTransfers" />
           </AssociationSet>
+          <AssociationSet Name="FK_Users_Warehouses" Association="LogiManageDbModel.FK_Users_Warehouses">
+            <End Role="Warehouses" EntitySet="Warehouses" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Users_Warehouses">
+          <End Type="LogiManageDbModel.Warehouses" Role="Warehouses" Multiplicity="0..1" />
+          <End Type="LogiManageDbModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouses">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="WarehouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -790,6 +826,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="LogiManageDbModel.Users">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="UserFirstName" ColumnName="UserFirstName" />

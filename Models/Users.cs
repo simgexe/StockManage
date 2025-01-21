@@ -21,7 +21,9 @@ namespace LogiManage.Models
         public string Userpassword { get; set; }
         public Nullable<int> RoleID { get; set; }
         public string Username { get; set; }
+        public Nullable<int> WarehouseID { get; set; }
     
-        public virtual Roles Roles { get; set; } // navigatiton property
+        public virtual Roles Roles { get; set; }
+        public virtual Warehouses Warehouses { get; set; }
     }
 }

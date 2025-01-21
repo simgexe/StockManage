@@ -3,15 +3,14 @@
     Layout = "~/Views/Shared/_LayoutWarehouseManager.cshtml";
 }
 
-<h2>Depo Ürün Kontrolü</h2>
+<h2>Warehouse Stock Management</h2>
 @model List<LogiManage.ViewModels.WarehouseProductViewModel>
 
-<h2>Depo Ürün Kontrolü</h2>
 
 
 <!-- Depo Seçimi -->
-<form method="get" action="@Url.Action("Index", "Warehouse")">
-    <label for="warehouseId">Depo Seç:</label>
+<form method="get" action="@Url.Action("WarehouseControl", "Warehouse")">
+    <label for="warehouseId"> choose a warehouse  </label>
     <select id="warehouseId" name="warehouseId" onchange="this.form.submit()">
         @foreach (var warehouse in ViewBag.Warehouses)
         {
@@ -27,16 +26,16 @@
 <!-- Depodaki Ürün Listesi -->
 @if (Model != null && Model.Count > 0)
 {
-    <h3>Depodaki Ürünler</h3>
-    <table border="1">
+    <h3>WarehouseStocks</h3>
+    <table border="1">s
         <thead>
             <tr>
-                <th>Ürün Adı</th>
-                <th>Kategori</th>
-                <th>Fiyat</th>
-                <th>Miktar</th>
-                <th>Kritik Seviye</th>
-                <th>İşlemler</th>
+                <th>ProductName</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Critical Stock Level</th>
+                
             </tr>
         </thead>
         <tbody>
@@ -61,7 +60,7 @@
                         <form method="post" action="@Url.Action("DeleteProduct", "Warehouse")" style="display:inline;">
                             <input type="hidden" name="warehouseId" value="@ViewBag.SelectedWarehouseId" />
                             <input type="hidden" name="productId" value="@product.ProductID" />
-                            <button type="submit" onclick="return confirm('Bu ürünü silmek istediğinize emin misiniz?')">Sil</button>
+                            <button type="submit" onclick="return confirm('You are deleting product are you sure?')">Sil</button>
                         </form>
                     </td>
                 </tr>

@@ -82,6 +82,7 @@
     <Property Name="Userpassword" Type="nvarchar" MaxLength="255" />
     <Property Name="RoleID" Type="int" />
     <Property Name="Username" Type="nvarchar" MaxLength="50" />
+    <Property Name="WarehouseID" Type="int" />
   </EntityType>
   <EntityType Name="Warehouses">
     <Key>
@@ -209,6 +210,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Users_Warehouses">
+    <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="0..1" />
+    <End Role="Users" Type="Self.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Warehouses">
+        <PropertyRef Name="WarehouseID" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="WarehouseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_WarehouseStocks_Products">
     <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
     <End Role="WarehouseStocks" Type="Self.WarehouseStocks" Multiplicity="*" />
@@ -311,6 +324,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_Users_Roles1" Association="Self.FK_Users_Roles1">
       <End Role="Roles" EntitySet="Roles" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Users_Warehouses" Association="Self.FK_Users_Warehouses">
+      <End Role="Warehouses" EntitySet="Warehouses" />
       <End Role="Users" EntitySet="Users" />
     </AssociationSet>
     <AssociationSet Name="FK_WarehouseStocks_Products" Association="Self.FK_WarehouseStocks_Products">

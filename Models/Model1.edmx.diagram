@@ -29,6 +29,7 @@
         <AssociationConnector Association="LogiManageDbModel.FK_WarehouseStocks_Warehouses" ManuallyRouted="false" />
         <AssociationConnector Association="LogiManageDbModel.FK_WarehousTransfers_Warehouses" ManuallyRouted="false" />
         <AssociationConnector Association="LogiManageDbModel.FK_WarehousTransfers_Warehouses1" ManuallyRouted="false" />
+        <AssociationConnector Association="LogiManageDbModel.FK_Users_Warehouses" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

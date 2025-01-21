@@ -9,14 +9,14 @@ using LogiManage.Models;
 using LogiManage.ViewModels;
 namespace LogiManage.Controllers
 {
-
+    
     public class WarehouseController : Controller
     {
         // GET: WarehouseManager
 
-        LogiManageDbEntities entity = new LogiManageDbEntities();
+        LogiManageDbEntities logidb = new LogiManageDbEntities();
         
-            [HttpGet]
+            
 
             public ActionResult Index()
             {
@@ -26,26 +26,27 @@ namespace LogiManage.Controllers
             [HttpPost]
             public ActionResult StockUpdate(int warehouseID, int productId, int quantityChange)
             {
-                var stock = entity.WarehouseStocks
+                var stock = logidb.WarehouseStocks
                     .FirstOrDefault(ws => ws.WarehouseID == warehouseID && ws.ProductID == productId);
-                if (stock == null)
+                if (stock != null)
                 {
                     stock.Quantity += quantityChange;
                     if (stock.Quantity < 0)
-                    {
                         stock.Quantity = 0;
-                        entity.SaveChanges();
 
-                    }
+                        logidb.SaveChanges();
+
+                    
                 }
 
-                return RedirectToAction("Index", new { warehouseID });
+                return RedirectToAction("WarehouseControl", new { warehouseID });
             }
             [HttpPost]
             public ActionResult AddProduct(int warehouseID, int productId, int quantity)
             {
-                var stockexist = entity.WarehouseStocks
-                     .FirstOrDefault(ws => ws.WarehouseID == warehouseID && ws.ProductID == productId);
+                //bir listeden veri çekip eklediği için düzgün değil. giriş yapan kişinin yeni ürün ekleyebilmesi gerekiyor. 
+                var stockexist =logidb.WarehouseStocks
+                     .FirstOrDefault(ws => ws.WarehouseID == warehouseID && ws.ProductID == productId && ws.Quantity==quantity);
                 if (stockexist != null)
                 {
                     stockexist.Quantity += quantity;
@@ -59,33 +60,32 @@ namespace LogiManage.Controllers
                         ProductID = productId,
                         Quantity = quantity
                     };
-                    entity.WarehouseStocks.Add(newStock);
+                    logidb.WarehouseStocks.Add(newStock);
                 }
-                entity.SaveChanges();
-                return RedirectToAction("Index", new { warehouseID });
+                logidb.SaveChanges();
+                return RedirectToAction("WarehouseControl", new { warehouseID });
             }
             [HttpPost]
             public ActionResult DeleteProduct(int warehouseID, int productId)
             {
-                /*var warehouse = (from w in entity.Warehouses
-                                 join ws in entity.WarehouseStocks on w.WarehouseID equals ws.WarehouseID
-                                 select new { w, ws }).ToList();
-                */
-                var stock = entity.WarehouseStocks
+                
+                var stock = logidb.WarehouseStocks
                     .FirstOrDefault(ws => ws.WarehouseID == warehouseID && ws.ProductID == productId);
                 if (stock != null)
-                { entity.WarehouseStocks.Remove(stock);
+                { 
+                    logidb.WarehouseStocks.Remove(stock); 
+                    logidb.SaveChanges();
                 }
-                entity.SaveChanges();
-                return RedirectToAction("Index", new { warehouseID });
+               
+                return RedirectToAction("WarehouseControl", new { warehouseID });
             }
-            
+        [HttpGet]
         public ActionResult WarehouseControl(int? warehouseId )
         {
-            if (warehouseId == null && entity.Warehouses.Any())
-                warehouseId = entity.Warehouses.First().WarehouseID;
+            if (warehouseId == null && logidb.Warehouses.Any())
+                warehouseId = logidb.Warehouses.First().WarehouseID;
 
-            var productsInWarehouse = entity.WarehouseStocks
+            var productsInWarehouse = logidb.WarehouseStocks
                 .Where(ws => ws.WarehouseID == warehouseId)
                 .Select(ws => new LogiManage.ViewModels.WarehouseProductViewModel
                 {
@@ -97,9 +97,9 @@ namespace LogiManage.Controllers
                     CriticalStockLevel = (int)ws.Products.CriticalStockLevel
 
                 }).ToList();
-            ViewBag.Warehouses = entity.Warehouses.ToList();
+            ViewBag.Warehouses = logidb.Warehouses.ToList();
             ViewBag.SelectedWarehouseId = warehouseId;
-            ViewBag.Products = entity.Products.ToList();
+            ViewBag.Products = logidb.Products.ToList();
 
             return View(productsInWarehouse);
         }
@@ -107,10 +107,7 @@ namespace LogiManage.Controllers
         {
             return View();
         }
-        public ActionResult StockUpdate ()
-        {
-            return View();
-        }
+      
          
     } 
 }

@@ -98,6 +98,8 @@
     <Property Name="RoleID" Type="Int32" />
     <NavigationProperty Name="Roles" Relationship="Self.FK_Users_Roles1" FromRole="Users" ToRole="Roles" />
     <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="WarehouseID" Type="Int32" />
+    <NavigationProperty Name="Warehouses" Relationship="LogiManageDbModel.FK_Users_Warehouses" FromRole="Users" ToRole="Warehouses" />
   </EntityType>
   <EntityType Name="Warehouses">
     <Key>
@@ -112,6 +114,7 @@
     <NavigationProperty Name="WarehouseStocks" Relationship="Self.FK_WarehouseStocks_Warehouses" FromRole="Warehouses" ToRole="WarehouseStocks" />
     <NavigationProperty Name="WarehouseTransfers" Relationship="Self.FK_WarehousTransfers_Warehouses" FromRole="Warehouses" ToRole="WarehouseTransfers" />
     <NavigationProperty Name="WarehouseTransfers1" Relationship="Self.FK_WarehousTransfers_Warehouses1" FromRole="Warehouses" ToRole="WarehouseTransfers" />
+    <NavigationProperty Name="Users" Relationship="LogiManageDbModel.FK_Users_Warehouses" FromRole="Warehouses" ToRole="Users" />
   </EntityType>
   <EntityType Name="WarehouseStocks">
     <Key>
@@ -359,5 +362,21 @@
       <End Role="Warehouses" EntitySet="Warehouses" />
       <End Role="WarehouseTransfers" EntitySet="WarehouseTransfers" />
     </AssociationSet>
+    <AssociationSet Name="FK_Users_Warehouses" Association="LogiManageDbModel.FK_Users_Warehouses">
+      <End Role="Warehouses" EntitySet="Warehouses" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
   </EntityContainer>
+  <Association Name="FK_Users_Warehouses">
+    <End Type="LogiManageDbModel.Warehouses" Role="Warehouses" Multiplicity="0..1" />
+    <End Type="LogiManageDbModel.Users" Role="Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Warehouses">
+        <PropertyRef Name="WarehouseID" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="WarehouseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>
