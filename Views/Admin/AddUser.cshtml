@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "AddUser";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@model LogiManage.ViewModels.UserViewModel
+
+<div>
+    <h3> Add New User</h3>
+    @using (Html.BeginForm("AddUser", "Admin", FormMethod.Post))
+    {
+       
+        @Html.LabelFor(m => m.UserFirstName)
+        @Html.TextBoxFor(m => m.UserFirstName)
+
+        @Html.LabelFor(m => m.UserLastName)
+        @Html.TextBoxFor(m => m.UserLastName)
+
+        @Html.LabelFor(m => m.UserEmail)
+        @Html.TextBoxFor(m => m.UserEmail)
+
+        @Html.LabelFor(m => m.Username)
+        @Html.TextBoxFor(m => m.Username)
+
+        @Html.LabelFor(m => m.UserPassword)
+        @Html.TextBoxFor(m => m.UserPassword)
+
+        @Html.LabelFor(m => m.RoleID)
+        @Html.DropDownListFor(m => m.RoleID, (SelectList)ViewBag.RoleList, "Select Role")
+
+        @Html.LabelFor(m => m.WarehouseID)
+        @Html.DropDownListFor(m => m.WarehouseID, (SelectList)ViewBag.WarehouseList)
+        <div>
+            <button type="submit" class="btn btn-outline-success">Add</button>
+        </div>
+    }
+</div>

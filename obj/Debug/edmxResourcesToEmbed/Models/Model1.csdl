@@ -22,8 +22,8 @@
     <Property Name="SupplierID" Type="Int32" />
     <Property Name="WarehouseID" Type="Int32" />
     <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_Orders" FromRole="Orders" ToRole="OrderDetails" />
-    <NavigationProperty Name="Suppliers" Relationship="Self.FK_Orders_Suppliers" FromRole="Orders" ToRole="Suppliers" />
     <NavigationProperty Name="Warehouses" Relationship="Self.FK_Orders_Warehouses" FromRole="Orders" ToRole="Warehouses" />
+    <NavigationProperty Name="Suppliers" Relationship="LogiManageDbModel.FK_Orders_Suppliers" FromRole="Orders" ToRole="Suppliers" />
   </EntityType>
   <EntityType Name="ProductMovements">
     <Key>
@@ -51,9 +51,9 @@
     <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_Products" FromRole="Products" ToRole="OrderDetails" />
     <NavigationProperty Name="ProductMovements" Relationship="Self.FK_ProductMovements_Products" FromRole="Products" ToRole="ProductMovements" />
-    <NavigationProperty Name="Suppliers" Relationship="Self.FK_Products_Suppliers" FromRole="Products" ToRole="Suppliers" />
     <NavigationProperty Name="WarehouseStocks" Relationship="Self.FK_WarehouseStocks_Products" FromRole="Products" ToRole="WarehouseStocks" />
     <NavigationProperty Name="WarehouseTransfers" Relationship="Self.FK_WarehousTransfers_Products" FromRole="Products" ToRole="WarehouseTransfers" />
+    <NavigationProperty Name="Suppliers" Relationship="LogiManageDbModel.FK_Products_Suppliers" FromRole="Products" ToRole="Suppliers" />
   </EntityType>
   <EntityType Name="Roles">
     <Key>
@@ -62,19 +62,6 @@
     <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Users" Relationship="Self.FK_Users_Roles1" FromRole="Roles" ToRole="Users" />
-  </EntityType>
-  <EntityType Name="Suppliers">
-    <Key>
-      <PropertyRef Name="SupplierID" />
-    </Key>
-    <Property Name="SupplierID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="SupplierName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="ContactName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Suppliers" FromRole="Suppliers" ToRole="Orders" />
-    <NavigationProperty Name="Products" Relationship="Self.FK_Products_Suppliers" FromRole="Suppliers" ToRole="Products" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -166,18 +153,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Orders_Suppliers">
-    <End Role="Suppliers" Type="Self.Suppliers" Multiplicity="0..1" />
-    <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Suppliers">
-        <PropertyRef Name="SupplierID" />
-      </Principal>
-      <Dependent Role="Orders">
-        <PropertyRef Name="SupplierID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Orders_Warehouses">
     <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="0..1" />
     <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
@@ -211,18 +186,6 @@
       </Principal>
       <Dependent Role="ProductMovements">
         <PropertyRef Name="WarehouseID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Products_Suppliers">
-    <End Role="Suppliers" Type="Self.Suppliers" Multiplicity="0..1" />
-    <End Role="Products" Type="Self.Products" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Suppliers">
-        <PropertyRef Name="SupplierID" />
-      </Principal>
-      <Dependent Role="Products">
-        <PropertyRef Name="SupplierID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -304,7 +267,6 @@
     <EntitySet Name="ProductMovements" EntityType="Self.ProductMovements" />
     <EntitySet Name="Products" EntityType="Self.Products" />
     <EntitySet Name="Roles" EntityType="Self.Roles" />
-    <EntitySet Name="Suppliers" EntityType="Self.Suppliers" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
     <EntitySet Name="Users" EntityType="Self.Users" />
     <EntitySet Name="Warehouses" EntityType="Self.Warehouses" />
@@ -318,10 +280,6 @@
       <End Role="Products" EntitySet="Products" />
       <End Role="OrderDetails" EntitySet="OrderDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK_Orders_Suppliers" Association="Self.FK_Orders_Suppliers">
-      <End Role="Suppliers" EntitySet="Suppliers" />
-      <End Role="Orders" EntitySet="Orders" />
-    </AssociationSet>
     <AssociationSet Name="FK_Orders_Warehouses" Association="Self.FK_Orders_Warehouses">
       <End Role="Warehouses" EntitySet="Warehouses" />
       <End Role="Orders" EntitySet="Orders" />
@@ -333,10 +291,6 @@
     <AssociationSet Name="FK_ProductMovements_Warehouses" Association="Self.FK_ProductMovements_Warehouses">
       <End Role="Warehouses" EntitySet="Warehouses" />
       <End Role="ProductMovements" EntitySet="ProductMovements" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Products_Suppliers" Association="Self.FK_Products_Suppliers">
-      <End Role="Suppliers" EntitySet="Suppliers" />
-      <End Role="Products" EntitySet="Products" />
     </AssociationSet>
     <AssociationSet Name="FK_WarehouseStocks_Products" Association="Self.FK_WarehouseStocks_Products">
       <End Role="Products" EntitySet="Products" />
@@ -366,6 +320,15 @@
       <End Role="Warehouses" EntitySet="Warehouses" />
       <End Role="Users" EntitySet="Users" />
     </AssociationSet>
+    <EntitySet Name="Suppliers" EntityType="LogiManageDbModel.Suppliers" />
+    <AssociationSet Name="FK_Orders_Suppliers" Association="LogiManageDbModel.FK_Orders_Suppliers">
+      <End Role="Suppliers" EntitySet="Suppliers" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_Suppliers" Association="LogiManageDbModel.FK_Products_Suppliers">
+      <End Role="Suppliers" EntitySet="Suppliers" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
   </EntityContainer>
   <Association Name="FK_Users_Warehouses">
     <End Type="LogiManageDbModel.Warehouses" Role="Warehouses" Multiplicity="0..1" />
@@ -376,6 +339,43 @@
       </Principal>
       <Dependent Role="Users">
         <PropertyRef Name="WarehouseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Suppliers">
+    <Key>
+      <PropertyRef Name="SupplierID" />
+    </Key>
+    <Property Name="SupplierID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SupplierName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ContactName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SupplierPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="SupplierMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="SupplierAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Orders" Relationship="LogiManageDbModel.FK_Orders_Suppliers" FromRole="Suppliers" ToRole="Orders" />
+    <NavigationProperty Name="Products" Relationship="LogiManageDbModel.FK_Products_Suppliers" FromRole="Suppliers" ToRole="Products" />
+  </EntityType>
+  <Association Name="FK_Orders_Suppliers">
+    <End Type="LogiManageDbModel.Suppliers" Role="Suppliers" Multiplicity="0..1" />
+    <End Type="LogiManageDbModel.Orders" Role="Orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Suppliers">
+        <PropertyRef Name="SupplierID" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="SupplierID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Products_Suppliers">
+    <End Type="LogiManageDbModel.Suppliers" Role="Suppliers" Multiplicity="0..1" />
+    <End Type="LogiManageDbModel.Products" Role="Products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Suppliers">
+        <PropertyRef Name="SupplierID" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="SupplierID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

@@ -9,8 +9,9 @@ namespace LogiManage.Controllers
 {
     public class PurchaseController : Controller
     {
+        LogiManageDbEntities logidb = new LogiManageDbEntities();
         // GET: Purchasing
-        public ActionResult Indexx()
+        public ActionResult Index()
         {
             return View();
         }
@@ -22,8 +23,23 @@ namespace LogiManage.Controllers
         {
             return View();
         }
-    
+        [HttpGet]
+        public ActionResult Suppliers()
+        {
+            var suppliers = logidb.Suppliers.Select(s => new LogiManage.ViewModels.SupplierViewModel
+            {
+                SupplierID = s.SupplierID,
+                SupplierName = s.SupplierName,
+                ContactName = s.ContactName,
+                SupplierAddress = s.SupplierAddress,
+                SupplierPhone = s.SupplierPhone,
+                SupplierMail = s.SupplierMail
+            }).ToList();
 
+            return View(suppliers);
+        }
+
+        
+        }
 
     }
-}

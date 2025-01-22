@@ -27,7 +27,7 @@
 
     @Html.LabelFor(m => m.Userpassword)
     @Html.TextBoxFor(m => m.Userpassword)
-
+    
     @Html.LabelFor(m => m.RoleID)
     @Html.DropDownListFor(m => m.RoleID, (SelectList)ViewBag.RoleList, "Rol Seçiniz")
 
@@ -36,6 +36,6 @@
 
 
 
-    <button type = "submit" > Kaydet </button >
+    <button type="submit" class="btn btn-outline-success">Add </button>
 }
 

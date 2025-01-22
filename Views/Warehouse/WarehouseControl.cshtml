@@ -76,7 +76,7 @@ else
 <hr />
 
 <!-- Yeni Ürün Ekle -->
-<h3>Yeni Ürün Ekle</h3>
+<h3>Add a new product </h3>
 <form method="post" action="@Url.Action("AddProduct", "Warehouse")">
     <input type="hidden" name="warehouseId" value="@ViewBag.SelectedWarehouseId" />
     <label for="productId">Ürün Seç:</label>
@@ -90,5 +90,5 @@ else
     <label for="quantity">Miktar:</label>
     <input type="number" id="quantity" name="quantity" min="1" required />
 
-    <button type="submit">Ekle</button>
+    <button type="button" class="btn btn-outline-success">Add </button>
 </form>

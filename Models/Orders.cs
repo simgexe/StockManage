@@ -28,7 +28,7 @@ namespace LogiManage.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetails> OrderDetails { get; set; }
-        public virtual Suppliers Suppliers { get; set; }
         public virtual Warehouses Warehouses { get; set; }
+        public virtual Suppliers Suppliers { get; set; }
     }
 }

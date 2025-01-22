@@ -24,9 +24,9 @@ namespace LogiManage.Models
         public int SupplierID { get; set; }
         public string SupplierName { get; set; }
         public string ContactName { get; set; }
-        public string Phone { get; set; }
-        public string Email { get; set; }
-        public string Address { get; set; }
+        public string SupplierPhone { get; set; }
+        public string SupplierMail { get; set; }
+        public string SupplierAddress { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders> Orders { get; set; }

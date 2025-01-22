@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Suppliers";
+    Layout = "~/Views/Shared/_LayoutPurchasingOfficer.cshtml";
+}
+
+<h2>Suppliers</h2>
+@model IEnumerable<LogiManage.ViewModels.SupplierViewModel>
+
+<table>
+    <tr>
+        <th>Supplier Name</th>
+        <th>Supplier Address</th>
+        <th>Supplier Phone</th>
+        <th>Supplier Email</th>
+        <th>Supplier Contact</th>
+        
+       
+    </tr>
+    @foreach (var supplier in Model)
+    {
+        <tr>
+            <td> @Html.DisplayFor(modelItem => supplier.SupplierName)</td>
+            <td> @Html.DisplayFor(modelItem => supplier.SupplierAddress)</td>
+            <td> @Html.DisplayFor(modelItem => supplier.SupplierPhone)</td>
+            <td> @Html.DisplayFor(modelItem => supplier.SupplierMail)</td>
+            <td> @Html.DisplayFor(modelItem => supplier.ContactName)</td>
+
+            <td>@Html.ActionLink("edit", "SupplierUpdate", new { supplierid = supplier.SupplierID })</td>
+            <td>@Html.ActionLink("delete", "SupplierDelete", new { supplierid = supplier.SupplierID })</td>
+        </tr>
+    }
+    </table>
