@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "SupplierAdd";
+    Layout = "~/Views/Shared/_LayoutPurchasingOfficer.cshtml";
+}
+
+@model LogiManage.Models.Suppliers
+
+<h2>SupplierAdd</h2>
+
+@using (Html.BeginForm("SupplierAdd", "Purchase", FormMethod.Post))
+{
+    <div>
+        @Html.HiddenFor(m => m.SupplierID)
+        @Html.LabelFor(m => m.SupplierName)
+        @Html.TextBoxFor(m => m.SupplierName)
+
+        @Html.LabelFor(m => m.ContactName)
+        @Html.TextBoxFor(m => m.ContactName)
+
+        @Html.LabelFor(m => m.SupplierPhone)
+        @Html.TextBoxFor(m => m.SupplierPhone)
+
+        @Html.LabelFor(m => m.SupplierMail)
+        @Html.TextBoxFor(m => m.SupplierMail)
+
+
+        @Html.LabelFor(m => m.SupplierAddress)
+        @Html.TextBoxFor(m => m.SupplierAddress)
+
+        <button type="submit" class="btn btn-outline-success">Add </button>
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}

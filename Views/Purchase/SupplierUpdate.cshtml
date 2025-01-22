@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "SupplierUpdate";
+    Layout = "~/Views/Shared/_LayoutPurchasingOfficer.cshtml";
+}
+
+<h2>SupplierUpdate</h2>
+
+@model LogiManage.Models.Suppliers
+
+@using (Html.BeginForm("SupplierUpdate", "Purchase", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.SupplierID)
+
+    @Html.LabelFor(m => m.SupplierName)
+    @Html.TextBoxFor(m => m.SupplierName)
+
+    @Html.LabelFor(m => m.SupplierAddress)
+    @Html.TextBoxFor(m => m.SupplierAddress)
+
+    @Html.LabelFor(m => m.SupplierPhone)
+    @Html.TextBoxFor(m => m.SupplierPhone)
+
+    @Html.LabelFor(m => m.SupplierMail)
+    @Html.TextBoxFor(m => m.SupplierMail)
+
+    @Html.LabelFor(m => m.ContactName)
+    @Html.TextBoxFor(m => m.ContactName)
+
+    <button type="submit" class="btn btn-outline-success">Update </button>
+}

@@ -1,9 +1,9 @@
 ﻿@{
-    ViewBag.Title = "ManageUsers";
+    ViewBag.Title = "Manage Users";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>ManageUser</h2>
+<h2>Manage Users</h2>
 @model IEnumerable<LogiManage.ViewModels.UserViewModel>
 
 <form method="get" action="@Url.Action("ManageUsers", "Admin")">
@@ -15,33 +15,35 @@
     <div>
         @Html.ActionLink("Add User", "AddUser", new { }, new { @class = "btn btn-primary" })
     </div>
-   
 </form>
 
 <table>
-    <tr>
-        <th> Kullanıcı Adı</th>
-        <th> Ad</th>
-        <th> Soyad</th>
-        <th> Email</th>
-        <th> Rol</th>
-        <th> Depo Adı</th>
-        <th> Actions</th>
-    </tr>
-    @foreach (var user in Model)
-    {
+    <thead>
         <tr>
-            <td> @Html.DisplayFor(modelItem => user.Username)</td>
-            <td> @Html.DisplayFor(modelItem => user.UserFirstName)</td>
-            <td> @Html.DisplayFor(modelItem => user.UserLastName)</td>
-            <td> @Html.DisplayFor(modelItem => user.UserEmail)</td>
-            <td> @Html.DisplayFor(modelItem => user.RoleName)</td>
-            <td> @Html.DisplayFor(modelItem => user.WarehouseName)</td>
-            <td>
-                @Html.ActionLink("edit", "UserUpdate", new { userid = user.UserID }) |
-                @Html.ActionLink("delete", "UserDelete", new { userid = user.UserID })
-            </td>
+            <th>Kullanıcı Adı</th>
+            <th>Ad</th>
+            <th>Soyad</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Depo Adı</th>
+            <th>Actions</th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => user.Username)</td>
+                <td>@Html.DisplayFor(modelItem => user.UserFirstName)</td>
+                <td>@Html.DisplayFor(modelItem => user.UserLastName)</td>
+                <td>@Html.DisplayFor(modelItem => user.UserEmail)</td>
+                <td>@Html.DisplayFor(modelItem => user.RoleName)</td>
+                <td>@Html.DisplayFor(modelItem => user.WarehouseName)</td>
+                <td>
+                    @Html.ActionLink("Edit", "UserUpdate", new { userid = user.UserID }) |
+                    @Html.ActionLink("Delete", "UserDelete", new { userid = user.UserID })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
-

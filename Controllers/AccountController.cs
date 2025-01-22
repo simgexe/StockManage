@@ -44,9 +44,9 @@ namespace LogiManage.Controllers
                     case 2:
                         return RedirectToAction("Index", "Warehouse");
                     case 3:
-                        return RedirectToAction("Index", "Purchase");
-                    case 4:
                         return RedirectToAction("Index", "Operator");
+                    case 4:
+                        return RedirectToAction("Index", "Purchase");
                     default:
                       
                         return View();

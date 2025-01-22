@@ -10,7 +10,7 @@ using Microsoft.Ajax.Utilities;
 namespace LogiManage.Controllers
 {
     
-dminController handles administrative tasks related to users and warehouses
+//AdminController handles administrative tasks related to users and warehouses
     public class AdminController : Controller
     {
         // Database context for LogiManage
@@ -123,7 +123,7 @@ dminController handles administrative tasks related to users and warehouses
         {
             // Populate role and warehouse lists for dropdowns in the view
             ViewBag.RoleList = new SelectList(logidb.Roles, "RoleID", "RoleName");
-            ViewBag.WarehouseList = new SelectList(logidb.Warehouses, "WarehouseID", "WarehouseName");
+           ViewBag.WarehouseList = new SelectList(logidb.Warehouses, "WarehouseID", "WarehouseName");
             return View();
         }
 
