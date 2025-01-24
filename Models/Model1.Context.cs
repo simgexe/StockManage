@@ -26,7 +26,6 @@ namespace LogiManage.Models
         }
     
         public virtual DbSet<OrderDetails> OrderDetails { get; set; }
-        public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<ProductMovements> ProductMovements { get; set; }
         public virtual DbSet<Products> Products { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
@@ -34,7 +33,8 @@ namespace LogiManage.Models
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<Warehouses> Warehouses { get; set; }
         public virtual DbSet<WarehouseStocks> WarehouseStocks { get; set; }
-        public virtual DbSet<WarehouseTransfers> WarehouseTransfers { get; set; }
         public virtual DbSet<Suppliers> Suppliers { get; set; }
+        public virtual DbSet<WarehouseTransfers> WarehouseTransfers { get; set; }
+        public virtual DbSet<Orders> Orders { get; set; }
     }
 }

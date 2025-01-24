@@ -20,7 +20,7 @@ namespace LogiManage.Models
         public Nullable<double> Quantity { get; set; }
         public Nullable<decimal> UnitPrice { get; set; }
     
-        public virtual Orders Orders { get; set; }
         public virtual Products Products { get; set; }
+        public virtual Orders Orders { get; set; }
     }
 }

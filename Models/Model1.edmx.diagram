@@ -4,9 +4,8 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0f13f3901ac6442f90ac2e7c97f39b6d" Name="Diagram1" ZoomLevel="77">
-        <EntityTypeShape EntityType="LogiManageDbModel.OrderDetails" Width="1.5" PointX="18" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="LogiManageDbModel.Orders" Width="1.5" PointX="13.375" PointY="8.875" IsExpanded="true" />
+      <Diagram DiagramId="0f13f3901ac6442f90ac2e7c97f39b6d" Name="Diagram1" ZoomLevel="66">
+        <EntityTypeShape EntityType="LogiManageDbModel.OrderDetails" Width="1.5" PointX="11.875" PointY="7.25" IsExpanded="true" />
         <EntityTypeShape EntityType="LogiManageDbModel.ProductMovements" Width="1.5" PointX="9.875" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="LogiManageDbModel.Products" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
         <EntityTypeShape EntityType="LogiManageDbModel.Roles" Width="1.5" PointX="5.75" PointY="1.375" IsExpanded="true" />
@@ -14,22 +13,23 @@
         <EntityTypeShape EntityType="LogiManageDbModel.Users" Width="1.5" PointX="8" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="LogiManageDbModel.Warehouses" Width="1.5" PointX="0.75" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="LogiManageDbModel.WarehouseStocks" Width="1.5" PointX="3.125" PointY="2" IsExpanded="true" />
-        <EntityTypeShape EntityType="LogiManageDbModel.WarehouseTransfers" Width="1.5" PointX="4.375" PointY="7.375" IsExpanded="true" />
-        <AssociationConnector Association="LogiManageDbModel.FK_OrderDetails_Orders" ManuallyRouted="false" />
         <AssociationConnector Association="LogiManageDbModel.FK_OrderDetails_Products" ManuallyRouted="false" />
-        <AssociationConnector Association="LogiManageDbModel.FK_Orders_Warehouses" ManuallyRouted="false" />
         <AssociationConnector Association="LogiManageDbModel.FK_ProductMovements_Products" ManuallyRouted="false" />
         <AssociationConnector Association="LogiManageDbModel.FK_ProductMovements_Warehouses" ManuallyRouted="false" />
         <AssociationConnector Association="LogiManageDbModel.FK_WarehouseStocks_Products" ManuallyRouted="false" />
-        <AssociationConnector Association="LogiManageDbModel.FK_WarehousTransfers_Products" ManuallyRouted="false" />
         <AssociationConnector Association="LogiManageDbModel.FK_Users_Roles1" ManuallyRouted="false" />
         <AssociationConnector Association="LogiManageDbModel.FK_WarehouseStocks_Warehouses" ManuallyRouted="false" />
-        <AssociationConnector Association="LogiManageDbModel.FK_WarehousTransfers_Warehouses" ManuallyRouted="false" />
-        <AssociationConnector Association="LogiManageDbModel.FK_WarehousTransfers_Warehouses1" ManuallyRouted="false" />
         <AssociationConnector Association="LogiManageDbModel.FK_Users_Warehouses" />
         <EntityTypeShape EntityType="LogiManageDbModel.Suppliers" Width="1.5" PointX="7.875" PointY="8" />
-        <AssociationConnector Association="LogiManageDbModel.FK_Orders_Suppliers" />
         <AssociationConnector Association="LogiManageDbModel.FK_Products_Suppliers" />
+        <EntityTypeShape EntityType="LogiManageDbModel.WarehouseTransfers" Width="1.5" PointX="4.75" PointY="7.625" />
+        <AssociationConnector Association="LogiManageDbModel.FK_WarehousTransfers_Products" />
+        <AssociationConnector Association="LogiManageDbModel.FK_WarehousTransfers_Warehouses" />
+        <AssociationConnector Association="LogiManageDbModel.FK_WarehousTransfers_Warehouses1" />
+        <EntityTypeShape EntityType="LogiManageDbModel.Orders" Width="1.5" PointX="10.125" PointY="7.25" />
+        <AssociationConnector Association="LogiManageDbModel.FK_OrderDetails_Orders" />
+        <AssociationConnector Association="LogiManageDbModel.FK_Orders_Suppliers" />
+        <AssociationConnector Association="LogiManageDbModel.FK_Orders_Warehouses" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

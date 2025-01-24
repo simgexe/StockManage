@@ -37,8 +37,8 @@ namespace LogiManage.Models
         public virtual ICollection<ProductMovements> ProductMovements { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WarehouseStocks> WarehouseStocks { get; set; }
+        public virtual Suppliers Suppliers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WarehouseTransfers> WarehouseTransfers { get; set; }
-        public virtual Suppliers Suppliers { get; set; }
     }
 }

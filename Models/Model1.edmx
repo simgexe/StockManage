@@ -21,7 +21,7 @@
           </Key>
           <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrderDate" Type="datetime" />
-          <Property Name="Status" Type="nvarchar" MaxLength="20" />
+          <Property Name="OrderStatus" Type="nvarchar" MaxLength="20" />
           <Property Name="SupplierID" Type="int" />
           <Property Name="WarehouseID" Type="int" />
         </EntityType>
@@ -117,7 +117,7 @@
           <Property Name="ProductID" Type="int" />
           <Property Name="Quantity" Type="int" />
           <Property Name="TransferDate" Type="datetime" />
-          <Property Name="Status" Type="nvarchar" MaxLength="20" />
+          <Property Name="TransferStatus" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <Association Name="FK_OrderDetails_Orders">
           <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
@@ -369,21 +369,8 @@
           <Property Name="ProductID" Type="Int32" />
           <Property Name="Quantity" Type="Double" />
           <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_OrderDetails_Orders" FromRole="OrderDetails" ToRole="Orders" />
           <NavigationProperty Name="Products" Relationship="Self.FK_OrderDetails_Products" FromRole="OrderDetails" ToRole="Products" />
-        </EntityType>
-        <EntityType Name="Orders">
-          <Key>
-            <PropertyRef Name="OrderID" />
-          </Key>
-          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderDate" Type="DateTime" Precision="3" />
-          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="SupplierID" Type="Int32" />
-          <Property Name="WarehouseID" Type="Int32" />
-          <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_Orders" FromRole="Orders" ToRole="OrderDetails" />
-          <NavigationProperty Name="Warehouses" Relationship="Self.FK_Orders_Warehouses" FromRole="Orders" ToRole="Warehouses" />
-          <NavigationProperty Name="Suppliers" Relationship="LogiManageDbModel.FK_Orders_Suppliers" FromRole="Orders" ToRole="Suppliers" />
+          <NavigationProperty Name="Orders" Relationship="LogiManageDbModel.FK_OrderDetails_Orders" FromRole="OrderDetails" ToRole="Orders" />
         </EntityType>
         <EntityType Name="ProductMovements">
           <Key>
@@ -412,8 +399,8 @@
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_Products" FromRole="Products" ToRole="OrderDetails" />
           <NavigationProperty Name="ProductMovements" Relationship="Self.FK_ProductMovements_Products" FromRole="Products" ToRole="ProductMovements" />
           <NavigationProperty Name="WarehouseStocks" Relationship="Self.FK_WarehouseStocks_Products" FromRole="Products" ToRole="WarehouseStocks" />
-          <NavigationProperty Name="WarehouseTransfers" Relationship="Self.FK_WarehousTransfers_Products" FromRole="Products" ToRole="WarehouseTransfers" />
           <NavigationProperty Name="Suppliers" Relationship="LogiManageDbModel.FK_Products_Suppliers" FromRole="Products" ToRole="Suppliers" />
+          <NavigationProperty Name="WarehouseTransfers" Relationship="LogiManageDbModel.FK_WarehousTransfers_Products" FromRole="Products" ToRole="WarehouseTransfers" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -456,12 +443,12 @@
           <Property Name="WarehouseName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Location" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Capacity" Type="Int32" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Warehouses" FromRole="Warehouses" ToRole="Orders" />
           <NavigationProperty Name="ProductMovements" Relationship="Self.FK_ProductMovements_Warehouses" FromRole="Warehouses" ToRole="ProductMovements" />
           <NavigationProperty Name="WarehouseStocks" Relationship="Self.FK_WarehouseStocks_Warehouses" FromRole="Warehouses" ToRole="WarehouseStocks" />
-          <NavigationProperty Name="WarehouseTransfers" Relationship="Self.FK_WarehousTransfers_Warehouses" FromRole="Warehouses" ToRole="WarehouseTransfers" />
-          <NavigationProperty Name="WarehouseTransfers1" Relationship="Self.FK_WarehousTransfers_Warehouses1" FromRole="Warehouses" ToRole="WarehouseTransfers" />
           <NavigationProperty Name="Users" Relationship="LogiManageDbModel.FK_Users_Warehouses" FromRole="Warehouses" ToRole="Users" />
+          <NavigationProperty Name="WarehouseTransfers" Relationship="LogiManageDbModel.FK_WarehousTransfers_Warehouses" FromRole="Warehouses" ToRole="WarehouseTransfers" />
+          <NavigationProperty Name="WarehouseTransfers1" Relationship="LogiManageDbModel.FK_WarehousTransfers_Warehouses1" FromRole="Warehouses" ToRole="WarehouseTransfers" />
+          <NavigationProperty Name="Orders" Relationship="LogiManageDbModel.FK_Orders_Warehouses" FromRole="Warehouses" ToRole="Orders" />
         </EntityType>
         <EntityType Name="WarehouseStocks">
           <Key>
@@ -474,33 +461,6 @@
           <NavigationProperty Name="Products" Relationship="Self.FK_WarehouseStocks_Products" FromRole="WarehouseStocks" ToRole="Products" />
           <NavigationProperty Name="Warehouses" Relationship="Self.FK_WarehouseStocks_Warehouses" FromRole="WarehouseStocks" ToRole="Warehouses" />
         </EntityType>
-        <EntityType Name="WarehouseTransfers">
-          <Key>
-            <PropertyRef Name="TransferID" />
-          </Key>
-          <Property Name="TransferID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SourceWarehouseID" Type="Int32" />
-          <Property Name="DestinationWarehouseID" Type="Int32" />
-          <Property Name="ProductID" Type="Int32" />
-          <Property Name="Quantity" Type="Int32" />
-          <Property Name="TransferDate" Type="DateTime" Precision="3" />
-          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Products" Relationship="Self.FK_WarehousTransfers_Products" FromRole="WarehouseTransfers" ToRole="Products" />
-          <NavigationProperty Name="Warehouses" Relationship="Self.FK_WarehousTransfers_Warehouses" FromRole="WarehouseTransfers" ToRole="Warehouses" />
-          <NavigationProperty Name="Warehouses1" Relationship="Self.FK_WarehousTransfers_Warehouses1" FromRole="WarehouseTransfers" ToRole="Warehouses" />
-        </EntityType>
-        <Association Name="FK_OrderDetails_Orders">
-          <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
-          <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Orders">
-              <PropertyRef Name="OrderID" />
-            </Principal>
-            <Dependent Role="OrderDetails">
-              <PropertyRef Name="OrderID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OrderDetails_Products">
           <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
           <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
@@ -510,18 +470,6 @@
             </Principal>
             <Dependent Role="OrderDetails">
               <PropertyRef Name="ProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Orders_Warehouses">
-          <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="0..1" />
-          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Warehouses">
-              <PropertyRef Name="WarehouseID" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="WarehouseID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -561,18 +509,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_WarehousTransfers_Products">
-          <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
-          <End Role="WarehouseTransfers" Type="Self.WarehouseTransfers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Products">
-              <PropertyRef Name="ProductID" />
-            </Principal>
-            <Dependent Role="WarehouseTransfers">
-              <PropertyRef Name="ProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Users_Roles1">
           <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -597,33 +533,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_WarehousTransfers_Warehouses">
-          <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="0..1" />
-          <End Role="WarehouseTransfers" Type="Self.WarehouseTransfers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Warehouses">
-              <PropertyRef Name="WarehouseID" />
-            </Principal>
-            <Dependent Role="WarehouseTransfers">
-              <PropertyRef Name="SourceWarehouseID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_WarehousTransfers_Warehouses1">
-          <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="0..1" />
-          <End Role="WarehouseTransfers" Type="Self.WarehouseTransfers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Warehouses">
-              <PropertyRef Name="WarehouseID" />
-            </Principal>
-            <Dependent Role="WarehouseTransfers">
-              <PropertyRef Name="DestinationWarehouseID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="LogiManageDbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" />
-          <EntitySet Name="Orders" EntityType="Self.Orders" />
           <EntitySet Name="ProductMovements" EntityType="Self.ProductMovements" />
           <EntitySet Name="Products" EntityType="Self.Products" />
           <EntitySet Name="Roles" EntityType="Self.Roles" />
@@ -631,18 +542,9 @@
           <EntitySet Name="Users" EntityType="Self.Users" />
           <EntitySet Name="Warehouses" EntityType="Self.Warehouses" />
           <EntitySet Name="WarehouseStocks" EntityType="Self.WarehouseStocks" />
-          <EntitySet Name="WarehouseTransfers" EntityType="Self.WarehouseTransfers" />
-          <AssociationSet Name="FK_OrderDetails_Orders" Association="Self.FK_OrderDetails_Orders">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="OrderDetails" EntitySet="OrderDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK_OrderDetails_Products" Association="Self.FK_OrderDetails_Products">
             <End Role="Products" EntitySet="Products" />
             <End Role="OrderDetails" EntitySet="OrderDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Orders_Warehouses" Association="Self.FK_Orders_Warehouses">
-            <End Role="Warehouses" EntitySet="Warehouses" />
-            <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_ProductMovements_Products" Association="Self.FK_ProductMovements_Products">
             <End Role="Products" EntitySet="Products" />
@@ -656,10 +558,6 @@
             <End Role="Products" EntitySet="Products" />
             <End Role="WarehouseStocks" EntitySet="WarehouseStocks" />
           </AssociationSet>
-          <AssociationSet Name="FK_WarehousTransfers_Products" Association="Self.FK_WarehousTransfers_Products">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="WarehouseTransfers" EntitySet="WarehouseTransfers" />
-          </AssociationSet>
           <AssociationSet Name="FK_Users_Roles1" Association="Self.FK_Users_Roles1">
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
@@ -668,26 +566,40 @@
             <End Role="Warehouses" EntitySet="Warehouses" />
             <End Role="WarehouseStocks" EntitySet="WarehouseStocks" />
           </AssociationSet>
-          <AssociationSet Name="FK_WarehousTransfers_Warehouses" Association="Self.FK_WarehousTransfers_Warehouses">
-            <End Role="Warehouses" EntitySet="Warehouses" />
-            <End Role="WarehouseTransfers" EntitySet="WarehouseTransfers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_WarehousTransfers_Warehouses1" Association="Self.FK_WarehousTransfers_Warehouses1">
-            <End Role="Warehouses" EntitySet="Warehouses" />
-            <End Role="WarehouseTransfers" EntitySet="WarehouseTransfers" />
-          </AssociationSet>
           <AssociationSet Name="FK_Users_Warehouses" Association="LogiManageDbModel.FK_Users_Warehouses">
             <End Role="Warehouses" EntitySet="Warehouses" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <EntitySet Name="Suppliers" EntityType="LogiManageDbModel.Suppliers" />
+          <AssociationSet Name="FK_Products_Suppliers" Association="LogiManageDbModel.FK_Products_Suppliers">
+            <End Role="Suppliers" EntitySet="Suppliers" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <EntitySet Name="WarehouseTransfers" EntityType="LogiManageDbModel.WarehouseTransfers" />
+          <AssociationSet Name="FK_WarehousTransfers_Products" Association="LogiManageDbModel.FK_WarehousTransfers_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="WarehouseTransfers" EntitySet="WarehouseTransfers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WarehousTransfers_Warehouses" Association="LogiManageDbModel.FK_WarehousTransfers_Warehouses">
+            <End Role="Warehouses" EntitySet="Warehouses" />
+            <End Role="WarehouseTransfers" EntitySet="WarehouseTransfers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WarehousTransfers_Warehouses1" Association="LogiManageDbModel.FK_WarehousTransfers_Warehouses1">
+            <End Role="Warehouses" EntitySet="Warehouses" />
+            <End Role="WarehouseTransfers" EntitySet="WarehouseTransfers" />
+          </AssociationSet>
+          <EntitySet Name="Orders" EntityType="LogiManageDbModel.Orders" />
+          <AssociationSet Name="FK_OrderDetails_Orders" Association="LogiManageDbModel.FK_OrderDetails_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
           <AssociationSet Name="FK_Orders_Suppliers" Association="LogiManageDbModel.FK_Orders_Suppliers">
             <End Role="Suppliers" EntitySet="Suppliers" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
-          <AssociationSet Name="FK_Products_Suppliers" Association="LogiManageDbModel.FK_Products_Suppliers">
-            <End Role="Suppliers" EntitySet="Suppliers" />
-            <End Role="Products" EntitySet="Products" />
+          <AssociationSet Name="FK_Orders_Warehouses" Association="LogiManageDbModel.FK_Orders_Warehouses">
+            <End Role="Warehouses" EntitySet="Warehouses" />
+            <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Users_Warehouses">
@@ -712,9 +624,97 @@
           <Property Name="SupplierPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="SupplierMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="SupplierAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Orders" Relationship="LogiManageDbModel.FK_Orders_Suppliers" FromRole="Suppliers" ToRole="Orders" />
           <NavigationProperty Name="Products" Relationship="LogiManageDbModel.FK_Products_Suppliers" FromRole="Suppliers" ToRole="Products" />
+          <NavigationProperty Name="Orders" Relationship="LogiManageDbModel.FK_Orders_Suppliers" FromRole="Suppliers" ToRole="Orders" />
         </EntityType>
+        <Association Name="FK_Products_Suppliers">
+          <End Type="LogiManageDbModel.Suppliers" Role="Suppliers" Multiplicity="0..1" />
+          <End Type="LogiManageDbModel.Products" Role="Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suppliers">
+              <PropertyRef Name="SupplierID" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="WarehouseTransfers">
+          <Key>
+            <PropertyRef Name="TransferID" />
+          </Key>
+          <Property Name="TransferID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SourceWarehouseID" Type="Int32" />
+          <Property Name="DestinationWarehouseID" Type="Int32" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="TransferDate" Type="DateTime" Precision="3" />
+          <Property Name="TransferStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Products" Relationship="LogiManageDbModel.FK_WarehousTransfers_Products" FromRole="WarehouseTransfers" ToRole="Products" />
+          <NavigationProperty Name="Warehouses" Relationship="LogiManageDbModel.FK_WarehousTransfers_Warehouses" FromRole="WarehouseTransfers" ToRole="Warehouses" />
+          <NavigationProperty Name="Warehouses1" Relationship="LogiManageDbModel.FK_WarehousTransfers_Warehouses1" FromRole="WarehouseTransfers" ToRole="Warehouses" />
+        </EntityType>
+        <Association Name="FK_WarehousTransfers_Products">
+          <End Type="LogiManageDbModel.Products" Role="Products" Multiplicity="0..1" />
+          <End Type="LogiManageDbModel.WarehouseTransfers" Role="WarehouseTransfers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="WarehouseTransfers">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WarehousTransfers_Warehouses">
+          <End Type="LogiManageDbModel.Warehouses" Role="Warehouses" Multiplicity="0..1" />
+          <End Type="LogiManageDbModel.WarehouseTransfers" Role="WarehouseTransfers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouses">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="WarehouseTransfers">
+              <PropertyRef Name="SourceWarehouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WarehousTransfers_Warehouses1">
+          <End Type="LogiManageDbModel.Warehouses" Role="Warehouses" Multiplicity="0..1" />
+          <End Type="LogiManageDbModel.WarehouseTransfers" Role="WarehouseTransfers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouses">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="WarehouseTransfers">
+              <PropertyRef Name="DestinationWarehouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderDate" Type="DateTime" Precision="3" />
+          <Property Name="OrderStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="SupplierID" Type="Int32" />
+          <Property Name="WarehouseID" Type="Int32" />
+          <NavigationProperty Name="OrderDetails" Relationship="LogiManageDbModel.FK_OrderDetails_Orders" FromRole="Orders" ToRole="OrderDetails" />
+          <NavigationProperty Name="Suppliers" Relationship="LogiManageDbModel.FK_Orders_Suppliers" FromRole="Orders" ToRole="Suppliers" />
+          <NavigationProperty Name="Warehouses" Relationship="LogiManageDbModel.FK_Orders_Warehouses" FromRole="Orders" ToRole="Warehouses" />
+        </EntityType>
+        <Association Name="FK_OrderDetails_Orders">
+          <End Type="LogiManageDbModel.Orders" Role="Orders" Multiplicity="0..1" />
+          <End Type="LogiManageDbModel.OrderDetails" Role="OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Orders_Suppliers">
           <End Type="LogiManageDbModel.Suppliers" Role="Suppliers" Multiplicity="0..1" />
           <End Type="LogiManageDbModel.Orders" Role="Orders" Multiplicity="*" />
@@ -727,15 +727,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Products_Suppliers">
-          <End Type="LogiManageDbModel.Suppliers" Role="Suppliers" Multiplicity="0..1" />
-          <End Type="LogiManageDbModel.Products" Role="Products" Multiplicity="*" />
+        <Association Name="FK_Orders_Warehouses">
+          <End Type="LogiManageDbModel.Warehouses" Role="Warehouses" Multiplicity="0..1" />
+          <End Type="LogiManageDbModel.Orders" Role="Orders" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Suppliers">
-              <PropertyRef Name="SupplierID" />
+            <Principal Role="Warehouses">
+              <PropertyRef Name="WarehouseID" />
             </Principal>
-            <Dependent Role="Products">
-              <PropertyRef Name="SupplierID" />
+            <Dependent Role="Orders">
+              <PropertyRef Name="WarehouseID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -753,17 +753,6 @@
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Orders">
-            <EntityTypeMapping TypeName="LogiManageDbModel.Orders">
-              <MappingFragment StoreEntitySet="Orders">
-                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
-                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -845,19 +834,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="WarehouseTransfers">
-            <EntityTypeMapping TypeName="LogiManageDbModel.WarehouseTransfers">
-              <MappingFragment StoreEntitySet="WarehouseTransfers">
-                <ScalarProperty Name="TransferID" ColumnName="TransferID" />
-                <ScalarProperty Name="SourceWarehouseID" ColumnName="SourceWarehouseID" />
-                <ScalarProperty Name="DestinationWarehouseID" ColumnName="DestinationWarehouseID" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="TransferDate" ColumnName="TransferDate" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Suppliers">
             <EntityTypeMapping TypeName="LogiManageDbModel.Suppliers">
               <MappingFragment StoreEntitySet="Suppliers">
@@ -867,6 +843,30 @@
                 <ScalarProperty Name="ContactName" ColumnName="ContactName" />
                 <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
                 <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WarehouseTransfers">
+            <EntityTypeMapping TypeName="LogiManageDbModel.WarehouseTransfers">
+              <MappingFragment StoreEntitySet="WarehouseTransfers">
+                <ScalarProperty Name="TransferStatus" ColumnName="TransferStatus" />
+                <ScalarProperty Name="TransferDate" ColumnName="TransferDate" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="DestinationWarehouseID" ColumnName="DestinationWarehouseID" />
+                <ScalarProperty Name="SourceWarehouseID" ColumnName="SourceWarehouseID" />
+                <ScalarProperty Name="TransferID" ColumnName="TransferID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="LogiManageDbModel.Orders">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

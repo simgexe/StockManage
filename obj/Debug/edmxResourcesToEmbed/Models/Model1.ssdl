@@ -16,7 +16,7 @@
     </Key>
     <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="OrderDate" Type="datetime" />
-    <Property Name="Status" Type="nvarchar" MaxLength="20" />
+    <Property Name="OrderStatus" Type="nvarchar" MaxLength="20" />
     <Property Name="SupplierID" Type="int" />
     <Property Name="WarehouseID" Type="int" />
   </EntityType>
@@ -112,7 +112,7 @@
     <Property Name="ProductID" Type="int" />
     <Property Name="Quantity" Type="int" />
     <Property Name="TransferDate" Type="datetime" />
-    <Property Name="Status" Type="nvarchar" MaxLength="20" />
+    <Property Name="TransferStatus" Type="nvarchar" MaxLength="20" />
   </EntityType>
   <Association Name="FK_OrderDetails_Orders">
     <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />

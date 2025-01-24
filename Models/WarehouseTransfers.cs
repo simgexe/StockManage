@@ -20,7 +20,7 @@ namespace LogiManage.Models
         public Nullable<int> ProductID { get; set; }
         public Nullable<int> Quantity { get; set; }
         public Nullable<System.DateTime> TransferDate { get; set; }
-        public string Status { get; set; }
+        public string TransferStatus { get; set; }
     
         public virtual Products Products { get; set; }
         public virtual Warehouses Warehouses { get; set; }

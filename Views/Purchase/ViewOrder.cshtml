@@ -1,7 +1,45 @@
-﻿
-@{
-    ViewBag.Title = "ViewOrder";
+﻿@{
+    ViewBag.Title = "Sipariş Görüntüle";
+    Layout = "~/Views/Shared/_LayoutPurchasingOfficer.cshtml";
 }
 
-<h2>ViewOrder</h2>
+<h2>Sipariş Detayları</h2>
 
+@model IEnumerable<LogiManage.ViewModels.ViewOrderViewModel>
+
+<table class="table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Sipariş No</th>
+            <th scope="col">Sipariş Tarihi</th>
+            <th scope="col">Durum</th>
+            <th scope="col">Tedarikçi id</th>
+            <th scope="col">Tedarikçi Adı</th>
+            <th scope="col">Depo id</th>
+            <th scope="col">Depo adı</th>
+            <th scope="col">Detay id</th>
+            <th scope="col"> ürün id</th>
+            <th scope="col"> ürün adı </th>
+            <th scope="col">miktar</th>
+            <th scope="col">Fiyat</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => order.OrderID)</td>
+                <td>@Html.DisplayFor(modelItem => order.OrderDate)</td>
+                <td>@Html.DisplayFor(modelItem => order.OrderStatus)</td>
+                <td>@Html.DisplayFor(modelItem => order.SupplierID)</td>
+                <td>@Html.DisplayFor(modelItem => order.SupplierName)</td>
+                <td>@Html.DisplayFor(modelItem => order.WarehouseID)</td>
+                <td>@Html.DisplayFor(modelItem => order.WarehouseName)</td>
+                <td>@Html.DisplayFor(modelItem => order.ProductID)</td>
+                <td>@Html.DisplayFor(modelItem => order.ProductName)</td>
+                <td>@Html.DisplayFor(modelItem => order.Quantity)</td>
+                <td>@Html.DisplayFor(modelItem => order.UnitPrice)</td>
+            </tr>
+    }
+        </tbody>
+    </table>

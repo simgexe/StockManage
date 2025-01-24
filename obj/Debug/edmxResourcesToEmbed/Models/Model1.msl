@@ -12,17 +12,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Orders">
-      <EntityTypeMapping TypeName="LogiManageDbModel.Orders">
-        <MappingFragment StoreEntitySet="Orders">
-          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
-          <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ProductMovements">
       <EntityTypeMapping TypeName="LogiManageDbModel.ProductMovements">
         <MappingFragment StoreEntitySet="ProductMovements">
@@ -101,19 +90,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="WarehouseTransfers">
-      <EntityTypeMapping TypeName="LogiManageDbModel.WarehouseTransfers">
-        <MappingFragment StoreEntitySet="WarehouseTransfers">
-          <ScalarProperty Name="TransferID" ColumnName="TransferID" />
-          <ScalarProperty Name="SourceWarehouseID" ColumnName="SourceWarehouseID" />
-          <ScalarProperty Name="DestinationWarehouseID" ColumnName="DestinationWarehouseID" />
-          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-          <ScalarProperty Name="TransferDate" ColumnName="TransferDate" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Suppliers">
       <EntityTypeMapping TypeName="LogiManageDbModel.Suppliers">
         <MappingFragment StoreEntitySet="Suppliers">
@@ -123,6 +99,30 @@
           <ScalarProperty Name="ContactName" ColumnName="ContactName" />
           <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
           <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WarehouseTransfers">
+      <EntityTypeMapping TypeName="LogiManageDbModel.WarehouseTransfers">
+        <MappingFragment StoreEntitySet="WarehouseTransfers">
+          <ScalarProperty Name="TransferStatus" ColumnName="TransferStatus" />
+          <ScalarProperty Name="TransferDate" ColumnName="TransferDate" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="DestinationWarehouseID" ColumnName="DestinationWarehouseID" />
+          <ScalarProperty Name="SourceWarehouseID" ColumnName="SourceWarehouseID" />
+          <ScalarProperty Name="TransferID" ColumnName="TransferID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="LogiManageDbModel.Orders">
+        <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+          <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+          <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
