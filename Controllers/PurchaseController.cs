@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.Entity;
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -22,11 +21,109 @@ namespace LogiManage.Controllers
         {
             return View();
         }
+        [HttpGet]
         public ActionResult CreateOrder()
-        {
-            return View();
+        {   ViewBag.ProductList = new SelectList(logidb.Products, "ProductID", "ProductName");
+            ViewBag.CategoryList = new SelectList(
+            logidb.Products
+                 .Select(p => new { Category = p.Category })
+                 .Distinct()
+                 .ToList(),
+                 "Category",
+                 "Category"
+                    );
+            ViewBag.SupplierList = new SelectList(logidb.Suppliers, "SupplierID", "SupplierName");
+            ViewBag.WarehouseList = new SelectList(logidb.Warehouses, "WarehouseID", "WarehouseName");
+
+
+            return View(new ViewOrderViewModel() { OrderDate = DateTime.Now});
         }
-        public ActionResult ViewOrder(int? OrderID)
+
+        [HttpPost]
+        public ActionResult CreateOrder(ViewOrderViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                using (SqlConnection connection = new SqlConnection("Data Source=RAKUNSY;Initial Catalog=LogiManageDb;Integrated Security=True"))
+                {
+                    string getProductPriceQuery = "SELECT Price FROM Products WHERE ProductID = @ProductID";
+
+                    string insertOrderQuery = @"
+                INSERT INTO Orders (OrderDate, OrderStatus, SupplierID, WarehouseID) 
+                OUTPUT INSERTED.OrderID
+                VALUES (@OrderDate, @OrderStatus, @SupplierID, @WarehouseID)";
+
+                    string insertOrderDetailQuery = @"
+                INSERT INTO OrderDetails (OrderID, ProductID, Quantity, UnitPrice) 
+                VALUES (@OrderID, @ProductID, @Quantity, @UnitPrice)";
+
+                    connection.Open();
+                    SqlTransaction transaction = connection.BeginTransaction();
+
+                    try
+                    {
+                        // Ürün fiyatını al
+                        SqlCommand getProductPriceCommand = new SqlCommand(getProductPriceQuery, connection, transaction);
+                        getProductPriceCommand.Parameters.AddWithValue("@ProductID", model.ProductID);
+                        decimal productPrice = (decimal)getProductPriceCommand.ExecuteScalar();
+
+                        // UnitPrice hesapla
+                        decimal unitPrice = productPrice * (decimal)model.Quantity;
+
+                        // Orders tablosuna kayıt ekle
+                        SqlCommand orderCommand = new SqlCommand(insertOrderQuery, connection, transaction);
+                        orderCommand.Parameters.AddWithValue("@OrderDate", DateTime.Now);
+                        orderCommand.Parameters.AddWithValue("@OrderStatus", "Ordered");
+                        orderCommand.Parameters.AddWithValue("@SupplierID", model.SupplierID);
+                        orderCommand.Parameters.AddWithValue("@WarehouseID", model.WarehouseID);
+                        int orderId = (int)orderCommand.ExecuteScalar();
+
+                        // OrderDetails tablosuna kayıt ekle
+                        SqlCommand orderDetailCommand = new SqlCommand(insertOrderDetailQuery, connection, transaction);
+                        orderDetailCommand.Parameters.AddWithValue("@OrderID", orderId);
+                        orderDetailCommand.Parameters.AddWithValue("@ProductID", model.ProductID);
+                        orderDetailCommand.Parameters.AddWithValue("@Quantity", model.Quantity);
+                        orderDetailCommand.Parameters.AddWithValue("@UnitPrice", unitPrice); 
+                        orderDetailCommand.ExecuteNonQuery();
+
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        ModelState.AddModelError("", "Order creation failed." );
+                        return View(model);
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
+                    return RedirectToAction("Index");
+                }
+            }
+
+            return View(model);
+        }
+        public JsonResult GetProductsByCategory(string category)
+        {
+            var products = logidb.Products
+                .Where(p => p.Category == category)
+                .Select(p => new { p.ProductID, p.ProductName })
+                .ToList();
+
+            return Json(products, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetProductPrice(int ProductID)
+        {
+            var product = logidb.Products.Find(ProductID);
+            if (product != null)
+            {
+                return Json(new { UnitPrice = product.Price }); 
+            }
+            return Json(new { UnitPrice = 0 });
+        }
+
+        public ActionResult ViewOrder()
         {
             SqlConnection connection = new SqlConnection("Data Source=RAKUNSY;Initial Catalog=LogiManageDb;Integrated Security=True");
             const string querystring = @"Select o.OrderID,
@@ -79,110 +176,10 @@ namespace LogiManage.Controllers
             return View(orderDetails);
         }
 
-        [HttpGet]
-        public ActionResult Suppliers()
-        {
-            var suppliers = logidb.Suppliers.Select(s => new LogiManage.ViewModels.SupplierViewModel
-            {
-                SupplierID = s.SupplierID,
-                SupplierName = s.SupplierName,
-                ContactName = s.ContactName,
-                SupplierAddress = s.SupplierAddress,
-                SupplierPhone = s.SupplierPhone,
-                SupplierMail = s.SupplierMail
-            }).ToList();
-
-            return View(suppliers);
-        }
-        [HttpGet]
-        public ActionResult SupplierUpdate(int supplierID)
-        {
-            var supplier = logidb.Suppliers.FirstOrDefault(s => s.SupplierID == supplierID);
-            if (supplier == null)
-                return HttpNotFound("Tedarikçi bulunamadı.");
-
-            return View(supplier);
-        }
-
-        [HttpPost]
-        public ActionResult SupplierUpdate(int supplierID, Suppliers updatedSupplier)
-        {
-            var supplier = logidb.Suppliers.FirstOrDefault(s => s.SupplierID == supplierID);
-            if (supplier == null)
-            {
-                return HttpNotFound("Supplier not found");
-            }
-            supplier.SupplierID = supplierID;
-            supplier.SupplierName = updatedSupplier.SupplierName;
-            supplier.ContactName = updatedSupplier.ContactName;
-            supplier.SupplierAddress = updatedSupplier.SupplierAddress;
-            supplier.SupplierPhone = updatedSupplier.SupplierPhone;
-            supplier.SupplierMail = updatedSupplier.SupplierMail;
-
-            logidb.SaveChanges();
-            return RedirectToAction("Suppliers", new { message = "Tedarikçi başarıyla güncellendi." });
-        }
-
-        public ActionResult SupplierDelete(int supplierID)
-        {
-            var relatedOrdersCount = logidb.Orders.Count(o => o.SupplierID == supplierID);
-
-            if (relatedOrdersCount > 0)
-            {
-                TempData["ErrorMessage"] = "Bu tedarikçi ile ilişkili siparişler olduğu için silinemiyor.";
-                return RedirectToAction("Suppliers");
-            }
-
-            var supplier = logidb.Suppliers.FirstOrDefault(s => s.SupplierID == supplierID);
-            if (supplier != null)
-            {
-                logidb.Suppliers.Remove(supplier);
-                logidb.SaveChanges();
-                TempData["SuccessMessage"] = "Tedarikçi başarıyla silindi.";
-            }
-            else
-            {
-                TempData["ErrorMessage"] = "Tedarikçi silinirken bir hata oluştu.";
-            }
-
-            return RedirectToAction("Suppliers");
-        }
-
-        [HttpGet]
-        public ActionResult SupplierAdd()
-        {
-            return View();
-
-        }
-
-        [HttpPost]
-        public ActionResult SupplierAdd(Suppliers suppliers)
-        {
-            foreach (var key in Request.Form.AllKeys)
-            {
-                Console.WriteLine($"{key}: {Request.Form[key]}");
-            }
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    logidb.Suppliers.Add(suppliers);
-                    TempData["SuccessMessage"] = "Tedarikçi başarıyla eklendi.";
-                    logidb.SaveChanges();
-                    return RedirectToAction("Suppliers");
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", "Bir hata oluştu: " + ex.Message);
-                }
-            }
-            else
-            {
-                TempData["ErrorMessage"] = "Form doğrulama hatası.";
-            }
-            ViewBag.Message = "Tedarikçi eklenirken bir hata oluştu.";
-            return View(suppliers);
-        }
+        
 
     }
+
+   
+    
 }

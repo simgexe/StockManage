@@ -1,8 +1,119 @@
-﻿
-@{
-    ViewBag.Title = "CreateOrder";
+﻿@{
+    ViewBag.Title = "Create Order";
     Layout = "~/Views/Shared/_LayoutPurchasingOfficer.cshtml";
 }
 
-<h2>CreateOrder</h2>
+<h2>Create Order</h2>
 
+@model LogiManage.ViewModels.ViewOrderViewModel
+
+<div>
+    <h3>Create Order</h3>
+    @using (Html.BeginForm("CreateOrder", "Purchase", FormMethod.Post))
+    {
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Category)
+            @Html.DropDownList(
+                "Category",
+                ViewBag.CategoryList as SelectList ?? new SelectList(Enumerable.Empty<SelectListItem>()),
+                "Select a Category",
+                new { @class = "form-control" }
+            )
+        </div>
+          <div class="form-group">
+            @Html.LabelFor(m => m.OrderDate)
+            @Html.TextBoxFor(m =>  m.OrderDate, new { @class = "form-control", @readonly = "readonly", @Value = Model.OrderDate.ToString("dd.MM.yyyy") })
+
+        </div>
+        <div class=" form-group">
+            @Html.LabelFor(m => m.OrderStatus)
+            @Html.TextBoxFor(m => m.OrderStatus, new { @class = "form-control", @readonly = "readonly", @Value= Model.OrderStatus="Ordered"})
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.ProductName)
+            <select id="ProductID" name="ProductID" class="form-control">
+                <option value="">Select a Product</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Quantity)
+            @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control", type = "number", min = "0", step = "0.01" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.SupplierName)
+            @Html.DropDownList("SupplierName", ViewBag.SupplierList as SelectList ?? new SelectList(Enumerable.Empty<SelectListItem>()),
+            "Select a Supplier", new { @class = "form-control" })
+
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.WarehouseID)
+            @Html.DropDownList("WarehouseID", ViewBag.WarehouseList as SelectList ?? new SelectList(Enumerable.Empty <SelectListItem>()),
+           "Select a Warehouse", new { @class = "form-control" })           
+</div>
+    
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.UnitPrice)
+            @Html.TextBoxFor(m => m.UnitPrice, new {    @class = "form-control", @readonly = "readonly" })
+        </div>
+
+        <button type="submit" class="btn btn-success">Create</button>
+    }
+</div>
+
+<script>
+    // Kategori seçildiğinde ürünleri getiren AJAX çağrısı
+    document.getElementById("Category").addEventListener("change", function () {
+        var category = this.value;
+        var productDropdown = document.getElementById("ProductID");
+        productDropdown.innerHTML = "<option value=''>Loading...</option>";
+
+        if (category) {
+            fetch('/Purchase/GetProductsByCategory?category=' + category)
+                .then(response => response.json())
+                .then(data => {
+                    productDropdown.innerHTML = "<option value=''>Select a Product</option>";
+                    data.forEach(product => {
+                        var option = document.createElement("option");
+                        option.value = product.ProductID;
+                        option.text = product.ProductName;
+                        productDropdown.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    productDropdown.innerHTML = "<option value=''>Error loading products</option>";
+                    console.error('Error:', error);
+                });
+        } else {
+            productDropdown.innerHTML = "<option value=''>Select a Category First</option>";
+        }
+    });
+     /* Ürün seçildiğinde fiyatı güncelleyen AJAX çağrısı
+    document.getElementById("ProductID").addEventListener("change", function () {
+        var ProductID = this.value;
+        var unitPriceField = document.getElementById("UnitPrice");
+
+        if (ProductID) {
+            fetch('/Purchase/GetProductPrice?ProductID=' + ProductID)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Response data:', data); // Yanıtı konsola yazdır
+                    if (data && data.UnitPrice) {
+                        unitPriceField.value = data.UnitPrice.toFixed(2); // Fiyatı iki ondalık basamakla göster
+                    } else {
+                        unitPriceField.value = "0.00"; // Fiyat bulunamazsa sıfır göster
+                    }
+                })
+                .catch(error => {
+                    unitPriceField.value = "Error"; // Hata durumunda hata mesajı göster
+                    console.error('Error:', error);
+                });
+        } else {
+            unitPriceField.value = ""; // Ürün seçilmezse alanı temizle
+        }
+    });*/
+</script>

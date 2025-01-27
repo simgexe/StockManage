@@ -3,11 +3,11 @@
     Layout = "~/Views/Shared/_LayoutPurchasingOfficer.cshtml";
 }
 
-@model LogiManage.Models.Suppliers
+@model LogiManage.ViewModels.SupplierViewModel
 
 <h2>SupplierAdd</h2>
 
-@using (Html.BeginForm("SupplierAdd", "Purchase", FormMethod.Post))
+@using (Html.BeginForm("SupplierAdd", "Supplier", FormMethod.Post))
 {
     <div>
         @Html.HiddenFor(m => m.SupplierID)
@@ -29,13 +29,4 @@
 
         <button type="submit" class="btn btn-outline-success">Add </button>
     </div>
-}
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
-}
-
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
 }

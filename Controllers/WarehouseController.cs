@@ -42,29 +42,29 @@ namespace LogiManage.Controllers
                 return RedirectToAction("WarehouseControl", new { warehouseID });
             }
             [HttpPost]
-            public ActionResult AddProduct(int warehouseID, int productId, int quantity)
-            {
-                //bir listeden veri çekip eklediği için düzgün değil. giriş yapan kişinin yeni ürün ekleyebilmesi gerekiyor. 
-                var stockexist =logidb.WarehouseStocks
-                     .FirstOrDefault(ws => ws.WarehouseID == warehouseID && ws.ProductID == productId && ws.Quantity==quantity);
-                if (stockexist != null)
-                {
-                    stockexist.Quantity += quantity;
+        public ActionResult AddProduct(int warehouseID, int productId, int quantity)
+        {
+            var stockexist = logidb.WarehouseStocks
+                .FirstOrDefault(ws => ws.WarehouseID == warehouseID && ws.ProductID == productId);
 
-                }
-                else
-                {
-                    var newStock = new WarehouseStocks
-                    {
-                        WarehouseID = warehouseID,
-                        ProductID = productId,
-                        Quantity = quantity
-                    };
-                    logidb.WarehouseStocks.Add(newStock);
-                }
-                logidb.SaveChanges();
-                return RedirectToAction("WarehouseControl", new { warehouseID });
+            if (stockexist != null)
+            {
+                stockexist.Quantity += quantity;
             }
+            else
+            {
+                var newStock = new WarehouseStocks
+                {
+                    WarehouseID = warehouseID,
+                    ProductID = productId,
+                    Quantity = quantity
+                };
+                logidb.WarehouseStocks.Add(newStock);
+            }
+
+            logidb.SaveChanges(); 
+            return RedirectToAction("WarehouseControl", new { warehouseID });
+        }
             [HttpPost]
             public ActionResult DeleteProduct(int warehouseID, int productId)
             {

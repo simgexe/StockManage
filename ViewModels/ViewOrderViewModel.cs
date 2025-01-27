@@ -20,6 +20,9 @@ namespace LogiManage.ViewModels
         public string ProductName { get; set; }
         public float Quantity { get; set; }
         public decimal UnitPrice { get; set; }
+        public decimal Price { get; set; }
+
+        public string Category { get; set; }
 
 
 

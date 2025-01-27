@@ -1,3 +1,5 @@
+C:\Users\egmis\source\repos\LogiManage\LogiManage\obj\Debug\LogiManage.csproj.AssemblyReference.cache
+C:\Users\egmis\source\repos\LogiManage\LogiManage\obj\Debug\LogiManage.csproj.CoreCompileInputs.cache
 C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\LogiManage.dll.config
 C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\LogiManage.dll
 C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\LogiManage.pdb
@@ -51,6 +53,8 @@ C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\roslyn\vbc.rsp
 C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\roslyn\VBCSCompiler.exe
 C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\Antlr3.Runtime.dll
+C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\EntityFramework.dll
+C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\EntityFramework.SqlServer.dll
 C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\Newtonsoft.Json.dll
@@ -62,6 +66,8 @@ C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\System.Web.WebPages.Deploy
 C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\System.Web.WebPages.dll
 C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\System.Web.WebPages.Razor.dll
 C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\WebGrease.dll
+C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\EntityFramework.xml
+C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\EntityFramework.SqlServer.xml
 C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\System.Web.Helpers.xml
 C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\System.Web.Mvc.xml
 C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\System.Web.Optimization.xml
@@ -72,12 +78,6 @@ C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\System.Web.WebPages.Razor.
 C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\Newtonsoft.Json.xml
 C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\Antlr3.Runtime.pdb
 C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\egmis\source\repos\LogiManage\LogiManage\obj\Debug\LogiManage.csproj.AssemblyReference.cache
-C:\Users\egmis\source\repos\LogiManage\LogiManage\obj\Debug\LogiManage.csproj.CoreCompileInputs.cache
 C:\Users\egmis\source\repos\LogiManage\LogiManage\obj\Debug\LogiManage.csproj.Up2Date
 C:\Users\egmis\source\repos\LogiManage\LogiManage\obj\Debug\LogiManage.dll
 C:\Users\egmis\source\repos\LogiManage\LogiManage\obj\Debug\LogiManage.pdb
-C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\EntityFramework.dll
-C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\EntityFramework.SqlServer.dll
-C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\EntityFramework.xml
-C:\Users\egmis\source\repos\LogiManage\LogiManage\bin\EntityFramework.SqlServer.xml
