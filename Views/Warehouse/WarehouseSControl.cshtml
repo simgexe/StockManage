@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "WarehouseSControl";
+    Layout = "~/Views/Shared/_LayoutPurchasingOfficer.cshtml";
+}
+
+<h2>WarehouseSControl</h2>
+@model IEnumerable<LogiManage.ViewModels.WarehouseProductViewModel>
+
+<!-- Depo Seçimi -->
+<form method="get" action="@Url.Action("WarehouseSControl", "Warehouse")">
+    <label for="productId">Ürün Seç:</label>
+    <select id="productId" name="productId" onchange="this.form.submit()">
+        @foreach (var product in ViewBag.Products)
+        {
+            <option value="@product.ProductID" @(ViewBag.SelectedProductId == product.ProductID ? "selected" : "")>
+                @product.ProductName
+            </option>
+        }
+    </select>
+</form>
+
+<h3>WarehouseStocks</h3>
+<table border="1">
+    <thead>
+        <tr>
+            <th>ProductName</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Critical Stock Level</th>
+            <th>Warehouse Name</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.ProductName</td>
+                <td>@product.Category</td>
+                <td>@product.Price.ToString("C")</td>
+                <td>@product.Quantity</td>
+                <td>@product.CriticalStockLevel</td>
+                <td>@product.WarehouseName</td>
+                <td>@Html.ActionLink("Transfer isteğinde bulun", "TransferRequest")</td>
+
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+
+

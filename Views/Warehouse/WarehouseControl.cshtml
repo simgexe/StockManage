@@ -29,22 +29,9 @@
                 <td>@product.Price.ToString("C")</td>
                 <td>@product.Quantity</td>
                 <td>@product.CriticalStockLevel</td>
-                <td>
-                    <!-- Stok Güncelleme -->
-                    <form method="post" action="@Url.Action("StockUpdate", "Warehouse")" style="display:inline;">
-                        <input type="hidden" name="warehouseId" value="@ViewBag.SelectedWarehouseId" />
-                        <input type="hidden" name="productId" value="@product.ProductID" />
-                        <button type="submit" name="quantityChange" value="1">+</button>
-                        <button type="submit" name="quantityChange" value="-1">-</button>
-                    </form>
-
-                    <!-- Ürün Sil -->
-                    <form method="post" action="@Url.Action("DeleteProduct", "Warehouse")" style="display:inline;">
-                        <input type="hidden" name="warehouseId" value="@ViewBag.SelectedWarehouseId" />
-                        <input type="hidden" name="productId" value="@product.ProductID" />
-                        <button type="submit" onclick="return confirm('You are deleting product are you sure?')">Sil</button>
-                    </form>
-                </td>
+                <td>@Html.ActionLink("Diğer depolara bak", "WarehouseSControl")</td>
+                    
+                
             </tr>
         }
     </tbody>

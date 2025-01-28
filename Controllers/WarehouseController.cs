@@ -79,14 +79,15 @@ namespace LogiManage.Controllers
                
                 return RedirectToAction("WarehouseControl", new { warehouseID });
             }
-       /*  [HttpGet]
-       public ActionResult WarehouseControl(int? warehouseId )
+       [HttpGet]
+       public ActionResult WarehouseSControl(int? productID )
         {
-            if (warehouseId == null && logidb.Warehouses.Any())
-                warehouseId = logidb.Warehouses.First().WarehouseID;
+            
+           
+            
 
-            var productsInWarehouse = logidb.WarehouseStocks
-                .Where(ws => ws.WarehouseID == warehouseId)
+            var productsInWarehouses = logidb.WarehouseStocks
+                .Where(ws => ws.ProductID == productID)
                 .Select(ws => new LogiManage.ViewModels.WarehouseProductViewModel
                 {
                     ProductID = ws.Products.ProductID,
@@ -94,15 +95,16 @@ namespace LogiManage.Controllers
                     Category = ws.Products.Category,
                     Price = (int)ws.Products.Price,
                     Quantity = (int)ws.Quantity,
-                    CriticalStockLevel = (int)ws.Products.CriticalStockLevel
+                    CriticalStockLevel = (int)ws.Products.CriticalStockLevel,
+                    WarehouseName = ws.Warehouses.WarehouseName
 
                 }).ToList();
-            ViewBag.Warehouses = logidb.Warehouses.ToList();
-            ViewBag.SelectedWarehouseId = warehouseId;
             ViewBag.Products = logidb.Products.ToList();
+            ViewBag.SelectedProductId = productID;
+            
 
-            return View(productsInWarehouse);
-        }*/
+            return View(productsInWarehouses);
+        }
         public ActionResult Transfers()
         {
             return View();
