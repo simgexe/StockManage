@@ -132,8 +132,11 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OperatorController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\TransferController.cs" />
     <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -268,22 +271,28 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\ManageUsers.cshtml" />
     <Content Include="Views\Warehouse\StockUpdate.cshtml" />
-    <Content Include="Views\Warehouse\Transfer.cshtml" />
+    <Content Include="Views\Warehouse\Transfers.cshtml" />
     <Content Include="Views\Warehouse\WarehouseControl.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\Admin\Reports.cshtml" />
     <Content Include="Views\Operator\Index.cshtml" />
     <Content Include="Views\Operator\Update.cshtml" />
-    <Content Include="Views\Operator\Entry.cshtml" />
     <Content Include="Views\Admin\UserUpdate.cshtml" />
     <Content Include="Views\Supplier\Suppliers.cshtml" />
     <Content Include="Views\Admin\AddUser.cshtml" />
     <Content Include="Views\Supplier\SupplierUpdate.cshtml" />
     <Content Include="Views\Supplier\SupplierAdd.cshtml" />
+    <Content Include="Views\Warehouse\PurchaseRequests.cshtml" />
+    <Content Include="Views\Warehouse\TransferRequests.cshtml" />
+    <Content Include="Views\Operator\StockControl.cshtml" />
+    <Content Include="Views\Operator\TransferRequests.cshtml" />
+    <Content Include="Views\Purchase\OrderRequests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Stock\" />
+    <Folder Include="Views\Orders\" />
+    <Folder Include="Views\Products\" />
+    <Folder Include="Views\Transfer\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

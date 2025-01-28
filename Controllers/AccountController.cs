@@ -36,6 +36,7 @@ namespace LogiManage.Controllers
                 Session["UserID"] = user.UserID;
                 Session["Username"] = user.Username;
                 Session["RoleID"] = user.RoleID;
+                Session["WarehouseID"] = user.WarehouseID;
 
                 switch (user.RoleID)
                 {

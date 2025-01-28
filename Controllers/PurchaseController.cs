@@ -176,7 +176,10 @@ namespace LogiManage.Controllers
             return View(orderDetails);
         }
 
-        
+        public ActionResult OrderRequests()
+        {
+            return View();
+        }
 
     }
 

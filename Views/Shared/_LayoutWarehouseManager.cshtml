@@ -28,13 +28,19 @@
                     </li>
 
                     <li class="nav-item">
-                        @Html.ActionLink("StockUpdate", "StockUpdate", "Warehouse", new { }, new { @class = "nav-link" })
+                        @Html.ActionLink("Warehouse Stocks", "WarehouseControl", "Warehouse", new { }, new { @class = "nav-link" })
+                    </li>
+
+
+                    <li class="nav-item">
+                        @Html.ActionLink("Transfer Requests", "TransferRequests", "Warehouse", new { }, new { @class = "nav-link" })
+                    </li>
+
+                    <li class="nav-item">
+                        @Html.ActionLink("Transfers", "Transfers", "Warehouse", new { }, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
-                        @Html.ActionLink("Transfer", "Transfer", "Warehouse", new { }, new { @class = "nav-link" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("Warehouse Control", "WarehouseControl", "Warehouse", new { }, new { @class = "nav-link" })
+                        @Html.ActionLink("Purchase Requests", "PurchaseRequests", "Warehouse", new { }, new { @class = "nav-link" })
                     </li>
 
                 </ul>

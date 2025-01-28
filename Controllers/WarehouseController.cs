@@ -79,8 +79,8 @@ namespace LogiManage.Controllers
                
                 return RedirectToAction("WarehouseControl", new { warehouseID });
             }
-        [HttpGet]
-        public ActionResult WarehouseControl(int? warehouseId )
+       /*  [HttpGet]
+       public ActionResult WarehouseControl(int? warehouseId )
         {
             if (warehouseId == null && logidb.Warehouses.Any())
                 warehouseId = logidb.Warehouses.First().WarehouseID;
@@ -102,13 +102,40 @@ namespace LogiManage.Controllers
             ViewBag.Products = logidb.Products.ToList();
 
             return View(productsInWarehouse);
-        }
-        public ActionResult Transfer()
+        }*/
+        public ActionResult Transfers()
         {
             return View();
         }
-      
-         
+        public ActionResult TransferRequests()
+        {
+            return View();
+        }
+        public ActionResult PurchaseRequests()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult WarehouseControl()
+        {
+            var warehouseID = (int?)Session["WarehouseID"];
+            var warehouse = logidb.Warehouses.Where(w => w.WarehouseID == warehouseID);
+
+            var productsInWarehouse = logidb.WarehouseStocks
+                .Where(ws => ws.WarehouseID == warehouseID)
+                .Select(ws => new LogiManage.ViewModels.WarehouseProductViewModel
+                {
+                    ProductID = ws.Products.ProductID,
+                    ProductName = ws.Products.ProductName,
+                    Category = ws.Products.Category,
+                    Price = (int)ws.Products.Price,
+                    Quantity = (int)ws.Quantity,
+                    CriticalStockLevel = (int)ws.Products.CriticalStockLevel
+                }).ToList();
+  
+
+            return View(productsInWarehouse);
+        }
     } 
 }
 
