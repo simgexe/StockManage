@@ -285,7 +285,7 @@
     <Content Include="Views\Warehouse\PurchaseRequests.cshtml" />
     <Content Include="Views\Warehouse\TransferRequests.cshtml" />
     <Content Include="Views\Operator\StockControl.cshtml" />
-    <Content Include="Views\Operator\TransferRequests.cshtml" />
+    <Content Include="Views\Operator\TransferRequestss.cshtml" />
     <Content Include="Views\Purchase\OrderRequests.cshtml" />
     <Content Include="Views\Warehouse\WarehouseSControl.cshtml" />
   </ItemGroup>

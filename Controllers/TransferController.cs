@@ -15,9 +15,6 @@ namespace LogiManage.Controllers
         {
             return View();
         }
-        public ActionResult TransferRequests()
-        {
-            return View();
-        }   
+       
     }
 }
