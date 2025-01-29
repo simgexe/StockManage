@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Web;
 
 namespace LogiManage.ViewModels
@@ -18,5 +19,15 @@ namespace LogiManage.ViewModels
         public DateTime TransferDate { get; set; }
         public string TransferStatus { get; set; }
         public string ProductName { get; set; }
+
+        
+
+    }
+    public class TransferListViewModel
+    {
+        public List<TransferViewModel> Transfers { get; set; }
+        public List<TransferViewModel> OtherTransfers { get; set; }
+
+        public List<TransferViewModel> TransferRequests { get; set; }
     }
 }

@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "AddTransferRequest";
+    Layout = "~/Views/Shared/_LayoutPurchasingOfficer.cshtml";
+}
+
+<h2>AddRequest</h2>
+@model LogiManage.ViewModels.TransferViewModel
+<div>
+    <h3> Add new Transfer </h3>
+    @using (Html.BeginForm("AddTransferRequest", "Warehouse", FormMethod.Post))
+    {
+        @Html.LabelFor(m => m.TransferDate)
+        @Html.TextBoxFor(m => m.TransferDate, new { @value = Model.TransferDate.ToString("dd.MM.yyyy") })
+
+        @Html.LabelFor(m => m.TransferStatus)
+        @Html.TextBoxFor(m => m.TransferStatus)
+
+        @Html.LabelFor(m => m.SourceWarehouseID)
+        @Html.DropDownListFor(m => m.SourceWarehouseID, (SelectList)ViewBag.WarehouseList)
+
+        @Html.LabelFor(m => m.DestinationWarehouseID)
+        @Html.DropDownListFor(m => m.DestinationWarehouseID, (SelectList)ViewBag.WarehouseList)
+
+        @Html.LabelFor(m => m.ProductName)
+        @Html.DropDownListFor(m => m.ProductName, (SelectList)ViewBag.ProductList)
+
+        @Html.LabelFor(m => m.Quantity)
+        @Html.TextBoxFor(m => m.Quantity)
+
+        <button type="submit" class="btn btn-outline-success">Add </button>
+    }
+</div>

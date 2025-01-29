@@ -5,9 +5,9 @@
 
 <h2>Transfer</h2>
 
-@model List<LogiManage.ViewModels.TransferViewModel>
+@model LogiManage.ViewModels.TransferListViewModel
 
-<table border="1" >
+<table border="1">
     <thead>
         <tr>
             <th>Transfer Status</th>
@@ -20,7 +20,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var transfer in Model)
+        @foreach (var transfer in Model.Transfers)
         {
             <tr>
                 <td>@transfer.TransferStatus</td>
@@ -31,5 +31,36 @@
                 <td>@transfer.Quantity</td>
             </tr>
         }
-    <tbody>
+    </tbody>
 </table>
+
+
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Transfer Status</th>
+                            <th>Transfer Date</th>
+                            <th>Source Warehouse</th>
+                            <th>Destination Warehouse</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var transfer in Model.OtherTransfers)
+                        {
+                            <tr>
+                                <td>@transfer.TransferStatus</td>
+                                <td>@transfer.TransferDate</td>
+                                <td>@transfer.SourceWarehouseName</td>
+                                <td>@transfer.DestinationWarehouseName</td>
+                                <td>@transfer.ProductName</td>
+                                <td>@transfer.Quantity</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+ 
+
+

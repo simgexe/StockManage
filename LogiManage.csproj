@@ -286,6 +286,7 @@
     <Content Include="Views\Operator\TransferRequestss.cshtml" />
     <Content Include="Views\Purchase\OrderRequests.cshtml" />
     <Content Include="Views\Warehouse\WarehouseSControl.cshtml" />
+    <Content Include="Views\Warehouse\AddTransferRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

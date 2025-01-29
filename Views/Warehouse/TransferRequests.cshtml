@@ -6,3 +6,35 @@
 
 <h2>TransferRequests</h2>
 
+@model LogiManage.ViewModels.TransferListViewModel
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Transfer Status</th>
+            <th>Transfer Date</th>
+            <th>Source Warehouse</th>
+            <th>Destination Warehouse</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transfer in Model.TransferRequests)
+        {
+            <tr>
+                <td>@transfer.TransferStatus</td>
+                <td>@transfer.TransferDate</td>
+                <td>@transfer.SourceWarehouseName</td>
+                <td>@transfer.DestinationWarehouseName</td>
+                <td>@transfer.ProductName</td>
+                <td>@transfer.Quantity</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.ActionLink("Add Transfer Request", "AddTransferRequest", new { }, new { @class = "btn btn-primary" })
+
+
