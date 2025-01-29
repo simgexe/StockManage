@@ -12,7 +12,7 @@ namespace LogiManage.Controllers
 {
     public class SupplierController : Controller
     {
-        LogiManageDbEntities logidb = new LogiManageDbEntities();
+        LogiManageDbEntities1 logidb = new LogiManageDbEntities1();
         // GET: Supplier
         [HttpGet]
         public ActionResult Suppliers()

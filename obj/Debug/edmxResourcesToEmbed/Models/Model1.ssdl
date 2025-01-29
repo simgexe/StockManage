@@ -20,17 +20,6 @@
     <Property Name="SupplierID" Type="int" />
     <Property Name="WarehouseID" Type="int" />
   </EntityType>
-  <EntityType Name="ProductMovements">
-    <Key>
-      <PropertyRef Name="MovementID" />
-    </Key>
-    <Property Name="MovementID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ProductID" Type="int" />
-    <Property Name="WarehouseID" Type="int" />
-    <Property Name="MovementType" Type="nvarchar" MaxLength="20" />
-    <Property Name="Quantity" Type="int" />
-    <Property Name="MovementDate" Type="datetime" />
-  </EntityType>
   <EntityType Name="Products">
     <Key>
       <PropertyRef Name="ProductID" />
@@ -162,30 +151,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProductMovements_Products">
-    <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
-    <End Role="ProductMovements" Type="Self.ProductMovements" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Products">
-        <PropertyRef Name="ProductID" />
-      </Principal>
-      <Dependent Role="ProductMovements">
-        <PropertyRef Name="ProductID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProductMovements_Warehouses">
-    <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="0..1" />
-    <End Role="ProductMovements" Type="Self.ProductMovements" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Warehouses">
-        <PropertyRef Name="WarehouseID" />
-      </Principal>
-      <Dependent Role="ProductMovements">
-        <PropertyRef Name="WarehouseID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Products_Suppliers">
     <End Role="Suppliers" Type="Self.Suppliers" Multiplicity="0..1" />
     <End Role="Products" Type="Self.Products" Multiplicity="*" />
@@ -285,7 +250,6 @@
   <EntityContainer Name="LogiManageDbModelStoreContainer">
     <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="ProductMovements" EntityType="Self.ProductMovements" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Suppliers" EntityType="Self.Suppliers" Schema="dbo" store:Type="Tables" />
@@ -309,14 +273,6 @@
     <AssociationSet Name="FK_Orders_Warehouses" Association="Self.FK_Orders_Warehouses">
       <End Role="Warehouses" EntitySet="Warehouses" />
       <End Role="Orders" EntitySet="Orders" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProductMovements_Products" Association="Self.FK_ProductMovements_Products">
-      <End Role="Products" EntitySet="Products" />
-      <End Role="ProductMovements" EntitySet="ProductMovements" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProductMovements_Warehouses" Association="Self.FK_ProductMovements_Warehouses">
-      <End Role="Warehouses" EntitySet="Warehouses" />
-      <End Role="ProductMovements" EntitySet="ProductMovements" />
     </AssociationSet>
     <AssociationSet Name="FK_Products_Suppliers" Association="Self.FK_Products_Suppliers">
       <End Role="Suppliers" EntitySet="Suppliers" />

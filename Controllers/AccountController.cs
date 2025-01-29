@@ -14,7 +14,8 @@ namespace LogiManage.Controllers
         {
             return View();
         }
-        LogiManageDbEntities entity = new LogiManageDbEntities();
+        
+        LogiManageDbEntities1 logidb = new LogiManageDbEntities1();
         // GET: Login
         [HttpGet]
         public ActionResult Login()
@@ -23,10 +24,10 @@ namespace LogiManage.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Login(string Username, string Userpassword, string roleid)
+        public ActionResult Login(string Username, string Userpassword)
         {
 
-            var user = (from u in entity.Users
+            var user = (from u in logidb.Users
                         where u.Username == Username && u.Userpassword == Userpassword
                         select u).FirstOrDefault();
             

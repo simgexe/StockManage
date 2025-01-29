@@ -15,7 +15,7 @@ namespace LogiManage.Controllers
 {
     public class PurchaseController : Controller
     {
-        LogiManageDbEntities logidb = new LogiManageDbEntities();
+        LogiManageDbEntities1 logidb = new LogiManageDbEntities1();
         // GET: Purchasing
         public ActionResult Index()
         {

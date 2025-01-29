@@ -14,7 +14,7 @@ namespace LogiManage.Controllers
     public class AdminController : Controller
     {
         // Database context for LogiManage
-        LogiManageDbEntities logidb = new LogiManageDbEntities();
+        LogiManageDbEntities1 logidb = new LogiManageDbEntities1();
 
         // GET: Admin - Displays the main admin page
         public ActionResult Index()
