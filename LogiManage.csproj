@@ -264,12 +264,12 @@
     <Content Include="Views\Shared\_LayoutOperator.cshtml" />
     <Content Include="Views\Warehouse\Index.cshtml" />
     <Content Include="Views\Purchase\Index.cshtml" />
-    <Content Include="Views\Purchase\CreateOrder.cshtml" />
-    <Content Include="Views\Purchase\ViewOrder.cshtml" />
+    <Content Include="Views\Orders\CreateOrder.cshtml" />
+    <Content Include="Views\Orders\ViewOrder.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\ManageUsers.cshtml" />
     <Content Include="Views\Warehouse\StockUpdate.cshtml" />
-    <Content Include="Views\Warehouse\Transfers.cshtml" />
+    <Content Include="Views\Transfer\Transfers.cshtml" />
     <Content Include="Views\Warehouse\WarehouseControl.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\Admin\Reports.cshtml" />
@@ -281,18 +281,16 @@
     <Content Include="Views\Supplier\SupplierUpdate.cshtml" />
     <Content Include="Views\Supplier\SupplierAdd.cshtml" />
     <Content Include="Views\Warehouse\PurchaseRequests.cshtml" />
-    <Content Include="Views\Warehouse\TransferRequests.cshtml" />
+    <Content Include="Views\Transfer\TransferRequests.cshtml" />
     <Content Include="Views\Operator\StockControl.cshtml" />
     <Content Include="Views\Operator\TransferRequestss.cshtml" />
     <Content Include="Views\Purchase\OrderRequests.cshtml" />
     <Content Include="Views\Warehouse\WarehouseSControl.cshtml" />
-    <Content Include="Views\Warehouse\AddTransferRequest.cshtml" />
+    <Content Include="Views\Transfer\AddTransferRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Orders\" />
     <Folder Include="Views\Products\" />
-    <Folder Include="Views\Transfer\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

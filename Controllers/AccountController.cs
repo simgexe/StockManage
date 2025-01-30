@@ -14,7 +14,7 @@ namespace LogiManage.Controllers
         {
             return View();
         }
-        
+
         LogiManageDbEntities1 logidb = new LogiManageDbEntities1();
         // GET: Login
         [HttpGet]
@@ -30,7 +30,7 @@ namespace LogiManage.Controllers
             var user = (from u in logidb.Users
                         where u.Username == Username && u.Userpassword == Userpassword
                         select u).FirstOrDefault();
-            
+
 
             if (user != null)
             {
@@ -38,6 +38,7 @@ namespace LogiManage.Controllers
                 Session["Username"] = user.Username;
                 Session["RoleID"] = user.RoleID;
                 Session["WarehouseID"] = user.WarehouseID;
+                Session["WarehouseName"] = user.Warehouses.WarehouseName;
 
                 switch (user.RoleID)
                 {
@@ -50,7 +51,7 @@ namespace LogiManage.Controllers
                     case 4:
                         return RedirectToAction("Index", "Purchase");
                     default:
-                      
+
                         return View();
                 }
             }
