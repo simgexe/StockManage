@@ -283,11 +283,13 @@
     <Content Include="Views\Warehouse\PurchaseRequests.cshtml" />
     <Content Include="Views\Transfer\TransferRequests.cshtml" />
     <Content Include="Views\Operator\StockControl.cshtml" />
-    <Content Include="Views\Operator\TransferRequestss.cshtml" />
+    <Content Include="Views\Operator\TransferORequest.cshtml" />
     <Content Include="Views\Purchase\OrderRequests.cshtml" />
     <Content Include="Views\Warehouse\WarehouseSControl.cshtml" />
     <Content Include="Views\Transfer\AddTransferRequest.cshtml" />
     <Content Include="Views\Operator\OtherStockControl.cshtml" />
+    <Content Include="Views\Operator\AddTransferORequest.cshtml" />
+    <Content Include="Views\Operator\OTransfers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

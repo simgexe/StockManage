@@ -1,9 +1,9 @@
 ﻿@{
-    ViewBag.Title = "TransferRequests";
-    Layout = "~/Views/Shared/_LayoutWarehouseManager.cshtml";
+    ViewBag.Title = "TransferORequest";
+    Layout = "~/Views/Shared/_LayoutOperator.cshtml";
 }
 
-<h2>TransferRequests</h2>
+<h2>TransferORequests</h2>
 
 @model LogiManage.ViewModels.TransferListViewModel
 
@@ -17,12 +17,13 @@
             <th>Product Name</th>
             <th>Quantity</th>
             <th>Actions</th>
+
         </tr>
     </thead>
     <tbody>
         @foreach (var transfer in Model.TransferRequests)
         {
-           <tr>
+            <tr>
                 <td>@transfer.TransferStatus</td>
                 <td>@transfer.TransferDate</td>
                 <td>@transfer.SourceWarehouseName</td>
@@ -30,25 +31,18 @@
                 <td>@transfer.ProductName</td>
                 <td>@transfer.Quantity</td>
                 <td>
-                    @using (Html.BeginForm("AcceptTransfer", "Transfer", FormMethod.Post))
+                    @using (Html.BeginForm("DeliveredTransfer", "Operator", FormMethod.Post))
                     {
                         @Html.Hidden("transferId", transfer.TransferID)
-                        <button type="submit" class="btn-success">Accept Transfer</button>
+                        <button type="submit" class="btn-success"> Save as Delivered </button>
                     }
                 </td>
-                <td>
-                    @using (Html.BeginForm("RejectTransfer", "Transfer", FormMethod.Post))
-                    {
-                        @Html.Hidden("transferId", transfer.TransferID)
-                        <button type="submit" class="btn btn-danger">Reject Transfer</button>
-                    }
-                </td>
-                
-           </tr>
+            </tr>
         }
     </tbody>
 </table>
 
-@Html.ActionLink("Add Transfer Request", "AddTransferRequest", new { }, new { @class = "btn btn-primary" })
+@Html.ActionLink("Add Transfer Request", "AddTransferORequest", new { }, new { @class = "btn btn-primary" })
+
 
 

@@ -1,9 +1,10 @@
-﻿@{
-    ViewBag.Title = "Transfers";
-    Layout = "~/Views/Shared/_LayoutWarehouseManager.cshtml";
+﻿
+@{
+    ViewBag.Title = "OTransfers";
+    Layout = "~/Views/Shared/_LayoutOperator.cshtml";
 }
 
-<h2>Transfer</h2>
+<h2>OTransfers</h2>
 
 @model LogiManage.ViewModels.TransferListViewModel
 <h3> Diğer depolara giden Transferler</h3>
@@ -16,7 +17,6 @@
             <th>Destination Warehouse</th>
             <th>Product Name</th>
             <th>Quantity</th>
-            <th>Actions</th>
 
         </tr>
     </thead>
@@ -30,14 +30,6 @@
                 <td>@transfer.DestinationWarehouseName</td>
                 <td>@transfer.ProductName</td>
                 <td>@transfer.Quantity</td>
-
-                <td>
-                    @using (Html.BeginForm("CompletedTransfer", "Transfer", FormMethod.Post))
-                    {
-                        @Html.Hidden("transferId", transfer.TransferID)
-                        <button type="submit" class="btn-success">Complete Transfer</button>
-                    }
-                            </td>
             </tr>
         }
     </tbody>

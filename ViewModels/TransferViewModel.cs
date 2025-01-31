@@ -31,7 +31,8 @@ namespace LogiManage.ViewModels
         public List<TransferViewModel> OtherTransfers { get; set; }
 
         public List<TransferViewModel> TransferRequests { get; set; }
+       
 
-        
+
     }
 }
