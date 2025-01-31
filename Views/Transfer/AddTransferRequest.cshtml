@@ -10,11 +10,11 @@
     @using (Html.BeginForm("AddTransferRequest", "Transfer", FormMethod.Post))
     {
         @Html.HiddenFor(m => m.TransferID)
-        @Html.LabelFor(m => m.SourceWarehouseName)
-        @Html.TextBoxFor(m => m.SourceWarehouseName)
+        @Html.LabelFor(m => m.SourceWarehouseID)
+        @Html.DropDownListFor(m => m.SourceWarehouseID,(SelectList)ViewBag.WarehouseList2, "Select Warehouse")
 
-        @Html.LabelFor(m => m.DestinationWarehouseID)
-        @Html.DropDownListFor(m => m.DestinationWarehouseID, (SelectList)ViewBag.WarehouseList2, "Select Warehouse")
+        @Html.LabelFor(m => m.DestinationWarehouseName)
+        @Html.TextBoxFor(m => m.DestinationWarehouseName, new  { @readonly="readonly"})
 
         @Html.LabelFor(m => m.ProductID)
         @Html.TextBoxFor(m => m.ProductID)

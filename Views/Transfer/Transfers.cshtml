@@ -6,7 +6,7 @@
 <h2>Transfer</h2>
 
 @model LogiManage.ViewModels.TransferListViewModel
-
+<h3> Diğer depolara giden Transferler</h3>
 <table border="1">
     <thead>
         <tr>
@@ -34,33 +34,33 @@
     </tbody>
 </table>
 
+<h3>Bizim depoya gelen Transferler</h3>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Transfer Status</th>
+            <th>Transfer Date</th>
+            <th>Source Warehouse</th>
+            <th>Destination Warehouse</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
 
-                <table border="1">
-                    <thead>
-                        <tr>
-                            <th>Transfer Status</th>
-                            <th>Transfer Date</th>
-                            <th>Source Warehouse</th>
-                            <th>Destination Warehouse</th>
-                            <th>Product Name</th>
-                            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transfer in Model.OtherTransfers)
+        {
+            <tr>
+                <td>@transfer.TransferStatus</td>
+                <td>@transfer.TransferDate</td>
+                <td>@transfer.SourceWarehouseName</td>
+                <td>@transfer.DestinationWarehouseName</td>
+                <td>@transfer.ProductName</td>
+                <td>@transfer.Quantity</td>
+            </tr>
+        }
+    </tbody>
+</table>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var transfer in Model.OtherTransfers)
-                        {
-                            <tr>
-                                <td>@transfer.TransferStatus</td>
-                                <td>@transfer.TransferDate</td>
-                                <td>@transfer.SourceWarehouseName</td>
-                                <td>@transfer.DestinationWarehouseName</td>
-                                <td>@transfer.ProductName</td>
-                                <td>@transfer.Quantity</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
- 
 
 

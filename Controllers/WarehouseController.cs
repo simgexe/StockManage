@@ -81,6 +81,27 @@ namespace LogiManage.Controllers
             return RedirectToAction("WarehouseControl", new { warehouseID });
         }
         [HttpGet]
+        public ActionResult WarehouseControl()
+        {
+            var warehouseID = (int?)Session["WarehouseID"];
+            var warehouse = logidb.Warehouses.Where(w => w.WarehouseID == warehouseID);
+
+            var productsInWarehouse = logidb.WarehouseStocks
+                .Where(ws => ws.WarehouseID == warehouseID)
+                .Select(ws => new LogiManage.ViewModels.WarehouseProductViewModel
+                {
+                    ProductID = ws.Products.ProductID,
+                    ProductName = ws.Products.ProductName,
+                    Category = ws.Products.Category,
+                    Price = (int)ws.Products.Price,
+                    Quantity = (int)ws.Quantity,
+                    CriticalStockLevel = (int)ws.Products.CriticalStockLevel
+                }).ToList();
+
+
+            return View(productsInWarehouse);
+        }
+        [HttpGet]
         public ActionResult WarehouseSControl(int? productID)
         {
             var productsInWarehouses = logidb.WarehouseStocks
@@ -102,26 +123,7 @@ namespace LogiManage.Controllers
 
             return View(productsInWarehouses);
         }
-        public ActionResult WarehouseControl()
-        {
-            var warehouseID = (int?)Session["WarehouseID"];
-            var warehouse = logidb.Warehouses.Where(w => w.WarehouseID == warehouseID);
-
-            var productsInWarehouse = logidb.WarehouseStocks
-                .Where(ws => ws.WarehouseID == warehouseID)
-                .Select(ws => new LogiManage.ViewModels.WarehouseProductViewModel
-                {
-                    ProductID = ws.Products.ProductID,
-                    ProductName = ws.Products.ProductName,
-                    Category = ws.Products.Category,
-                    Price = (int)ws.Products.Price,
-                    Quantity = (int)ws.Quantity,
-                    CriticalStockLevel = (int)ws.Products.CriticalStockLevel
-                }).ToList();
-
-
-            return View(productsInWarehouse);
-        }
+        
         // ...
 
        
