@@ -125,13 +125,13 @@ namespace LogiManage.Controllers
             SqlDataReader requestDr = requestcommand.ExecuteReader();
 
             viewModel.TransferRequests = new List<TransferViewModel>();
+
             while (requestDr.Read())
             {
                 viewModel.TransferRequests.Add(ReadTransfer(requestDr));
             }
             requestDr.Close();
-
-            connection.Close();
+         connection.Close();
 
             return View(viewModel);
         }
@@ -211,6 +211,7 @@ namespace LogiManage.Controllers
             connection.Close();
             return View(viewModel);
         }
+        
         public ActionResult AcceptTransfer(int transferid)
         {
             var viewModel = new TransferViewModel();
@@ -223,6 +224,7 @@ namespace LogiManage.Controllers
             connection.Close();
             return RedirectToAction("TransferRequests");
         }
+        
         public ActionResult RejectTransfer(int transferid)
         { 
             var viewModel = new TransferViewModel();
@@ -238,6 +240,7 @@ namespace LogiManage.Controllers
 
 
         }
+        //completed butonu
         public ActionResult CompletedTransfer(TransferViewModel completetransfer,int transferid)
            
         { 
@@ -253,12 +256,23 @@ namespace LogiManage.Controllers
                     command.ExecuteNonQuery();
                 }
 
-                var updateStockQuantity = @"Update WarehouseStocks SET 
-                                            WarehouseStocks.Quantity = WarehouseStocks.Quantity - WarehouseTransfers.Quantity   
+                var updateSourceStockQuantity = @"Update WarehouseStocks SET 
+                                            WarehouseStocks.Quantity = WarehouseStocks.Quantity + WarehouseTransfers.Quantity   
                                             FROM WarehouseStocks 
                                             JOIN WarehouseTransfers ON WarehouseStocks.WarehouseID = WarehouseTransfers.SourceWarehouseID
                                             WHERE WarehouseTransfers.TransferID = @transferid";
-                using (SqlCommand quantityCommand = new SqlCommand(updateStockQuantity, connection))
+                var updateDestinationStockQuantity = @"Update WarehouseStocks SET 
+                                            WarehouseStocks.Quantity = WarehouseStocks.Quantity  WarehouseTransfers.Quantity   
+                                            FROM WarehouseStocks 
+                                            JOIN WarehouseTransfers ON WarehouseStocks.WarehouseID = WarehouseTransfers.DestinationWarehouseID
+                                            WHERE WarehouseTransfers.TransferID = @transferid";
+                using (SqlCommand quantityCommand = new SqlCommand(updateSourceStockQuantity, connection))
+                {
+                    quantityCommand.Parameters.AddWithValue("@warehouseId", (int)Session["WarehouseID"]);
+                    quantityCommand.Parameters.AddWithValue("@transferid", transferid);
+                    quantityCommand.ExecuteNonQuery();
+                }
+                using (SqlCommand quantityCommand = new SqlCommand(updateDestinationStockQuantity, connection))
                 {
                     quantityCommand.Parameters.AddWithValue("@warehouseId", (int)Session["WarehouseID"]);
                     quantityCommand.Parameters.AddWithValue("@transferid", transferid);
@@ -269,7 +283,21 @@ namespace LogiManage.Controllers
             return RedirectToAction("TransferRequests");
            
         }
-        
+        public ActionResult UncompletedTransfer(TransferViewModel uncompletedtransfer, int transferid)
+        {
+            uncompletedtransfer.SourceWarehouseID = (int)Session["WarehouseID"];
+            SqlConnection connection = new SqlConnection("Data Source=RAKUNSY;Initial Catalog=LogiManageDb;Integrated Security=True");
+            var uncomplete = @"Update WarehouseTransfers set TransferStatus = 'Uncompleted' where TransferID = @id";
+            connection.Open();
+            SqlCommand uncompletecommand = new SqlCommand(uncomplete, connection);
+            uncompletecommand.Parameters.AddWithValue("@id", transferid);
+            uncompletecommand.ExecuteNonQuery();
+            connection.Close();
+
+
+            return RedirectToAction("TransferRequests");
+        }
+
 
 
     }

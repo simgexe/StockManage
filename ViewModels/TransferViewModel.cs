@@ -28,11 +28,19 @@ namespace LogiManage.ViewModels
     public class TransferListViewModel
     {
         public List<TransferViewModel> Transfers { get; set; }
-        public List<TransferViewModel> OtherTransfers { get; set; }
+        public List<TransferViewModel> OtherTransfers { get; set; } 
 
-        public List<TransferViewModel> TransferRequests { get; set; }
-       
+        public List<TransferViewModel> TransferRequests { get; set; } 
 
+        public List<TransferViewModel> DeliveredTransfers { get; set; } 
+        public List<TransferViewModel> PreparingTransfers  { get; set; } 
+        public List<TransferViewModel> ORejectedTransfers { get; set; } 
+        public List<TransferViewModel> ORequestedTransfers { get; set; }
 
+        public List<TransferViewModel> RequestedTransfers { get; set; } 
+        public List<TransferViewModel> CompletedTransfers { get; set; } 
+
+        public List<TransferViewModel> UncompletedTransfers { get; set; } 
+        public List<TransferViewModel> transferList     { get; set; }
     }
 }

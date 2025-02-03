@@ -19,7 +19,7 @@
         @Html.TextBoxFor(m => m.DestinationWarehouseName, new { @readonly = "readonly" })
 
         @Html.LabelFor(m => m.ProductID)
-        @Html.TextBoxFor(m => m.ProductID)
+        @Html.DropDownListFor(m => m.ProductID, (SelectList)ViewBag.ProductList, "Select Product")
 
         @Html.LabelFor(m => m.Quantity)
         @Html.TextBoxFor(m => m.Quantity)
@@ -33,6 +33,6 @@
 
 
 
-        <button type="submit" class="btn btn-outline-success">Add </button>
+        <button type="submit" class="btn btn-outline-success">Add </button> 
     }
 </div>

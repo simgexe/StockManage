@@ -11,13 +11,13 @@
     {
         @Html.HiddenFor(m => m.TransferID)
         @Html.LabelFor(m => m.SourceWarehouseID)
-        @Html.DropDownListFor(m => m.SourceWarehouseID,(SelectList)ViewBag.WarehouseList2, "Select Warehouse")
+        @Html.DropDownListFor(m => m.SourceWarehouseID, (SelectList)ViewBag.WarehouseList2, "Select Warehouse")
 
         @Html.LabelFor(m => m.DestinationWarehouseName)
-        @Html.TextBoxFor(m => m.DestinationWarehouseName, new  { @readonly="readonly"})
+        @Html.TextBoxFor(m => m.DestinationWarehouseName, new { @readonly = "readonly" })
 
         @Html.LabelFor(m => m.ProductID)
-        @Html.TextBoxFor(m => m.ProductID)
+        @Html.DropDownListFor(m => m.ProductID, (SelectList)ViewBag.ProductList, "Select Product")
 
         @Html.LabelFor(m => m.Quantity)
         @Html.TextBoxFor(m => m.Quantity)
@@ -29,9 +29,8 @@
         @Html.LabelFor(m => m.TransferStatus)
         @Html.TextBoxFor(m => m.TransferStatus)
 
-       
+
 
         <button type="submit" class="btn btn-outline-success">Add </button>
     }
 </div>
-    

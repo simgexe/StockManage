@@ -5,8 +5,7 @@
 
 <h2>TransferORequests</h2>
 
-@model LogiManage.ViewModels.TransferListViewModel
-
+@model LogiManage.ViewModels.TransferViewModel
 <table border="1">
     <thead>
         <tr>
@@ -18,9 +17,11 @@
             <th>Quantity</th>
             <th>Actions</th>
 
+
         </tr>
     </thead>
     <tbody>
+
         @foreach (var transfer in Model.TransferRequests)
         {
             <tr>
@@ -36,13 +37,114 @@
                         @Html.Hidden("transferId", transfer.TransferID)
                         <button type="submit" class="btn-success"> Save as Delivered </button>
                     }
+
+                </td>
+                <td>
+                    @using (Html.BeginForm("CancelTransfer", "Operator", FormMethod.Post))
+                    {
+                        @Html.Hidden("transferId", transfer.TransferID)
+                        <button type="submit" class="btn-danger"> Cancel Transfer </button>
+                    }
                 </td>
             </tr>
         }
+
     </tbody>
 </table>
+<h3>Preparing Transfer Requests </h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Transfer Status</th>
+                <th>Transfer Date</th>
+                <th>Source Warehouse</th>
+                <th>Destination Warehouse</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Actions</th>
 
-@Html.ActionLink("Add Transfer Request", "AddTransferORequest", new { }, new { @class = "btn btn-primary" })
 
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model?.PreparingTransfers != null)
+            {
+                foreach (var transfer in Model.PreparingTransfers)
+                {
+                    <tr>
+                        <td>@transfer.TransferStatus</td>
+                        <td>@transfer.TransferDate</td>
+                        <td>@transfer.SourceWarehouseName</td>
+                        <td>@transfer.DestinationWarehouseName</td>
+                        <td>@transfer.ProductName</td>
+                        <td>@transfer.Quantity</td>
+                        <td>
+                            @using (Html.BeginForm("SaveDeliveredTransfer", "Operator", FormMethod.Post))
+                            {
+                                @Html.Hidden("transferId", transfer.TransferID)
+                                <button type="submit" class="btn-success"> Save as Delivered </button>
+                            }
+
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("CancelTransfer", "Operator", FormMethod.Post))
+                            {
+                                @Html.Hidden("transferId", transfer.TransferID)
+                                <button type="submit" class="btn-danger"> Cancel Transfer </button>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6"> No preparing transfers found. </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
+    @Html.ActionLink("Add Transfer Request", "AddTransferORequest", new { }, new { @class = "btn btn-primary" })
+
+    <h3>Rejected Operator Transfer Requests </h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Transfer Status</th>
+                <th>Transfer Date</th>
+                <th>Source Warehouse</th>
+                <th>Destination Warehouse</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model?.ORejectedTransfers != null)
+            {
+                foreach (var transfer in Model.ORejectedTransfers)
+                {
+                    <tr>
+                        <td>@transfer.TransferStatus</td>
+                        <td>@transfer.TransferDate</td>
+                        <td>@transfer.SourceWarehouseName</td>
+                        <td>@transfer.DestinationWarehouseName</td>
+                        <td>@transfer.ProductName</td>
+                        <td>@transfer.Quantity</td>
+                    </tr>
+
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6"> No orejected transfers found. </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
 
