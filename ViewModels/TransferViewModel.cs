@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.Xml;
 using System.Web;
+using System.Web.UI.WebControls;
 using LogiManage.Models;
 
 namespace LogiManage.ViewModels
@@ -32,15 +33,6 @@ namespace LogiManage.ViewModels
 
         public List<TransferViewModel> TransferRequests { get; set; } 
 
-        public List<TransferViewModel> DeliveredTransfers { get; set; } 
-        public List<TransferViewModel> PreparingTransfers  { get; set; } 
-        public List<TransferViewModel> ORejectedTransfers { get; set; } 
-        public List<TransferViewModel> ORequestedTransfers { get; set; }
-
-        public List<TransferViewModel> RequestedTransfers { get; set; } 
-        public List<TransferViewModel> CompletedTransfers { get; set; } 
-
-        public List<TransferViewModel> UncompletedTransfers { get; set; } 
-        public List<TransferViewModel> transferList     { get; set; }
+   
     }
 }

@@ -16,9 +16,34 @@ namespace LogiManage.Controllers
         LogiManageDbEntities1 logidb = new LogiManageDbEntities1();
 
         // GET: Transfer
+        public List<TransferViewModel> GetTransfers()
+        {
+            var warehouseId = 0;
+            if (int.TryParse(Session["WarehouseID"].ToString(), out int warehouseIdKontrol))
+                warehouseId = warehouseIdKontrol;
+
+            var transferList = from wt in logidb.WarehouseTransfers
+                               join p in logidb.Products on wt.ProductID equals p.ProductID
+                               join sw in logidb.Warehouses on wt.SourceWarehouseID equals sw.WarehouseID
+                               join dw in logidb.Warehouses on wt.DestinationWarehouseID equals dw.WarehouseID
+                               select new TransferViewModel
+                               {
+                                   TransferID = wt.TransferID,
+                                   SourceWarehouseID = sw.WarehouseID,
+                                   DestinationWarehouseID = dw.WarehouseID,
+                                   ProductID = wt.ProductID ?? 0,
+                                   Quantity = wt.Quantity ?? 0,
+                                   TransferDate = wt.TransferDate ?? DateTime.Now,
+                                   TransferStatus = wt.TransferStatus,
+                                   ProductName = p.ProductName,
+                                   SourceWarehouseName = sw.WarehouseName,
+                                   DestinationWarehouseName = dw.WarehouseName
+                               };
+            return transferList.ToList();
+        }
         public ActionResult Transfers()
         {
-            var viewModel = new TransferListViewModel();
+           /* var viewModel = new TransferListViewModel();
             SqlConnection connection = new SqlConnection("Data Source=RAKUNSY;Initial Catalog=LogiManageDb;Integrated Security=True");
 
             // Giden transferler için sorgu
@@ -80,60 +105,12 @@ namespace LogiManage.Controllers
 
             connection.Close();
 
-            return View(viewModel);
+            return View(viewModel);*/
+           return View(GetTransfers());
         }
-
-        private TransferViewModel ReadTransfer(SqlDataReader dr)
-        {
-            return new TransferViewModel
-            {
-                TransferID = (int)dr["TransferID"],
-                TransferDate = (DateTime)dr["TransferDate"],
-                TransferStatus = (string)dr["TransferStatus"],
-                SourceWarehouseID = (int)dr["SourceWarehouseID"],
-                SourceWarehouseName = (string)dr["SourceWarehouseName"],
-                DestinationWarehouseID = (int)dr["DestinationWarehouseID"],
-                DestinationWarehouseName = (string)dr["DestinationWarehouseName"],
-                ProductID = (int)dr["ProductID"],
-                ProductName = (string)dr["ProductName"],
-                Quantity = (int)dr["Quantity"]
-            };
-        }
-
         public ActionResult TransferRequests()
         {
-            var viewModel = new TransferListViewModel();
-            SqlConnection connection = new SqlConnection("Data Source=RAKUNSY;Initial Catalog=LogiManageDb;Integrated Security=True");
-            var request = @"Select wt.TransferID,
-                                            wt.TransferDate,
-                                            wt.TransferStatus,
-                                            wt.SourceWarehouseID,
-                                            sw.WarehouseName as SourceWarehouseName,
-                                            wt.DestinationWarehouseID,
-                                            dw.WarehouseName as DestinationWarehouseName,
-                                            wt.ProductID,
-                                            p.ProductName,
-                                            wt.Quantity
-                                    from WarehouseTransfers wt 
-                                    join Warehouses sw on wt.SourceWarehouseID = sw.WarehouseID
-                                    join Warehouses dw on wt.DestinationWarehouseID = dw.WarehouseID
-                                    join Products p on wt.ProductID = p.ProductID
-                                    where wt.TransferStatus ='Requested' and wt.SourceWarehouseID = @warehouseID";
-            connection.Open();
-            SqlCommand requestcommand = new SqlCommand(request, connection);
-            requestcommand.Parameters.AddWithValue("@warehouseId", (int)Session["WarehouseID"]);
-            SqlDataReader requestDr = requestcommand.ExecuteReader();
-
-            viewModel.TransferRequests = new List<TransferViewModel>();
-
-            while (requestDr.Read())
-            {
-                viewModel.TransferRequests.Add(ReadTransfer(requestDr));
-            }
-            requestDr.Close();
-         connection.Close();
-
-            return View(viewModel);
+            return View(GetTransfers());
         }
         [HttpGet]
         public ActionResult AddTransferRequest()
@@ -170,81 +147,36 @@ namespace LogiManage.Controllers
             }
             return RedirectToAction("TransferRequests");
         }
-        public ActionResult ActionResult(int transferid)
+        
+        
+    
+        
+    // ------------------BUTONLAR-----------------------------------------------------------------
+        public ActionResult AcceptO(int transferid)
         {
-
-            var viewModel = new TransferViewModel();
-            SqlConnection connection = new SqlConnection("Data Source=RAKUNSY;Initial Catalog=LogiManageDb;Integrated Security=True");
-            var request = @"Select wt.TransferID,
-                                            wt.TransferDate,
-                                            wt.TransferStatus,
-                                            wt.SourceWarehouseID,
-                                            sw.WarehouseName as SourceWarehouseName,
-                                            wt.DestinationWarehouseID,
-                                            dw.WarehouseName as DestinationWarehouseName,
-                                            wt.ProductID,
-                                            p.ProductName,
-                                            wt.Quantity
-                                    from WarehouseTransfers wt 
-                                    join Warehouses sw on wt.SourceWarehouseID = sw.WarehouseID
-                                    join Warehouses dw on wt.DestinationWarehouseID = dw.WarehouseID
-                                    join Products p on wt.ProductID = p.ProductID
-                                    where wt.TransferID = @id";
-            connection.Open();
-            SqlCommand requestcommand = new SqlCommand(request, connection);
-            requestcommand.Parameters.AddWithValue("@id", transferid);
-            SqlDataReader requestDr = requestcommand.ExecuteReader();
-            while (requestDr.Read())
+            var transfer = logidb.WarehouseTransfers.FirstOrDefault(t => t.TransferID == transferid);
+            if (transfer != null && transfer.TransferStatus == "ORequested")
             {
-                viewModel.TransferID = (int)requestDr["TransferID"];
-                viewModel.TransferDate = (DateTime)requestDr["TransferDate"];
-                viewModel.TransferStatus = (string)requestDr["TransferStatus"];
-                viewModel.SourceWarehouseID = (int)requestDr["SourceWarehouseID"];
-                viewModel.SourceWarehouseName = (string)requestDr["SourceWarehouseName"];
-                viewModel.DestinationWarehouseID = (int)requestDr["DestinationWarehouseID"];
-                viewModel.DestinationWarehouseName = (string)requestDr["DestinationWarehouseName"];
-                viewModel.ProductID = (int)requestDr["ProductID"];
-                viewModel.ProductName = (string)requestDr["ProductName"];
-                viewModel.Quantity = (int)requestDr["Quantity"];
+                transfer.TransferStatus = "Requested";
+                logidb.SaveChanges();
             }
-            requestDr.Close();
-            connection.Close();
-            return View(viewModel);
-        }
-        
-        public ActionResult AcceptTransfer(int transferid)
-        {
-            var viewModel = new TransferViewModel();
-            SqlConnection connection = new SqlConnection("Data Source=RAKUNSY;Initial Catalog=LogiManageDb;Integrated Security=True");
-            var request = @"Update WarehouseTransfers set TransferStatus = 'Preparing' where TransferID = @id";
-            connection.Open();
-            SqlCommand requestcommand = new SqlCommand(request, connection);
-            requestcommand.Parameters.AddWithValue("@id", transferid);
-            requestcommand.ExecuteNonQuery();
-            connection.Close();
             return RedirectToAction("TransferRequests");
-        }
-        
-        public ActionResult RejectTransfer(int transferid)
-        { 
-            var viewModel = new TransferViewModel();
-            SqlConnection connection = new SqlConnection(
-                "Data Source=RAKUNSY;Initial Catalog=LogiManageDb;Integrated Security=True");
-            var request = @"Update WarehouseTransfers set TransferStatus = 'Rejected' where TransferID = @id";
-            connection.Open();
-            SqlCommand requestcommand = new SqlCommand(request, connection);
-            requestcommand.Parameters.AddWithValue("@id", transferid);
-            requestcommand.ExecuteNonQuery();
-            connection.Close();
-            return View(viewModel);
+        }  //Requested yapmak için operatörden gelen istekleri
 
+        public ActionResult RejectO(int transferid)
+        {
+            var transfer = logidb.WarehouseTransfers.FirstOrDefault(t => t.TransferID == transferid);
+            if (transfer != null && transfer.TransferStatus == "ORequested")
+            {
+                transfer.TransferStatus = "ORejected";
+                logidb.SaveChanges();
+            }
+            return RedirectToAction("TransferRequests");
+        }  //ORejected yapmak için
 
-        }
-        //completed butonu
-        public ActionResult CompletedTransfer(TransferViewModel completetransfer,int transferid)
-           
-        { 
-            completetransfer.SourceWarehouseID = (int) Session["WarehouseID"];
+        public ActionResult Completed(TransferViewModel completetransfer, int transferId)
+        {
+            completetransfer.SourceWarehouseID = (int)Session["WarehouseID"];
             using (SqlConnection connection = new SqlConnection("Data Source=RAKUNSY;Initial Catalog=LogiManageDb;Integrated Security=True"))
             {
                 connection.Open();
@@ -252,7 +184,7 @@ namespace LogiManage.Controllers
                 var updateTransferStatus = @"Update WarehouseTransfers set TransferStatus = 'Completed' where TransferID = @id";
                 using (SqlCommand command = new SqlCommand(updateTransferStatus, connection))
                 {
-                    command.Parameters.AddWithValue("@id", transferid);
+                    command.Parameters.AddWithValue("@id", transferId);
                     command.ExecuteNonQuery();
                 }
 
@@ -262,43 +194,54 @@ namespace LogiManage.Controllers
                                             JOIN WarehouseTransfers ON WarehouseStocks.WarehouseID = WarehouseTransfers.SourceWarehouseID
                                             WHERE WarehouseTransfers.TransferID = @transferid";
                 var updateDestinationStockQuantity = @"Update WarehouseStocks SET 
-                                            WarehouseStocks.Quantity = WarehouseStocks.Quantity  WarehouseTransfers.Quantity   
+                                            WarehouseStocks.Quantity = WarehouseStocks.Quantity-WarehouseTransfers.Quantity   
                                             FROM WarehouseStocks 
                                             JOIN WarehouseTransfers ON WarehouseStocks.WarehouseID = WarehouseTransfers.DestinationWarehouseID
                                             WHERE WarehouseTransfers.TransferID = @transferid";
                 using (SqlCommand quantityCommand = new SqlCommand(updateSourceStockQuantity, connection))
                 {
                     quantityCommand.Parameters.AddWithValue("@warehouseId", (int)Session["WarehouseID"]);
-                    quantityCommand.Parameters.AddWithValue("@transferid", transferid);
+                    quantityCommand.Parameters.AddWithValue("@transferid", transferId);
                     quantityCommand.ExecuteNonQuery();
                 }
                 using (SqlCommand quantityCommand = new SqlCommand(updateDestinationStockQuantity, connection))
                 {
                     quantityCommand.Parameters.AddWithValue("@warehouseId", (int)Session["WarehouseID"]);
-                    quantityCommand.Parameters.AddWithValue("@transferid", transferid);
+                    quantityCommand.Parameters.AddWithValue("@transferid", transferId);
                     quantityCommand.ExecuteNonQuery();
                 }
                 connection.Close();
             }
             return RedirectToAction("TransferRequests");
-           
-        }
-        public ActionResult UncompletedTransfer(TransferViewModel uncompletedtransfer, int transferid)
+        }  //Completed yapmak için. quantityde arttırma azaltma işlemleri
+        public ActionResult Uncompleted(int transferId)
         {
-            uncompletedtransfer.SourceWarehouseID = (int)Session["WarehouseID"];
-            SqlConnection connection = new SqlConnection("Data Source=RAKUNSY;Initial Catalog=LogiManageDb;Integrated Security=True");
-            var uncomplete = @"Update WarehouseTransfers set TransferStatus = 'Uncompleted' where TransferID = @id";
-            connection.Open();
-            SqlCommand uncompletecommand = new SqlCommand(uncomplete, connection);
-            uncompletecommand.Parameters.AddWithValue("@id", transferid);
-            uncompletecommand.ExecuteNonQuery();
-            connection.Close();
-
-
+            var transfer = logidb.WarehouseTransfers.FirstOrDefault(t => t.TransferID == transferId);
+            if (transfer != null && transfer.TransferStatus == "Delivered")
+            {
+                transfer.TransferStatus = "Uncompleted";
+                logidb.SaveChanges();
+            }
             return RedirectToAction("TransferRequests");
         }
-
-
-
-    }
-}
+        public ActionResult Accept(int transferId)
+        {
+            var transfer = logidb.WarehouseTransfers.FirstOrDefault(t => t.TransferID == transferId);
+            if (transfer != null && transfer.TransferStatus == "Requested")
+            {
+                transfer.TransferStatus = "Preparing";
+                logidb.SaveChanges();
+            }
+            return RedirectToAction("TransferRequests");
+        }  //Preparing yapmak için baska warehousetan gelen istekleri
+        public ActionResult Reject(int transferId)
+        {
+            var transfer = logidb.WarehouseTransfers.FirstOrDefault(t => t.TransferID == transferId);
+            if (transfer != null && transfer.TransferStatus == "ORequested")
+            {
+                transfer.TransferStatus = "Rejected";
+                logidb.SaveChanges();
+            }
+            return RedirectToAction("TransferRequests");
+        }  //Rejected yapmak için
+    } }

@@ -5,7 +5,10 @@
 
 <h2>TransferRequests</h2>
 
-@model LogiManage.ViewModels.TransferListViewModel
+@model List<LogiManage.ViewModels.TransferViewModel>
+@{
+    var warehouseId = (int)Session["WarehouseID"];
+}
 
 <table border="1">
     <thead>
@@ -20,9 +23,9 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var transfer in Model.TransferRequests)
+        @foreach (var transfer in Model.Where(x => x.TransferStatus == "ORequested" && x.DestinationWarehouseID == @warehouseId))
         {
-           <tr>
+            <tr>
                 <td>@transfer.TransferStatus</td>
                 <td>@transfer.TransferDate</td>
                 <td>@transfer.SourceWarehouseName</td>
@@ -30,25 +33,108 @@
                 <td>@transfer.ProductName</td>
                 <td>@transfer.Quantity</td>
                 <td>
-                    @using (Html.BeginForm("AcceptTransfer", "Transfer", FormMethod.Post))
+                    @using (Html.BeginForm("AcceptO", "Transfer", FormMethod.Post))
                     {
                         @Html.Hidden("transferId", transfer.TransferID)
                         <button type="submit" class="btn-btn-success">Accept Transfer</button>
                     }
                 </td>
                 <td>
-                    @using (Html.BeginForm("RejectTransfer", "Transfer", FormMethod.Post))
+                    @using (Html.BeginForm("RejectO", "Transfer", FormMethod.Post))
                     {
                         @Html.Hidden("transferId", transfer.TransferID)
                         <button type="submit" class="btn btn-danger">Reject Transfer</button>
                     }
                 </td>
-                
-           </tr>
+
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<table border="1">
+    <thead>
+        <tr>
+            <th>Transfer Status</th>
+            <th>Transfer Date</th>
+            <th>Source Warehouse</th>
+            <th>Destination Warehouse</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transfer in Model.Where(x => x.TransferStatus == "Delivered" && x.DestinationWarehouseID == @warehouseId))
+        {
+            <tr>
+                <td>@transfer.TransferStatus</td>
+                <td>@transfer.TransferDate</td>
+                <td>@transfer.SourceWarehouseName</td>
+                <td>@transfer.DestinationWarehouseName</td>
+                <td>@transfer.ProductName</td>
+                <td>@transfer.Quantity</td>
+                <td>
+                    @using (Html.BeginForm("Completed", "Transfer", FormMethod.Post))
+                    {
+                        @Html.Hidden("transferId", transfer.TransferID)
+                        <button type="submit" class="btn-btn-success">Complete</button>
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("Uncompleted", "Transfer", FormMethod.Post))
+                    {
+                        @Html.Hidden("transferId", transfer.TransferID)
+                        <button type="submit" class="btn btn-danger">Uncomplete</button>
+                    }
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<table border="1">
+    <thead>
+        <tr>
+            <th>Transfer Status</th>
+            <th>Transfer Date</th>
+            <th>Source Warehouse</th>
+            <th>Destination Warehouse</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transfer in Model.Where(x => x.TransferStatus == "Requested" && x.SourceWarehouseID == @warehouseId))
+        {
+            <tr>
+                <td>@transfer.TransferStatus</td>
+                <td>@transfer.TransferDate</td>
+                <td>@transfer.SourceWarehouseName</td>
+                <td>@transfer.DestinationWarehouseName</td>
+                <td>@transfer.ProductName</td>
+                <td>@transfer.Quantity</td>
+                <td>
+                    @using (Html.BeginForm("Accept", "Transfer", FormMethod.Post))
+                    {
+                        @Html.Hidden("transferId", transfer.TransferID)
+                        <button type="submit" class="btn-btn-success">Accept</button>
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("Reject", "Transfer", FormMethod.Post))
+                    {
+                        @Html.Hidden("transferId", transfer.TransferID)
+                        <button type="submit" class="btn btn-danger">Reject </button>
+                    }
+                </td>
+
+            </tr>
         }
     </tbody>
 </table>
 
-@Html.ActionLink("Add Transfer Request", "AddTransferRequest", new { }, new { @class = "btn btn-primary" })
 
 

@@ -5,46 +5,14 @@
 
 <h2>Transfer</h2>
 
-@model LogiManage.ViewModels.TransferListViewModel
-<br />
+@model List<LogiManage.ViewModels.TransferViewModel>
 
-<h3> Operator Transfer Requests </h3>
-<table border="1">
-    <thead>
-        <tr>
-            <th>Transfer Status</th>
-            <th>Transfer Date</th>
-            <th>Source Warehouse</th>
-            <th>Destination Warehouse</th>
-            <th>Product Name</th>
-            <th>Quantity</th>
+@{
+    var warehouseId = (int)Session["WarehouseID"];
+}
+<h2> Operator Transfer Requests </h2>
 
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model?.ORequestedTransfers != null && Model.ORequestedTransfers.Any()) {
-            foreach (var transfer in Model.ORequestedTransfers)
-            {
-                <tr>
-                    <td>@transfer.TransferStatus</td>
-                    <td>@transfer.TransferDate</td>
-                    <td>@transfer.SourceWarehouseName</td>
-                    <td>@transfer.DestinationWarehouseName</td>
-                    <td>@transfer.ProductName</td>
-                    <td>@transfer.Quantity</td>
-                </tr>
-
-            } }
-        else
-        {
-        <tr>
-            <td colspan = "6" > No delivered transfers found. </td>
-        </tr>
-        }
-    </tbody>
-</table>
-<br />
-<h3> Delivered Transfers</h3>
+<h3> Requested Transfers</h3>
 <table border="1">
     <thead>
         <tr>
@@ -55,37 +23,36 @@
             <th>Product Name</th>
             <th>Quantity</th>
             <th>Actions</th>
-
         </tr>
     </thead>
     <tbody>
-        @if (Model?.DeliveredTransfers != null && Model.DeliveredTransfers.Any())
+        @if (Model != null && Model.Any())
         {
-            foreach (var transfer in Model.DeliveredTransfers)
+            foreach (var transfer in Model.Where(x => x.TransferStatus == "Requested" && x.DestinationWarehouseID == @warehouseId))
             {
                 <tr>
-                    <td>@transfer.TransferStatus</td>
-                    <td>@transfer.TransferDate</td>
-                    <td>@transfer.SourceWarehouseName</td>
-                    <td>@transfer.DestinationWarehouseName</td>
-                    <td>@transfer.ProductName</td>
-                    <td>@transfer.Quantity</td>
-
-
+                    <td>@Html.DisplayFor(modelItem => transfer.TransferStatus)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.TransferDate)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.SourceWarehouseName)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.DestinationWarehouseName)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.ProductName)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.Quantity)</td>
                 </tr>
             }
         }
         else
         {
-        <tr>
-            <td colspan="6"> No delivered transfers found. </td>
-        </tr>
+            <tr>
+                <td colspan="7">No delivered transfers found.</td>
+            </tr>
         }
+
+
     </tbody>
 </table>
 <br />
 
-<h3> Completed Transfers</h3>
+<h3> Completed Transfers </h3>
 <table border="1">
     <thead>
         <tr>
@@ -96,31 +63,101 @@
             <th>Product Name</th>
             <th>Quantity</th>
             <th>Actions</th>
-
         </tr>
     </thead>
     <tbody>
-        @if(Model?.CompletedTransfers != null && Model.CompletedTransfers.Any())
+        @if (Model != null && Model.Any())
         {
-        foreach (var transfer in Model.CompletedTransfers)
-        {
-            <tr>
-                <td>@transfer.TransferStatus</td>
-                <td>@transfer.TransferDate</td>
-                <td>@transfer.SourceWarehouseName</td>
-                <td>@transfer.DestinationWarehouseName</td>
-                <td>@transfer.ProductName</td>
-                <td>@transfer.Quantity</td>
-
-
-            </tr>
-        }  
+            foreach (var transfer in Model.Where(x => x.TransferStatus == "Completed" && x.SourceWarehouseID == @warehouseId))
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => transfer.TransferStatus)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.TransferDate)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.SourceWarehouseName)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.DestinationWarehouseName)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.ProductName)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.Quantity)</td>
+                </tr>
+            }
         }
         else
         {
+            <tr>
+                <td colspan="7">No completed transfers found.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+
+<h3>Rejected Transfers </h3>
+<table border="1">
+    <thead>
         <tr>
-            <td colspan="6"> No completed transfers found. </td>
+            <th>Transfer Status</th>
+            <th>Transfer Date</th>
+            <th>Source Warehouse</th>
+            <th>Destination Warehouse</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
         </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var transfer in Model.Where(x => x.TransferStatus == "Rejected" && x.DestinationWarehouseID == @warehouseId))
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => transfer.TransferStatus)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.TransferDate)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.SourceWarehouseName)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.DestinationWarehouseName)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.ProductName)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.Quantity)</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7">No uncompleted transfers found.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<h3>Preparing Transfers</h3>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Transfer Status</th>
+            <th>Transfer Date</th>
+            <th>Source Warehouse</th>
+            <th>Destination Warehouse</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var transfer in Model.Where(x => x.TransferStatus == "Preparing" && x.DestinationWarehouseID == @warehouseId))
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => transfer.TransferStatus)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.TransferDate)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.SourceWarehouseName)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.DestinationWarehouseName)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.ProductName)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.Quantity)</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7">No preparing transfers found.</td>
+            </tr>
         }
     </tbody>
 </table>
@@ -136,72 +173,31 @@
             <th>Destination Warehouse</th>
             <th>Product Name</th>
             <th>Quantity</th>
-
         </tr>
     </thead>
     <tbody>
-        @if (Model?.UncompletedTransfers != null && Model.UncompletedTransfers.Any())
+        @if (Model != null && Model.Any())
         {
-            foreach (var transfer in Model.UncompletedTransfers)
-            {
-            <tr>
-                <td>@transfer.TransferStatus</td>
-                <td>@transfer.TransferDate</td>
-                <td>@transfer.SourceWarehouseName</td>
-                <td>@transfer.DestinationWarehouseName</td>
-                <td>@transfer.ProductName</td>
-                <td>@transfer.Quantity</td>
-            </tr>
-
-            } }
-        else
-        {
-        <tr>
-            <td colspan = "6" > No uncompleted transfers found. </td >
-        </tr>
-        }
-    </tbody>
-</table>
-<br />
-
-<h3>Requested Transfers</h3>
-<table border="1">
-    <thead>
-        <tr>
-            <th>Transfer Status</th>
-            <th>Transfer Date</th>
-            <th>Source Warehouse</th>
-            <th>Destination Warehouse</th>
-            <th>Product Name</th>
-            <th>Quantity</th>
-
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model?.RequestedTransfers != null && Model.RequestedTransfers.Any())
-        {
-            foreach (var transfer in Model.RequestedTransfers)
+            foreach (var transfer in Model.Where(x => x.TransferStatus == "Uncompleted" && x.DestinationWarehouseID == @warehouseId))
             {
                 <tr>
-                    <td>@transfer.TransferStatus</td>
-                    <td>@transfer.TransferDate</td>
-                    <td>@transfer.SourceWarehouseName</td>
-                    <td>@transfer.DestinationWarehouseName</td>
-                    <td>@transfer.ProductName</td>
-                    <td>@transfer.Quantity</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.TransferStatus)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.TransferDate)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.SourceWarehouseName)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.DestinationWarehouseName)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.ProductName)</td>
+                    <td>@Html.DisplayFor(modelItem => transfer.Quantity)</td>
                 </tr>
-
             }
         }
         else
         {
-        <tr>
-            <td colspan="6"> No requested transfers found. </td>
-        </tr>
+            <tr>
+                <td colspan="7">No uncompleted transfers found.</td>
+            </tr>
         }
     </tbody>
 </table>
-
 
 
 
