@@ -178,12 +178,27 @@ namespace LogiManage.Controllers
         
 
 
-        public ActionResult PurchaseRequests()
+        public List<OrderRequestViewModel> GetOrderRequests()
         {
-            
-            return View();
+            var orderRequestslist = from or in logidb.OrderRequests
+                                    join p in logidb.Products on or.ProductID equals p.ProductID
+                                    join w in logidb.Warehouses on or.WarehouseID equals w.WarehouseID
+                                    select new OrderRequestViewModel
+                                    {
+                                        OrderRequestID = or.OrderRequestID,
+                                        OrderRequestStatus = or.OrderRequestStatus,
+                                        ProductID= p.ProductID,
+                                        ProductName=p.ProductName,
+                                        WarehouseID=w.WarehouseID,
+                                        WarehouseName=w.WarehouseName,
+                                        RequestQuantity=or.RequestQuantity,
+                                        OrderRequestDate=or.OrderRequestDate ??DateTime.Now,
+
+                                    };
+            return orderRequestslist.ToList();
         }
-        
+        public ActionResult PurchaseRequests() { return View( GetOrderRequests()); }
+
 
     }
 }
