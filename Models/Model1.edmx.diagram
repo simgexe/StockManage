@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e64815865e0b46bab3445735d5abea5d" Name="Diagram1">
+      <Diagram DiagramId="e64815865e0b46bab3445735d5abea5d" Name="Diagram1" ZoomLevel="125">
         <EntityTypeShape EntityType="LogiManageDbModel.OrderDetails" Width="1.5" PointX="8.25" PointY="7.375" IsExpanded="true" />
         <EntityTypeShape EntityType="LogiManageDbModel.Orders" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
         <EntityTypeShape EntityType="LogiManageDbModel.Products" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
@@ -27,6 +27,9 @@
         <AssociationConnector Association="LogiManageDbModel.FK_WarehouseStocks_Warehouses" ManuallyRouted="false" />
         <AssociationConnector Association="LogiManageDbModel.FK_WarehousTransfers_Warehouses" ManuallyRouted="false" />
         <AssociationConnector Association="LogiManageDbModel.FK_WarehousTransfers_Warehouses1" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LogiManageDbModel.OrderRequests" Width="1.5" PointX="8" PointY="3.375" />
+        <AssociationConnector Association="LogiManageDbModel.FK_OrderRequests_Products1" />
+        <AssociationConnector Association="LogiManageDbModel.FK_OrderRequests_Warehouses" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

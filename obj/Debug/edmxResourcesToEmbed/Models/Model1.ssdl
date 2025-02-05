@@ -10,6 +10,17 @@
     <Property Name="Quantity" Type="float" />
     <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" />
   </EntityType>
+  <EntityType Name="OrderRequests">
+    <Key>
+      <PropertyRef Name="OrderRequestID" />
+    </Key>
+    <Property Name="OrderRequestID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WarehouseID" Type="int" />
+    <Property Name="ProductID" Type="int" />
+    <Property Name="RequestQuantity" Type="int" Nullable="false" />
+    <Property Name="OrderRequestDate" Type="datetime" />
+    <Property Name="OrderRequestStatus" Type="nvarchar" MaxLength="20" />
+  </EntityType>
   <EntityType Name="Orders">
     <Key>
       <PropertyRef Name="OrderID" />
@@ -49,6 +60,7 @@
     <Property Name="SupplierPhone" Type="nvarchar" MaxLength="20" />
     <Property Name="SupplierMail" Type="nvarchar" MaxLength="100" />
     <Property Name="SupplierAddress" Type="nvarchar" MaxLength="255" />
+    <Property Name="SupplierCategory" Type="nvarchar" MaxLength="60" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -124,6 +136,30 @@
       </Principal>
       <Dependent Role="OrderDetails">
         <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderRequests_Products1">
+    <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+    <End Role="OrderRequests" Type="Self.OrderRequests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="OrderRequests">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderRequests_Warehouses">
+    <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="0..1" />
+    <End Role="OrderRequests" Type="Self.OrderRequests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Warehouses">
+        <PropertyRef Name="WarehouseID" />
+      </Principal>
+      <Dependent Role="OrderRequests">
+        <PropertyRef Name="WarehouseID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -249,6 +285,7 @@
   </Association>
   <EntityContainer Name="LogiManageDbModelStoreContainer">
     <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderRequests" EntityType="Self.OrderRequests" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
@@ -265,6 +302,14 @@
     <AssociationSet Name="FK_OrderDetails_Products" Association="Self.FK_OrderDetails_Products">
       <End Role="Products" EntitySet="Products" />
       <End Role="OrderDetails" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderRequests_Products1" Association="Self.FK_OrderRequests_Products1">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="OrderRequests" EntitySet="OrderRequests" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderRequests_Warehouses" Association="Self.FK_OrderRequests_Warehouses">
+      <End Role="Warehouses" EntitySet="Warehouses" />
+      <End Role="OrderRequests" EntitySet="OrderRequests" />
     </AssociationSet>
     <AssociationSet Name="FK_Orders_Suppliers" Association="Self.FK_Orders_Suppliers">
       <End Role="Suppliers" EntitySet="Suppliers" />

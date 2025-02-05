@@ -114,6 +114,13 @@
                     <td>@Html.DisplayFor(modelItem => transfer.DestinationWarehouseName)</td>
                     <td>@Html.DisplayFor(modelItem => transfer.ProductName)</td>
                     <td>@Html.DisplayFor(modelItem => transfer.Quantity)</td>
+                    <td>
+                        @using (Html.BeginForm("AddOrderRequest", "Warehouse", FormMethod.Post))
+                        {
+                           
+                            <button type="submit" class="btn-outline-info">Order Request</button>
+                        }
+                    </td>
                 </tr>
             }
         }

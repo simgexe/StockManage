@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LogiManageDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LogiManageDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="OrderDetails">
           <Key>
             <PropertyRef Name="OrderDetailID" />
@@ -14,6 +14,17 @@
           <Property Name="ProductID" Type="int" />
           <Property Name="Quantity" Type="float" />
           <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="OrderRequests">
+          <Key>
+            <PropertyRef Name="OrderRequestID" />
+          </Key>
+          <Property Name="OrderRequestID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WarehouseID" Type="int" />
+          <Property Name="ProductID" Type="int" />
+          <Property Name="RequestQuantity" Type="int" Nullable="false" />
+          <Property Name="OrderRequestDate" Type="datetime" />
+          <Property Name="OrderRequestStatus" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -54,6 +65,7 @@
           <Property Name="SupplierPhone" Type="nvarchar" MaxLength="20" />
           <Property Name="SupplierMail" Type="nvarchar" MaxLength="100" />
           <Property Name="SupplierAddress" Type="nvarchar" MaxLength="255" />
+          <Property Name="SupplierCategory" Type="nvarchar" MaxLength="60" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -129,6 +141,30 @@
             </Principal>
             <Dependent Role="OrderDetails">
               <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderRequests_Products1">
+          <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+          <End Role="OrderRequests" Type="Self.OrderRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="OrderRequests">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderRequests_Warehouses">
+          <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="0..1" />
+          <End Role="OrderRequests" Type="Self.OrderRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouses">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="OrderRequests">
+              <PropertyRef Name="WarehouseID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -254,6 +290,7 @@
         </Association>
         <EntityContainer Name="LogiManageDbModelStoreContainer">
           <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderRequests" EntityType="Self.OrderRequests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
@@ -270,6 +307,14 @@
           <AssociationSet Name="FK_OrderDetails_Products" Association="Self.FK_OrderDetails_Products">
             <End Role="Products" EntitySet="Products" />
             <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderRequests_Products1" Association="Self.FK_OrderRequests_Products1">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="OrderRequests" EntitySet="OrderRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderRequests_Warehouses" Association="Self.FK_OrderRequests_Warehouses">
+            <End Role="Warehouses" EntitySet="Warehouses" />
+            <End Role="OrderRequests" EntitySet="OrderRequests" />
           </AssociationSet>
           <AssociationSet Name="FK_Orders_Suppliers" Association="Self.FK_Orders_Suppliers">
             <End Role="Suppliers" EntitySet="Suppliers" />
@@ -312,8 +357,7 @@
             <End Role="WarehouseTransfers" EntitySet="WarehouseTransfers" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LogiManageDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -357,6 +401,7 @@
           <NavigationProperty Name="Suppliers" Relationship="Self.FK_Products_Suppliers" FromRole="Products" ToRole="Suppliers" />
           <NavigationProperty Name="WarehouseStocks" Relationship="Self.FK_WarehouseStocks_Products" FromRole="Products" ToRole="WarehouseStocks" />
           <NavigationProperty Name="WarehouseTransfers" Relationship="Self.FK_WarehousTransfers_Products" FromRole="Products" ToRole="WarehouseTransfers" />
+          <NavigationProperty Name="OrderRequests" Relationship="LogiManageDbModel.FK_OrderRequests_Products1" FromRole="Products" ToRole="OrderRequests" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -378,6 +423,7 @@
           <Property Name="SupplierAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Suppliers" FromRole="Suppliers" ToRole="Orders" />
           <NavigationProperty Name="Products" Relationship="Self.FK_Products_Suppliers" FromRole="Suppliers" ToRole="Products" />
+          <Property Name="SupplierCategory" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -417,6 +463,7 @@
           <NavigationProperty Name="WarehouseStocks" Relationship="Self.FK_WarehouseStocks_Warehouses" FromRole="Warehouses" ToRole="WarehouseStocks" />
           <NavigationProperty Name="WarehouseTransfers" Relationship="Self.FK_WarehousTransfers_Warehouses" FromRole="Warehouses" ToRole="WarehouseTransfers" />
           <NavigationProperty Name="WarehouseTransfers1" Relationship="Self.FK_WarehousTransfers_Warehouses1" FromRole="Warehouses" ToRole="WarehouseTransfers" />
+          <NavigationProperty Name="OrderRequests" Relationship="LogiManageDbModel.FK_OrderRequests_Warehouses" FromRole="Warehouses" ToRole="OrderRequests" />
         </EntityType>
         <EntityType Name="WarehouseStocks">
           <Key>
@@ -647,7 +694,53 @@
             <End Role="Warehouses" EntitySet="Warehouses" />
             <End Role="WarehouseTransfers" EntitySet="WarehouseTransfers" />
           </AssociationSet>
+          <EntitySet Name="OrderRequests" EntityType="LogiManageDbModel.OrderRequests" />
+          <AssociationSet Name="FK_OrderRequests_Products1" Association="LogiManageDbModel.FK_OrderRequests_Products1">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="OrderRequests" EntitySet="OrderRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderRequests_Warehouses" Association="LogiManageDbModel.FK_OrderRequests_Warehouses">
+            <End Role="Warehouses" EntitySet="Warehouses" />
+            <End Role="OrderRequests" EntitySet="OrderRequests" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="OrderRequests">
+          <Key>
+            <PropertyRef Name="OrderRequestID" />
+          </Key>
+          <Property Name="OrderRequestID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WarehouseID" Type="Int32" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="OrderRequestDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Products" Relationship="LogiManageDbModel.FK_OrderRequests_Products1" FromRole="OrderRequests" ToRole="Products" />
+          <NavigationProperty Name="Warehouses" Relationship="LogiManageDbModel.FK_OrderRequests_Warehouses" FromRole="OrderRequests" ToRole="Warehouses" />
+          <Property Name="RequestQuantity" Type="Int32" Nullable="false" />
+          <Property Name="OrderRequestStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_OrderRequests_Products1">
+          <End Type="LogiManageDbModel.Products" Role="Products" Multiplicity="0..1" />
+          <End Type="LogiManageDbModel.OrderRequests" Role="OrderRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="OrderRequests">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderRequests_Warehouses">
+          <End Type="LogiManageDbModel.Warehouses" Role="Warehouses" Multiplicity="0..1" />
+          <End Type="LogiManageDbModel.OrderRequests" Role="OrderRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouses">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="OrderRequests">
+              <PropertyRef Name="WarehouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -700,6 +793,7 @@
           <EntitySetMapping Name="Suppliers">
             <EntityTypeMapping TypeName="LogiManageDbModel.Suppliers">
               <MappingFragment StoreEntitySet="Suppliers">
+                <ScalarProperty Name="SupplierCategory" ColumnName="SupplierCategory" />
                 <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
                 <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
                 <ScalarProperty Name="ContactName" ColumnName="ContactName" />
@@ -764,6 +858,18 @@
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="TransferDate" ColumnName="TransferDate" />
                 <ScalarProperty Name="TransferStatus" ColumnName="TransferStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderRequests">
+            <EntityTypeMapping TypeName="LogiManageDbModel.OrderRequests">
+              <MappingFragment StoreEntitySet="OrderRequests">
+                <ScalarProperty Name="OrderRequestStatus" ColumnName="OrderRequestStatus" />
+                <ScalarProperty Name="RequestQuantity" ColumnName="RequestQuantity" />
+                <ScalarProperty Name="OrderRequestDate" ColumnName="OrderRequestDate" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+                <ScalarProperty Name="OrderRequestID" ColumnName="OrderRequestID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

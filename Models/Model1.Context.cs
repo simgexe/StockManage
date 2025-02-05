@@ -35,5 +35,6 @@ namespace LogiManage.Models
         public virtual DbSet<Warehouses> Warehouses { get; set; }
         public virtual DbSet<WarehouseStocks> WarehouseStocks { get; set; }
         public virtual DbSet<WarehouseTransfers> WarehouseTransfers { get; set; }
+        public virtual DbSet<OrderRequests> OrderRequests { get; set; }
     }
 }

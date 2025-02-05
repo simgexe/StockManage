@@ -123,11 +123,61 @@ namespace LogiManage.Controllers
 
             return View(productsInWarehouses);
         }
-        
+
         // ...
+        [HttpGet]
+        
+        public ActionResult AddOrderRequest()
+            {
+            var productList = logidb.Products.Select(p => new SelectListItem
+            {
+                Value = p.ProductID.ToString(),
+                Text = p.ProductName
+            }).ToList();
+
+            ViewBag.ProductList = new SelectList(productList, "Value", "Text");
+
+            return View();
+        }
 
        
+        [HttpPost]
+        public ActionResult AddOrderRequest(OrderRequestViewModel addOrderRequest)
+        {
+            addOrderRequest.WarehouseID = Convert.ToInt32(Session["WarehouseID"]);
+            var insertquery = @"INSERT INTO OrderRequests(OrderRequestStatus, ProductID, WarehouseID,RequestQuantity, OrderRequestDate)
+                               VALUES (@OrderRequestStatus, @ProductID, @WarehouseID, @RequestQuantity, @OrderRequestDate)  ";
+
+            using (SqlConnection connection = new SqlConnection("Data Source=RAKUNSY;Initial Catalog=LogiManageDb;Integrated Security=True"))
+            { connection.Open();
+                using (SqlCommand checkCmd = new SqlCommand("SELECT COUNT(1) FROM Products WHERE ProductID = @ProductID", connection))
+                {
+                    checkCmd.Parameters.AddWithValue("@ProductID", addOrderRequest.ProductID);
+                    int count = (int)checkCmd.ExecuteScalar();
+                    if (count == 0)
+                    {
+                        // Handle the case where the ProductID does not exist
+                        ModelState.AddModelError("", "Invalid ProductID.");
+                        return View(addOrderRequest);
+                    }
+                    using (SqlCommand cmd = new SqlCommand(insertquery, connection))
+                    {
+                       
+                        cmd.Parameters.AddWithValue("@OrderRequestStatus", "OrderRequested");
+                        cmd.Parameters.AddWithValue("@ProductID", addOrderRequest.ProductID);
+                        cmd.Parameters.AddWithValue("@WarehouseID", addOrderRequest.WarehouseID);
+                        cmd.Parameters.AddWithValue("@RequestQuantity", addOrderRequest.RequestQuantity);
+                        cmd.Parameters.AddWithValue("@OrderRequestDate", DateTime.Now);
+                        cmd.ExecuteNonQuery();
+
+                    }
+                }
+                return RedirectToAction("PurchaseRequests");
+            }
+        }
         
+
+
         public ActionResult PurchaseRequests()
         {
             

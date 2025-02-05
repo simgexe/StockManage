@@ -244,4 +244,7 @@ namespace LogiManage.Controllers
             }
             return RedirectToAction("TransferRequests");
         }  //Rejected yapmak için
+       
+
+        
     } }
