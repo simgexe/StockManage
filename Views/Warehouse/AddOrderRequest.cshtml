@@ -11,23 +11,27 @@
     @using (Html.BeginForm("AddOrderRequest", "Warehouse", FormMethod.Post))
     {
         @Html.HiddenFor(m => m.OrderRequestID)
+        <div class="form-group">
+            @Html.LabelFor(m => m.OrderRequestStatus)
+            @Html.TextBoxFor(m => m.OrderRequestStatus, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.OrderRequestDate)
+            @Html.TextBoxFor(m => m.OrderRequestDate, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ProductID)
+            @Html.TextBoxFor(m => m.ProductID, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.WarehouseID)
+            @Html.TextBoxFor(m => m.WarehouseID, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
 
-        @Html.LabelFor(m => m.OrderRequestStatus)
-        @Html.TextBoxFor(m => m.OrderRequestStatus)
-
-        @Html.LabelFor(m => m.OrderRequestDate)
-        @Html.TextBoxFor(m => m.OrderRequestDate)
-
-        @Html.LabelFor(m => m.ProductID)
-        @Html.TextBoxFor(m => m.ProductID)
-
-        @Html.LabelFor(m => m.WarehouseID)
-        @Html.TextBoxFor(m => m.WarehouseID)
-
-
-        @Html.LabelFor(m => m.RequestQuantity)
-        @Html.TextBoxFor(m => m.RequestQuantity)
-
+            @Html.LabelFor(m => m.RequestQuantity)
+            @Html.TextBoxFor(m => m.RequestQuantity, new { @class = "form-control" })
+        </div>
         <button type="submit" class="btn btn-outline-success">Add </button>
     }
 </div>

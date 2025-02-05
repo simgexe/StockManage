@@ -309,7 +309,7 @@ namespace LogiManage.Controllers
         public ActionResult Undelivered(int transferId)
         {
             var transfer = logidb.WarehouseTransfers.FirstOrDefault(t => t.TransferID == transferId);
-            if (transfer != null && transfer.TransferStatus == "Requested")
+            if (transfer != null && transfer.TransferStatus == "Preparing")
             {
                 transfer.TransferStatus = "Undelivered";
                 logidb.SaveChanges();

@@ -21,14 +21,14 @@
                 new { @class = "form-control" }
             )
         </div>
-          <div class="form-group">
+        <div class="form-group">
             @Html.LabelFor(m => m.OrderDate)
-            @Html.TextBoxFor(m =>  m.OrderDate, new { @class = "form-control", @readonly = "readonly", @Value = Model.OrderDate.ToString("dd.MM.yyyy") })
+            @Html.TextBoxFor(m => m.OrderDate, new { @class = "form-control", @readonly = "readonly", @Value = Model.OrderDate.ToString("dd.MM.yyyy") })
 
         </div>
         <div class=" form-group">
             @Html.LabelFor(m => m.OrderStatus)
-            @Html.TextBoxFor(m => m.OrderStatus, new { @class = "form-control", @readonly = "readonly", @Value= Model.OrderStatus="Ordered"})
+            @Html.TextBoxFor(m => m.OrderStatus, new { @class = "form-control", @readonly = "readonly", @Value = Model.OrderStatus = "Ordered" })
         </div>
 
         <div class="form-group">
@@ -51,14 +51,14 @@
         </div>
         <div class="form-group">
             @Html.LabelFor(m => m.WarehouseID)
-            @Html.DropDownList("WarehouseID", ViewBag.WarehouseList as SelectList ?? new SelectList(Enumerable.Empty <SelectListItem>()),
-           "Select a Warehouse", new { @class = "form-control" })           
-</div>
-    
+            @Html.DropDownList("WarehouseID", ViewBag.WarehouseList as SelectList ?? new SelectList(Enumerable.Empty<SelectListItem>()),
+           "Select a Warehouse", new { @class = "form-control" })
+        </div>
+
 
         <div class="form-group">
             @Html.LabelFor(m => m.UnitPrice)
-            @Html.TextBoxFor(m => m.UnitPrice, new {    @class = "form-control", @readonly = "readonly" })
+            @Html.TextBoxFor(m => m.UnitPrice, new { @class = "form-control", @readonly = "readonly" })
         </div>
 
         <button type="submit" class="btn btn-success">Create</button>
@@ -92,28 +92,28 @@
             productDropdown.innerHTML = "<option value=''>Select a Category First</option>";
         }
     });
-     /* Ürün seçildiğinde fiyatı güncelleyen AJAX çağrısı
-    document.getElementById("ProductID").addEventListener("change", function () {
-        var ProductID = this.value;
-        var unitPriceField = document.getElementById("UnitPrice");
+    /* Ürün seçildiğinde fiyatı güncelleyen AJAX çağrısı
+   document.getElementById("ProductID").addEventListener("change", function () {
+       var ProductID = this.value;
+       var unitPriceField = document.getElementById("UnitPrice");
 
-        if (ProductID) {
-            fetch('/Purchase/GetProductPrice?ProductID=' + ProductID)
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Response data:', data); // Yanıtı konsola yazdır
-                    if (data && data.UnitPrice) {
-                        unitPriceField.value = data.UnitPrice.toFixed(2); // Fiyatı iki ondalık basamakla göster
-                    } else {
-                        unitPriceField.value = "0.00"; // Fiyat bulunamazsa sıfır göster
-                    }
-                })
-                .catch(error => {
-                    unitPriceField.value = "Error"; // Hata durumunda hata mesajı göster
-                    console.error('Error:', error);
-                });
-        } else {
-            unitPriceField.value = ""; // Ürün seçilmezse alanı temizle
-        }
-    });*/
+       if (ProductID) {
+           fetch('/Purchase/GetProductPrice?ProductID=' + ProductID)
+               .then(response => response.json())
+               .then(data => {
+                   console.log('Response data:', data); // Yanıtı konsola yazdır
+                   if (data && data.UnitPrice) {
+                       unitPriceField.value = data.UnitPrice.toFixed(2); // Fiyatı iki ondalık basamakla göster
+                   } else {
+                       unitPriceField.value = "0.00"; // Fiyat bulunamazsa sıfır göster
+                   }
+               })
+               .catch(error => {
+                   unitPriceField.value = "Error"; // Hata durumunda hata mesajı göster
+                   console.error('Error:', error);
+               });
+       } else {
+           unitPriceField.value = ""; // Ürün seçilmezse alanı temizle
+       }
+   });*/
 </script>

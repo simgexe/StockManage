@@ -2,33 +2,37 @@
     ViewBag.Title = "AddTransferRequest";
     Layout = "~/Views/Shared/_LayoutWarehouseManager.cshtml";
 }
-
-<h2>AddRequest</h2>
 @model LogiManage.ViewModels.TransferViewModel
+
 <div>
     <h3> Add new Transfer </h3>
     @using (Html.BeginForm("AddTransferRequest", "Transfer", FormMethod.Post))
     {
         @Html.HiddenFor(m => m.TransferID)
-        @Html.LabelFor(m => m.SourceWarehouseID)
-        @Html.DropDownListFor(m => m.SourceWarehouseID, (SelectList)ViewBag.WarehouseList2, "Select Warehouse")
-
-        @Html.LabelFor(m => m.DestinationWarehouseName)
-        @Html.TextBoxFor(m => m.DestinationWarehouseName, new { @readonly = "readonly" })
-
-        @Html.LabelFor(m => m.ProductID)
-        @Html.DropDownListFor(m => m.ProductID, (SelectList)ViewBag.ProductList, "Select Product")
-
-        @Html.LabelFor(m => m.Quantity)
-        @Html.TextBoxFor(m => m.Quantity)
-
-
-        @Html.LabelFor(m => m.TransferDate)
-        @Html.TextBoxFor(m => m.TransferDate)
-
-        @Html.LabelFor(m => m.TransferStatus)
-        @Html.TextBoxFor(m => m.TransferStatus)
-
+        <div class="form-group">
+            @Html.LabelFor(m => m.SourceWarehouseID)
+            @Html.DropDownListFor(m => m.SourceWarehouseID, (SelectList)ViewBag.WarehouseList2, "Select Warehouse", new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.DestinationWarehouseName)
+            @Html.TextBoxFor(m => m.DestinationWarehouseName, new { @readonly = "readonly", @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ProductID)
+            @Html.DropDownListFor(m => m.ProductID, (SelectList)ViewBag.ProductList, "Select Product", new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Quantity)
+            @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.TransferDate)
+            @Html.TextBoxFor(m => m.TransferDate, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.TransferStatus)
+            @Html.TextBoxFor(m => m.TransferStatus, new { @class = "form-control" })
+        </div>
 
 
         <button type="submit" class="btn btn-outline-success">Add </button>

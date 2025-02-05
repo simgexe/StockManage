@@ -43,7 +43,7 @@ namespace LogiManage.Controllers
             {
                 using (SqlConnection connection = new SqlConnection("Data Source=RAKUNSY;Initial Catalog=LogiManageDb;Integrated Security=True"))
                 {
-                    string getProductPriceQuery = "SELECT Price FROM Products WHERE ProductID = @ProductID";
+                    string getProductPriceQuery = @"SELECT Price FROM Products WHERE ProductID = @ProductID";
 
                     string insertOrderQuery = @"
                 INSERT INTO Orders (OrderDate, OrderStatus, SupplierID, WarehouseID) 
@@ -110,15 +110,7 @@ namespace LogiManage.Controllers
 
             return Json(products, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult GetProductPrice(int ProductID)
-        {
-            var product = logidb.Products.Find(ProductID);
-            if (product != null)
-            {
-                return Json(new { UnitPrice = product.Price });
-            }
-            return Json(new { UnitPrice = 0 });
-        }
+       
 
         public ActionResult ViewOrder()
         {
@@ -172,5 +164,16 @@ namespace LogiManage.Controllers
 
             return View(orderDetails);
         }
+        public ActionResult RejectOrder(int orderRequestid)
+        {
+            var orderrequest = logidb.OrderRequests.FirstOrDefault(or => or.OrderRequestID == orderRequestid);
+            if (orderrequest != null && orderrequest.OrderRequestStatus == "OrderRequested")
+            {
+                orderrequest.OrderRequestStatus = "OrderRejected";
+                logidb.SaveChanges();
+            }
+            return RedirectToAction("OrderRequests");
+        }
+
     }
 }

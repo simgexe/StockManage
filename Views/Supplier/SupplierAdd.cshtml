@@ -4,29 +4,34 @@
 }
 
 @model LogiManage.ViewModels.SupplierViewModel
+<div>
+    <h2>SupplierAdd</h2>
 
-<h2>SupplierAdd</h2>
-
-@using (Html.BeginForm("SupplierAdd", "Supplier", FormMethod.Post))
-{
-    <div>
-        @Html.HiddenFor(m => m.SupplierID)
-        @Html.LabelFor(m => m.SupplierName)
-        @Html.TextBoxFor(m => m.SupplierName)
-
-        @Html.LabelFor(m => m.ContactName)
-        @Html.TextBoxFor(m => m.ContactName)
-
-        @Html.LabelFor(m => m.SupplierPhone)
-        @Html.TextBoxFor(m => m.SupplierPhone)
-
-        @Html.LabelFor(m => m.SupplierMail)
-        @Html.TextBoxFor(m => m.SupplierMail)
-
-
-        @Html.LabelFor(m => m.SupplierAddress)
-        @Html.TextBoxFor(m => m.SupplierAddress)
-
-        <button type="submit" class="btn btn-outline-success">Add </button>
-    </div>
-}
+    @using (Html.BeginForm("SupplierAdd", "Supplier", FormMethod.Post))
+    {
+        <div>
+            @Html.HiddenFor(m => m.SupplierID)
+            <div class="form-group">
+                @Html.LabelFor(m => m.SupplierName)
+                @Html.TextBoxFor(m => m.SupplierName, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ContactName)
+                @Html.TextBoxFor(m => m.ContactName, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.SupplierPhone)
+                @Html.TextBoxFor(m => m.SupplierPhone, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.SupplierMail)
+                @Html.TextBoxFor(m => m.SupplierMail, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.SupplierAddress)
+                @Html.TextBoxFor(m => m.SupplierAddress, new { @class = "form-control" })
+            </div>
+            <button type="submit" class="btn btn-outline-success">Add </button>
+        </div>
+    }
+</div>

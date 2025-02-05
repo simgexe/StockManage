@@ -13,30 +13,38 @@
 @using (Html.BeginForm("UserUpdate", "Admin", FormMethod.Post))
 {
     @Html.HiddenFor(m => m.UserID)
-    @Html.LabelFor(m => m.UserFirstName)
-    @Html.TextBoxFor(m => m.UserFirstName)
-
-    @Html.LabelFor(m => m.UserLastName)
-    @Html.TextBoxFor(m => m.UserLastName)
-
-    @Html.LabelFor(m => m.UserEmail)
-    @Html.TextBoxFor(m => m.UserEmail)
-
-    @Html.LabelFor(m => m.Username)
-    @Html.TextBoxFor(m => m.Username)
-
-    @Html.LabelFor(m => m.Userpassword)
-    @Html.TextBoxFor(m => m.Userpassword)
-    
-    @Html.LabelFor(m => m.RoleID)
-    @Html.DropDownListFor(m => m.RoleID, (SelectList)ViewBag.RoleList, "Rol Seçiniz")
-
-    @Html.LabelFor(m => m.WarehouseID)
-    @Html.DropDownListFor(m => m.WarehouseID, (SelectList)ViewBag.WarehouseList)
-
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserFirstName)
+        @Html.TextBoxFor(m => m.UserFirstName,  new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserLastName)
+        @Html.TextBoxFor(m => m.UserLastName, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserEmail)
+        @Html.TextBoxFor(m => m.UserEmail, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Username)
+        @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Userpassword)
+        @Html.TextBoxFor(m => m.Userpassword, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.RoleID)
+        @Html.DropDownListFor(m => m.RoleID, (SelectList)ViewBag.RoleList, "Select Role", new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.WarehouseID)
+        @Html.DropDownListFor(m => m.WarehouseID, (SelectList)ViewBag.WarehouseList, new { @class = "form-control" })
+    </div>
 
 
     <button type="submit" class="btn btn-outline-success">Update </button>
 }
 
-s
+
+

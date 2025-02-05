@@ -4,5 +4,102 @@
     Layout = "~/Views/Shared/_LayoutPurchasingOfficer.cshtml";
 }
 
-<h2>OrderRequests</h2>
 
+
+@model List<LogiManage.ViewModels.OrderRequestViewModel>
+
+@{
+    var warehouseId = (int)Session["WarehouseID"];
+}
+<h2> Order Requests </h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Order Request Status</th>
+            <th>Product Name</th>
+            <th> Warehouse</th>
+            <th>Quantity</th>
+            <th>Order Request Date</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var request in Model.Where(x => x.OrderRequestStatus == "OrderRequested" && x.WarehouseID == @warehouseId))
+            {
+                <tr>
+                    
+                    <td>@Html.DisplayFor(modelItem => request.OrderRequestStatus)</td>
+                    <td>@Html.DisplayFor(modelItem => request.ProductName)</td>
+                    <td>@Html.DisplayFor(modelItem => request.WarehouseName)</td>
+                    <td>@Html.DisplayFor(modelItem => request.RequestQuantity)</td>
+                    <td>@Html.DisplayFor(modelItem => request.OrderRequestDate)</td>
+                    <td>
+                        @using (Html.BeginForm("AcceptOrder", "Purchase", FormMethod.Post))
+                        {
+                            @Html.Hidden("orderRequestId", request.OrderRequestID)
+                            <button type="submit" class="btn btn-outline-success">Accept Order Request</button>
+                        }
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("RejectOrder", "Orders", FormMethod.Post))
+                        {
+                            @Html.Hidden("orderRequestid", request.OrderRequestID)
+                            <button type="submit" class="btn btn-outline-warning"> Reject Order Request </button>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7">No requested order found.</td>
+            </tr>
+        }
+
+
+    </tbody>
+</table>
+<br />
+
+<h2> Rejected Order Requests</h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Order Request Status</th>
+            <th>Product Name</th>
+            <th> Warehouse</th>
+            <th>Quantity</th>
+            <th>Order Request Date</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var request in Model.Where(x => x.OrderRequestStatus == "OrderRejected" && x.WarehouseID == @warehouseId))
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => request.OrderRequestStatus)</td>
+                    <td>@Html.DisplayFor(modelItem => request.ProductName)</td>
+                    <td>@Html.DisplayFor(modelItem => request.WarehouseName)</td>
+                    <td>@Html.DisplayFor(modelItem => request.RequestQuantity)</td>
+                    <td>@Html.DisplayFor(modelItem => request.OrderRequestDate)</td>
+
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7">No  rejected order found.</td>
+            </tr>
+        }
+
+
+    </tbody>
+</table>
