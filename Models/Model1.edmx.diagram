@@ -13,7 +13,7 @@
         <EntityTypeShape EntityType="LogiManageDbModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="LogiManageDbModel.Users" Width="1.5" PointX="6" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="LogiManageDbModel.Warehouses" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="LogiManageDbModel.WarehouseStocks" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LogiManageDbModel.WarehouseStocks" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="LogiManageDbModel.WarehouseTransfers" Width="1.5" PointX="3" PointY="11.125" IsExpanded="true" />
         <AssociationConnector Association="LogiManageDbModel.FK_OrderDetails_Orders" ManuallyRouted="false" />
         <AssociationConnector Association="LogiManageDbModel.FK_OrderDetails_Products" ManuallyRouted="false" />
@@ -30,6 +30,9 @@
         <EntityTypeShape EntityType="LogiManageDbModel.OrderRequests" Width="1.5" PointX="8" PointY="3.375" />
         <AssociationConnector Association="LogiManageDbModel.FK_OrderRequests_Products1" />
         <AssociationConnector Association="LogiManageDbModel.FK_OrderRequests_Warehouses" />
+        <EntityTypeShape EntityType="LogiManageDbModel.StockAdjustmentRequests" Width="2" PointX="6" PointY="11.75" />
+        <AssociationConnector Association="LogiManageDbModel.FK_StockAdjustmentRequests_Products" />
+        <AssociationConnector Association="LogiManageDbModel.FK_StockAdjustmentRequests_Warehouses" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

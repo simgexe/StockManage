@@ -41,6 +41,7 @@
     <NavigationProperty Name="WarehouseStocks" Relationship="Self.FK_WarehouseStocks_Products" FromRole="Products" ToRole="WarehouseStocks" />
     <NavigationProperty Name="WarehouseTransfers" Relationship="Self.FK_WarehousTransfers_Products" FromRole="Products" ToRole="WarehouseTransfers" />
     <NavigationProperty Name="OrderRequests" Relationship="LogiManageDbModel.FK_OrderRequests_Products1" FromRole="Products" ToRole="OrderRequests" />
+    <NavigationProperty Name="StockAdjustmentRequests" Relationship="LogiManageDbModel.FK_StockAdjustmentRequests_Products" FromRole="Products" ToRole="StockAdjustmentRequests" />
   </EntityType>
   <EntityType Name="Roles">
     <Key>
@@ -103,6 +104,7 @@
     <NavigationProperty Name="WarehouseTransfers" Relationship="Self.FK_WarehousTransfers_Warehouses" FromRole="Warehouses" ToRole="WarehouseTransfers" />
     <NavigationProperty Name="WarehouseTransfers1" Relationship="Self.FK_WarehousTransfers_Warehouses1" FromRole="Warehouses" ToRole="WarehouseTransfers" />
     <NavigationProperty Name="OrderRequests" Relationship="LogiManageDbModel.FK_OrderRequests_Warehouses" FromRole="Warehouses" ToRole="OrderRequests" />
+    <NavigationProperty Name="StockAdjustmentRequests" Relationship="LogiManageDbModel.FK_StockAdjustmentRequests_Warehouses" FromRole="Warehouses" ToRole="StockAdjustmentRequests" />
   </EntityType>
   <EntityType Name="WarehouseStocks">
     <Key>
@@ -342,6 +344,15 @@
       <End Role="Warehouses" EntitySet="Warehouses" />
       <End Role="OrderRequests" EntitySet="OrderRequests" />
     </AssociationSet>
+    <EntitySet Name="StockAdjustmentRequests" EntityType="LogiManageDbModel.StockAdjustmentRequests" />
+    <AssociationSet Name="FK_StockAdjustmentRequests_Products" Association="LogiManageDbModel.FK_StockAdjustmentRequests_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="StockAdjustmentRequests" EntitySet="StockAdjustmentRequests" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StockAdjustmentRequests_Warehouses" Association="LogiManageDbModel.FK_StockAdjustmentRequests_Warehouses">
+      <End Role="Warehouses" EntitySet="Warehouses" />
+      <End Role="StockAdjustmentRequests" EntitySet="StockAdjustmentRequests" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="OrderRequests">
     <Key>
@@ -376,6 +387,44 @@
         <PropertyRef Name="WarehouseID" />
       </Principal>
       <Dependent Role="OrderRequests">
+        <PropertyRef Name="WarehouseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="StockAdjustmentRequests">
+    <Key>
+      <PropertyRef Name="StockAdjustmentID" />
+    </Key>
+    <Property Name="StockAdjustmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductID" Type="Int32" />
+    <Property Name="WarehouseID" Type="Int32" />
+    <Property Name="ExpectedQuantity" Type="Int32" />
+    <Property Name="CurrentQuantity" Type="Int32" />
+    <Property Name="AdjustmentRStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RequestDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Products" Relationship="LogiManageDbModel.FK_StockAdjustmentRequests_Products" FromRole="StockAdjustmentRequests" ToRole="Products" />
+    <NavigationProperty Name="Warehouses" Relationship="LogiManageDbModel.FK_StockAdjustmentRequests_Warehouses" FromRole="StockAdjustmentRequests" ToRole="Warehouses" />
+  </EntityType>
+  <Association Name="FK_StockAdjustmentRequests_Products">
+    <End Type="LogiManageDbModel.Products" Role="Products" Multiplicity="0..1" />
+    <End Type="LogiManageDbModel.StockAdjustmentRequests" Role="StockAdjustmentRequests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="StockAdjustmentRequests">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StockAdjustmentRequests_Warehouses">
+    <End Type="LogiManageDbModel.Warehouses" Role="Warehouses" Multiplicity="0..1" />
+    <End Type="LogiManageDbModel.StockAdjustmentRequests" Role="StockAdjustmentRequests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Warehouses">
+        <PropertyRef Name="WarehouseID" />
+      </Principal>
+      <Dependent Role="StockAdjustmentRequests">
         <PropertyRef Name="WarehouseID" />
       </Dependent>
     </ReferentialConstraint>

@@ -1,0 +1,86 @@
+﻿
+
+@{
+    ViewBag.Title = "StockAdjustmentRequests";
+    Layout = "~/Views/Shared/_LayoutWarehouseManager.cshtml";
+}
+@model List<LogiManage.ViewModels.StocksViewModel>
+@{
+    var warehouseId = (int)Session["WarehouseID"];
+}
+<h2>StockAdjustmentRequests</h2>
+
+<h3> Alllll Requests</h3>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Product name</th>
+            <th>Warehouse Name</th>
+            <th>Expected Quantity</th>
+            <th>Current Quantity</th>
+            <th>Adjustment Request Status</th>
+            <th>Request Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var adjustrequest in Model)
+        {
+            <tr>
+
+                <td>@Html.DisplayFor(modelItem => adjustrequest.ProductName)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.WarehouseName)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.ExpectedQuantity)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.CurrentQuantity)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.AdjustmentRStatus)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.RequestDate)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3> Requests</h3>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Product name</th>
+            <th>Warehouse Name</th>
+            <th>Expected Quantity</th>
+            <th>Current Quantity</th>
+            <th>Adjustment Request Status</th>
+            <th>Request Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var adjustrequest in Model.Where(s => s.AdjustmentRStatus == "Requested" && s.WarehouseID == warehouseId))
+        {
+            <tr>
+
+                <td>@Html.DisplayFor(modelItem => adjustrequest.ProductName)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.WarehouseName)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.ExpectedQuantity)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.CurrentQuantity)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.AdjustmentRStatus)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.RequestDate)</td>
+                <td>@adjustrequest.StockAdjustmentID</td>
+                
+                <td>
+                    @using (Html.BeginForm("Corrected", "StockAdjustment", FormMethod.Post))
+                    {
+                        @Html.Hidden("stockadjustmentid", adjustrequest.StockAdjustmentID)
+                        <button type="submit" class="btn btn-outline-success">Correct Current Quantity</button>
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("RejectStockAdjustmentRequest", "StockAdjustment", FormMethod.Post))
+                    {
+                        @Html.Hidden("stockadjustmentid", adjustrequest.StockAdjustmentID)
+                        <button type="submit" class="btn btn-outline-warning"> Reject </button>
+                    }
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

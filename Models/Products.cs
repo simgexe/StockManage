@@ -21,6 +21,7 @@ namespace LogiManage.Models
             this.WarehouseStocks = new HashSet<WarehouseStocks>();
             this.WarehouseTransfers = new HashSet<WarehouseTransfers>();
             this.OrderRequests = new HashSet<OrderRequests>();
+            this.StockAdjustmentRequests = new HashSet<StockAdjustmentRequests>();
         }
     
         public string ProductName { get; set; }
@@ -40,5 +41,7 @@ namespace LogiManage.Models
         public virtual ICollection<WarehouseTransfers> WarehouseTransfers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderRequests> OrderRequests { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StockAdjustmentRequests> StockAdjustmentRequests { get; set; }
     }
 }

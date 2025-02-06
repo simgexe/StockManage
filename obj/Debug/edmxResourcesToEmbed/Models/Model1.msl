@@ -127,5 +127,18 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="StockAdjustmentRequests">
+      <EntityTypeMapping TypeName="LogiManageDbModel.StockAdjustmentRequests">
+        <MappingFragment StoreEntitySet="StockAdjustmentRequests">
+          <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+          <ScalarProperty Name="AdjustmentRStatus" ColumnName="AdjustmentRStatus" />
+          <ScalarProperty Name="CurrentQuantity" ColumnName="CurrentQuantity" />
+          <ScalarProperty Name="ExpectedQuantity" ColumnName="ExpectedQuantity" />
+          <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="StockAdjustmentID" ColumnName="StockAdjustmentID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

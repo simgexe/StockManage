@@ -135,6 +135,7 @@
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
+    <Compile Include="Controllers\StockAdjustmentController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\TransferController.cs" />
     <Compile Include="Controllers\WarehouseController.cs" />
@@ -172,6 +173,9 @@
     <Compile Include="Models\Roles.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\StockAdjustmentRequests.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Suppliers.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -194,6 +198,7 @@
     <Compile Include="ViewModels\AddProductViewModel.cs" />
     <Compile Include="ViewModels\OrderRequestViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModel.cs" />
+    <Compile Include="ViewModels\StocksViewModel.cs" />
     <Compile Include="ViewModels\SupplierViewModel.cs" />
     <Compile Include="ViewModels\TransferViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
@@ -300,6 +305,8 @@
     <Content Include="Views\Operator\OTransfers.cshtml" />
     <Content Include="Views\Warehouse\AddOrderRequest.cshtml" />
     <Content Include="Views\Products\ProductAdd.cshtml" />
+    <Content Include="Views\StockAdjustment\AddStockAdjustmentRequest.cshtml" />
+    <Content Include="Views\StockAdjustment\StockAdjustmentRequests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
