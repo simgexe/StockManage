@@ -24,9 +24,11 @@
 
                     <li class="nav-item">
                         @Html.ActionLink("Home ", "Index", "Purchase", new { }, new { @class = "nav-link" })
-                        <
-                    </li>
 
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Add New Product", "ProductAdd", "Products", new { }, new { @class = "nav-link" })
+                    </li>
                     <li class="nav-item">
                         @Html.ActionLink("CreateOrder", "CreateOrder", "Orders", new { }, new { @class = "nav-link" })
                     </li>
@@ -39,7 +41,7 @@
                     <li class="nav-item">
                         @Html.ActionLink("Order Requests", "OrderRequests", "Purchase", new { }, new { @class = "nav-link" })
                     </li>
-                   
+
                 </ul>
                 <div class="d-flex nav-item">
                     @Html.ActionLink("Logout", "Logout", "Account", new { }, new { @class = "btn btn-danger" })

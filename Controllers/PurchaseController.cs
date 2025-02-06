@@ -56,9 +56,8 @@ namespace LogiManage.Controllers
             }
             return RedirectToAction("OrderRequests");
         } // gelen OrderRequested ları OrderPreparing yapmak için */
-       
-    }
+      
 
-   
-    
+
+    }
 }
