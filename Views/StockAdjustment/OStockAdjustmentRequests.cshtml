@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewBag.Title = "OStockAdjustmentRequests";
+    Layout = "~/Views/Shared/_LayoutOperator.cshtml";
+}
+
+@model List<LogiManage.ViewModels.StocksViewModel>
+@{
+    var warehouseId = (int)Session["WarehouseID"];
+}
+<h2>OStockAdjustmentRequests</h2>
+
+<h3> Alllll Requests</h3>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Product name</th>
+            <th>Warehouse Name</th>
+            <th>Expected Quantity</th>
+            <th>Current Quantity</th>
+            <th>Adjustment Request Status</th>
+            <th>Request Date</th>
+           
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var adjustrequest in Model.Where(s=>s.WarehouseID == warehouseId))
+        {
+            <tr>
+
+                <td>@Html.DisplayFor(modelItem => adjustrequest.ProductName)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.WarehouseName)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.ExpectedQuantity)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.CurrentQuantity)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.AdjustmentRStatus)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.RequestDate)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3> Requests</h3>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Product name</th>
+            <th>Warehouse Name</th>
+            <th>Expected Quantity</th>
+            <th>Current Quantity</th>
+            <th>Adjustment Request Status</th>
+            <th>Request Date</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var adjustrequest in Model.Where(s => s.AdjustmentRStatus == "Requested" && s.WarehouseID == warehouseId))
+        {
+            <tr>
+
+                <td>@Html.DisplayFor(modelItem => adjustrequest.ProductName)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.WarehouseName)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.ExpectedQuantity)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.CurrentQuantity)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.AdjustmentRStatus)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.RequestDate)</td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<h3> Corrected Requests</h3>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Product name</th>
+            <th>Warehouse Name</th>
+            <th>Expected Quantity</th>
+            <th>Current Quantity</th>
+            <th>Adjustment Request Status</th>
+            <th>Request Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var adjustrequest in Model.Where(s => s.AdjustmentRStatus == "Corrected" && s.WarehouseID == warehouseId))
+        {
+            <tr>
+
+                <td>@Html.DisplayFor(modelItem => adjustrequest.ProductName)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.WarehouseName)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.ExpectedQuantity)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.CurrentQuantity)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.AdjustmentRStatus)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.RequestDate)</td>
+                
+
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<h3> Rejected Requests</h3>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Product name</th>
+            <th>Warehouse Name</th>
+            <th>Expected Quantity</th>
+            <th>Current Quantity</th>
+            <th>Adjustment Request Status</th>
+            <th>Request Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var adjustrequest in Model.Where(s => s.AdjustmentRStatus == "Rejected" && s.WarehouseID == warehouseId))
+        {
+            <tr>
+
+                <td>@Html.DisplayFor(modelItem => adjustrequest.ProductName)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.WarehouseName)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.ExpectedQuantity)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.CurrentQuantity)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.AdjustmentRStatus)</td>
+                <td>@Html.DisplayFor(modelItem => adjustrequest.RequestDate)</td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
+
+

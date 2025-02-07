@@ -121,6 +121,7 @@ namespace LogiManage.Controllers
 
             return View(new TransferViewModel() { TransferDate = DateTime.Now, DestinationWarehouseName = Session["WarehouseName"].ToString() });
         }
+        
         [HttpPost]
         public ActionResult AddTransferRequest(TransferViewModel addTransferRequest)
         {

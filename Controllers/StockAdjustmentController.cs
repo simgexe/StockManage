@@ -35,7 +35,7 @@ namespace LogiManage.Controllers
                                     WarehouseID = (int)sr.WarehouseID,
                                     WarehouseName=w.WarehouseName,
                                     ExpectedQuantity= sr.ExpectedQuantity ?? 0,
-                                     CurrentQuantity = ws != null ? (int?)ws.Quantity ?? 0 : 0,
+                                    CurrentQuantity = ws != null ? (int?)ws.Quantity ?? 0 : 0,
                                      AdjustmentRStatus = sr.AdjustmentRStatus,
                                     RequestDate=sr.RequestDate ??DateTime.Now,
                                 }).ToList();
@@ -44,8 +44,45 @@ namespace LogiManage.Controllers
 
 
         public ActionResult StockAdjustmentRequests() { return View(GetStockAdjustmentRequests()); }
+        public ActionResult OStockAdjustmentRequests() { return View(GetStockAdjustmentRequests()); }
+        [HttpGet]
+        public ActionResult AddStockAdjustmentRequest()
+        {
+            int warehouseid = (int)Session["WarehouseID"];
+            ViewBag.WarehouseName = logidb.Warehouses
+                .Where(w => w.WarehouseID == warehouseid)
+                .Select(w => w.WarehouseName)
+                .FirstOrDefault();   
+            var model = new StocksViewModel();
+            ViewBag.CurrentQuantity = logidb.WarehouseStocks
+                 .Where(ws => ws.ProductID == model.ProductID && ws.WarehouseID == warehouseid)
+                 .Select(ws => ws.Quantity)
+                 .FirstOrDefault();   
+            ViewBag.ProductList = new SelectList(logidb.Products, "ProductID", "ProductName");
+            return View(new StocksViewModel() { RequestDate = DateTime.Now, AdjustmentRStatus = "Requested" });
+        }
 
-        public ActionResult AddStockAdjustmentRequest() { return View(); }
+        [HttpPost]
+        public ActionResult AddStockAdjustmentRequest(StocksViewModel addStockARequest)
+        {
+            int warehouseid = (int)Session["WarehouseID"];
+            
+            var addrequest = new StockAdjustmentRequests
+            {
+                ProductID = addStockARequest.ProductID,
+                WarehouseID = warehouseid,
+                ExpectedQuantity = addStockARequest.ExpectedQuantity,
+                CurrentQuantity = addStockARequest.CurrentQuantity,
+                AdjustmentRStatus = addStockARequest.AdjustmentRStatus ="Requested",
+                RequestDate = DateTime.Now,
+
+
+            };
+            logidb.StockAdjustmentRequests.Add(addrequest);
+            logidb.SaveChanges();
+
+            return RedirectToAction("OStockAdjustmentRequests", "StockAdjustment");
+        }
         public ActionResult Corrected(int stockadjustmentid)
         {
             int warehouseId = (int)Session["WarehouseID"];

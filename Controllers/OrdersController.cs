@@ -25,15 +25,17 @@ namespace LogiManage.Controllers
             logidb.Products
                  .Select(p => new { Category = p.Category })
                  .Distinct()
-                 .ToList(),
-            "Category",
-            "Category"
-                    );
+                 .ToList(), "Category",  "Category" );
+            var model = new ViewOrderViewModel();
+            ViewBag.Price = logidb.Products
+                .Where(p => p.ProductID == model.ProductID)
+                .Select(p => p.Price)
+                .FirstOrDefault();
             ViewBag.SupplierList = new SelectList(logidb.Suppliers, "SupplierID", "SupplierName");
             ViewBag.WarehouseList = new SelectList(logidb.Warehouses, "WarehouseID", "WarehouseName");
 
 
-            return View(new ViewOrderViewModel() { OrderDate = DateTime.Now });
+            return View(new ViewOrderViewModel() { OrderDate = DateTime.Now, OrderStatus = "Ordered" });
         }
 
         [HttpPost]

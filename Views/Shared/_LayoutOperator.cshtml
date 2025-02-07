@@ -28,9 +28,13 @@
                     </li>
                     <li class="nav-item">
                         @Html.ActionLink("Stockcontrol ", "StockControl", "Operator", new { }, new { @class = "nav-link" })
-
                     </li>
-                   
+                    <li class="nav-item">
+                        @Html.ActionLink("Add Stock Adjustment Request ", "AddStockAdjustmentRequest", "StockAdjustment", new { }, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Stock Adjustment Requests ", "OStockAdjustmentRequests", "StockAdjustment", new { }, new { @class = "nav-link" })
+                    </li>
                     <li class="nav-item">
                         @Html.ActionLink("Transfer Requests", "TransferORequest", "Operator", new { }, new { @class = "nav-link" })
                     </li>

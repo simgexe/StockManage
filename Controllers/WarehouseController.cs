@@ -24,7 +24,7 @@ namespace LogiManage.Controllers
 
             return View();
         }
-        //.....Stok güncelleme....
+        /*.....Stok güncelleme....
         [HttpPost]
         public ActionResult StockUpdate(int warehouseID, int productId, int quantityChange)
         {
@@ -42,7 +42,8 @@ namespace LogiManage.Controllers
             }
 
             return RedirectToAction("WarehouseControl", new { warehouseID });
-        }
+        }*/
+
         //...giriş yapılan depodaki ürün miktarlarını kontrol etme 
         [HttpGet]
         public ActionResult WarehouseControl()
@@ -142,7 +143,7 @@ namespace LogiManage.Controllers
         }
         
 
-
+        //...sipariş isteklerini görme
         public List<OrderRequestViewModel> GetOrderRequests()
         {
             var orderRequestslist = from or in logidb.OrderRequests
