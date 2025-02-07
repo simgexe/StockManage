@@ -12,8 +12,6 @@ namespace LogiManage.Controllers
 {
     public class OrdersController : Controller
     {
-        // Diğer birimlerdeki order işlemleri buraya taşınacak.
-
         // GET: Orders
         LogiManageDbEntities1 logidb = new LogiManageDbEntities1();
 

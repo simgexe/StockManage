@@ -28,11 +28,11 @@
         </div>
         <div class="form-group">
             @Html.LabelFor(m => m.AdjustmentRStatus)
-            @Html.TextBoxFor(m => m.AdjustmentRStatus, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.AdjustmentRStatus, new { @class = "form-control", @readonly ="readonly" })
         </div>
         <div class="form-group">
             @Html.LabelFor(m => m.RequestDate)
-            @Html.TextBoxFor(m => m.RequestDate, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.RequestDate, new { @class = "form-control" ,@readonly ="readonly"})
         </div>
 
 

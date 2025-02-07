@@ -307,10 +307,10 @@
     <Content Include="Views\StockAdjustment\AddStockAdjustmentRequest.cshtml" />
     <Content Include="Views\StockAdjustment\StockAdjustmentRequests.cshtml" />
     <Content Include="Views\StockAdjustment\OStockAdjustmentRequests.cshtml" />
+    <None Include="Views\Admin\WarehousesStocks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Transfers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

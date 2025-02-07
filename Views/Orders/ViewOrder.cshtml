@@ -7,18 +7,18 @@
 
 @model IEnumerable<LogiManage.ViewModels.ViewOrderViewModel>
 
-<table border="1">
+<table class="table" border="1">
     <thead>
         <tr>
             <th >Sipariş No</th>
             <th >Sipariş Tarihi</th>
             <th >Durum</th>
-            <th >Tedarikçi id</th>
+            
             <th >Tedarikçi Adı</th>
-            <th >Depo id</th>
+            
             <th >Depo adı</th>
-            <th >Detay id</th>
-            <th > ürün id</th>
+            
+           
             <th > ürün adı </th>
             <th >miktar</th>
             <th >Fiyat</th>
@@ -31,11 +31,11 @@
                 <td>@Html.DisplayFor(modelItem => order.OrderID)</td>
                 <td>@Html.DisplayFor(modelItem => order.OrderDate)</td>
                 <td>@Html.DisplayFor(modelItem => order.OrderStatus)</td>
-                <td>@Html.DisplayFor(modelItem => order.SupplierID)</td>
+                
                 <td>@Html.DisplayFor(modelItem => order.SupplierName)</td>
-                <td>@Html.DisplayFor(modelItem => order.WarehouseID)</td>
+                
                 <td>@Html.DisplayFor(modelItem => order.WarehouseName)</td>
-                <td>@Html.DisplayFor(modelItem => order.ProductID)</td>
+                
                 <td>@Html.DisplayFor(modelItem => order.ProductName)</td>
                 <td>@Html.DisplayFor(modelItem => order.Quantity)</td>
                 <td>@Html.DisplayFor(modelItem => order.UnitPrice)</td>

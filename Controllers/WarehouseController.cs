@@ -100,13 +100,11 @@ namespace LogiManage.Controllers
                 Value = p.ProductID.ToString(),
                 Text = p.ProductName
             }).ToList();
-
+            var model = new WarehouseProductViewModel();
             ViewBag.ProductList = new SelectList(productList, "Value", "Text");
 
             return View();
         }
-
-       
         [HttpPost]
         public ActionResult AddOrderRequest(OrderRequestViewModel addOrderRequest)
         {

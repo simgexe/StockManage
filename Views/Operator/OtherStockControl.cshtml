@@ -3,13 +3,10 @@
     ViewBag.Title = "OtherStockControl";
     Layout = "~/Views/Shared/_LayoutOperator.cshtml";
 }
-
-<h2>OtherStockControl</h2>
-
-<h2>WarehouseSControl</h2>
+<h2>Other Warehouse Stock Control</h2>
 @model IEnumerable<LogiManage.ViewModels.WarehouseProductViewModel>
 
-<!-- Depo Seçimi -->
+
 <form method="get" action="@Url.Action("OtherStockControl", "Operator")">
     <label for="productId">Ürün Seç:</label>
     <select id="productId" name="productId" onchange="this.form.submit()">
@@ -21,9 +18,9 @@
         }
     </select>
 </form>
-
+<br />
 <h3>WarehouseStocks</h3>
-<table border="1">
+<table class="table" border="1">
     <thead>
         <tr>
             <th>ProductName</th>

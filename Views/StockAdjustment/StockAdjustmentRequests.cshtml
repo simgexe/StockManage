@@ -11,7 +11,7 @@
 <h2>StockAdjustmentRequests</h2>
 
 <h3> Alllll Requests</h3>
-<table border="1">
+<table class="table" border="1">
     <thead>
         <tr>
             <th>Product name</th>
@@ -40,7 +40,7 @@
 </table>
 
 <h3> Requests</h3>
-<table border="1">
+<table class="table" border="1">
     <thead>
         <tr>
             <th>Product name</th>
@@ -63,7 +63,7 @@
                 <td>@Html.DisplayFor(modelItem => adjustrequest.CurrentQuantity)</td>
                 <td>@Html.DisplayFor(modelItem => adjustrequest.AdjustmentRStatus)</td>
                 <td>@Html.DisplayFor(modelItem => adjustrequest.RequestDate)</td>
-                <td>@adjustrequest.StockAdjustmentID</td>
+            
                 
                 <td>
                     @using (Html.BeginForm("Corrected", "StockAdjustment", FormMethod.Post))

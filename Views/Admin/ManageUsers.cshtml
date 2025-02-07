@@ -17,7 +17,7 @@
     </div>
 </form>
 
-<table>
+<table class="table">
     <thead>
         <tr>
             <th>Kullanıcı Adı</th>
@@ -40,8 +40,8 @@
                 <td>@Html.DisplayFor(modelItem => user.RoleName)</td>
                 <td>@Html.DisplayFor(modelItem => user.WarehouseName)</td>
                 <td>
-                    @Html.ActionLink("Edit", "UserUpdate", new { userid = user.UserID }) |
-                    @Html.ActionLink("Delete", "UserDelete", new { userid = user.UserID })
+                    @Html.ActionLink("Edit", "UserUpdate", new { userid = user.UserID }, new {@class ="btn btn-primary"}) |
+                    @Html.ActionLink("Delete", "UserDelete", new { userid = user.UserID }, new {@class ="btn btn-danger"})
                 </td>
             </tr>
         }

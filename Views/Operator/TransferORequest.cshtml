@@ -11,13 +11,12 @@
     var warehouseId = (int)Session["WarehouseID"];
 }
 
-
 <div>
-    @Html.ActionLink("Add Transfer Request", "AddTransferORequest", new { @class = "btn-btn-primary" })
+    @Html.ActionLink("Add Transfer Request", "AddTransferORequest",  new { @class = "btn btn-primary" })
 </div>
 <br />
 
-<table border="1">
+<table class="table" border="1">
     <thead>
         <tr>
             <th>Transfer Status</th>
@@ -65,7 +64,7 @@
 </table>
 <br />
 <h2> ORejected Transfers </h2>
-<table border="1">
+<table class="table" border="1">
     <thead>
         <tr>
             <th>Transfer Status</th>
@@ -74,7 +73,7 @@
             <th>Destination Warehouse</th>
             <th>Product Name</th>
             <th>Quantity</th>
-            <th>Actions</th>
+            
 
 
         </tr>
@@ -98,7 +97,7 @@
 </table>
 <br />
 <h2>ORequested Transfers</h2>
-<table border="1">
+<table class="table" border="1">
     <thead>
         <tr>
             <th>Transfer Status</th>
@@ -107,7 +106,7 @@
             <th>Destination Warehouse</th>
             <th>Product Name</th>
             <th>Quantity</th>
-            <th>Actions</th>
+          
 
 
         </tr>

@@ -16,29 +16,40 @@ namespace LogiManage.Controllers
         {
             return View();
         }
-        LogiManageDbEntities1 logidb =new LogiManageDbEntities1();
-        public List<StocksViewModel> GetStockAdjustmentRequests() {
+        LogiManageDbEntities1 logidb = new LogiManageDbEntities1();
+        public List<StocksViewModel> GetStockAdjustmentRequests()
+        {
             int warehouseid = (int)Session["WarehouseID"];
+
+
+            //incele
+            var guncelStok = logidb.WarehouseStocks
+               .Where(x =>
+                x.WarehouseID == warehouseid)
+               .OrderByDescending(x => x.StockID)
+               .GroupBy(z =>
+                new { z.ProductID, z.WarehouseID })
+               .Select(x => x.FirstOrDefault());
+
             var adjustrequest = (from sr in logidb.StockAdjustmentRequests
-                                join p in logidb.Products on sr.ProductID equals p.ProductID
-                                join w in logidb.Warehouses on sr.WarehouseID equals w.WarehouseID
-                                join ws in logidb.WarehouseStocks
-                                on new { sr.ProductID, sr.WarehouseID }
-                                equals new { ws.ProductID, ws.WarehouseID } into stockGroup
-                                 from ws in stockGroup.DefaultIfEmpty()
+                                 join p in logidb.Products on sr.ProductID equals p.ProductID
+                                 join gStok in guncelStok on sr.ProductID equals gStok.ProductID
+                                 join w in logidb.Warehouses on sr.WarehouseID equals w.WarehouseID 
                                  where sr.WarehouseID == warehouseid
                                  select new StocksViewModel
-                                {
-                                    StockAdjustmentID=sr.StockAdjustmentID,
-                                    ProductID =p.ProductID,
-                                    ProductName =p.ProductName,
-                                    WarehouseID = (int)sr.WarehouseID,
-                                    WarehouseName=w.WarehouseName,
-                                    ExpectedQuantity= sr.ExpectedQuantity ?? 0,
-                                    CurrentQuantity = ws != null ? (int?)ws.Quantity ?? 0 : 0,
+                                 {
+                                     StockAdjustmentID = sr.StockAdjustmentID,
+                                     ProductID = p.ProductID,
+                                     ProductName = p.ProductName,
+
+
+                                     WarehouseID = (int)sr.WarehouseID,
+                                     WarehouseName = w.WarehouseName,
+                                     ExpectedQuantity = sr.ExpectedQuantity ?? 0,
+                                     CurrentQuantity = gStok != null ? (int?)gStok.Quantity ?? 0 : 0,
                                      AdjustmentRStatus = sr.AdjustmentRStatus,
-                                    RequestDate=sr.RequestDate ??DateTime.Now,
-                                }).ToList();
+                                     RequestDate = sr.RequestDate ?? DateTime.Now,
+                                 }).ToList();
             return adjustrequest;
         }
 
@@ -52,12 +63,12 @@ namespace LogiManage.Controllers
             ViewBag.WarehouseName = logidb.Warehouses
                 .Where(w => w.WarehouseID == warehouseid)
                 .Select(w => w.WarehouseName)
-                .FirstOrDefault();   
+                .FirstOrDefault();
             var model = new StocksViewModel();
             ViewBag.CurrentQuantity = logidb.WarehouseStocks
                  .Where(ws => ws.ProductID == model.ProductID && ws.WarehouseID == warehouseid)
                  .Select(ws => ws.Quantity)
-                 .FirstOrDefault();   
+                 .FirstOrDefault();
             ViewBag.ProductList = new SelectList(logidb.Products, "ProductID", "ProductName");
             return View(new StocksViewModel() { RequestDate = DateTime.Now, AdjustmentRStatus = "Requested" });
         }
@@ -66,14 +77,14 @@ namespace LogiManage.Controllers
         public ActionResult AddStockAdjustmentRequest(StocksViewModel addStockARequest)
         {
             int warehouseid = (int)Session["WarehouseID"];
-            
+
             var addrequest = new StockAdjustmentRequests
             {
                 ProductID = addStockARequest.ProductID,
                 WarehouseID = warehouseid,
                 ExpectedQuantity = addStockARequest.ExpectedQuantity,
                 CurrentQuantity = addStockARequest.CurrentQuantity,
-                AdjustmentRStatus = addStockARequest.AdjustmentRStatus ="Requested",
+                AdjustmentRStatus = addStockARequest.AdjustmentRStatus = "Requested",
                 RequestDate = DateTime.Now,
 
 
@@ -87,31 +98,31 @@ namespace LogiManage.Controllers
         {
             int warehouseId = (int)Session["WarehouseID"];
 
-            using (var  logidb = new LogiManageDbEntities1()) 
+            using (var logidb = new LogiManageDbEntities1())
             {
-               
+
                 var adjustmentRequest = logidb.StockAdjustmentRequests
                     .FirstOrDefault(sr => sr.StockAdjustmentID == stockadjustmentid && sr.AdjustmentRStatus == "Requested");
 
                 if (adjustmentRequest == null)
                 {
-                    return RedirectToAction("StockAdjustmentRequests", "StockAdjustment"); 
+                    return RedirectToAction("StockAdjustmentRequests", "StockAdjustment");
                 }
 
-              
+
                 adjustmentRequest.AdjustmentRStatus = "Corrected";
 
-                
+
                 var stock = logidb.WarehouseStocks
                     .FirstOrDefault(ws => ws.ProductID == adjustmentRequest.ProductID && ws.WarehouseID == warehouseId);
 
                 if (stock != null)
                 {
-                    
+
                     stock.Quantity = adjustmentRequest.ExpectedQuantity;
                 }
 
-                logidb.SaveChanges(); 
+                logidb.SaveChanges();
             }
 
             return RedirectToAction("StockAdjustmentRequests", "StockAdjustment");
@@ -119,14 +130,14 @@ namespace LogiManage.Controllers
 
 
         public ActionResult RejectStockAdjustmentRequest(int stockadjustmentid)
-        { 
-            var requeststatus= logidb.StockAdjustmentRequests.FirstOrDefault(s =>s.StockAdjustmentID == stockadjustmentid);
-            if(requeststatus != null && requeststatus.AdjustmentRStatus =="Requested")
+        {
+            var requeststatus = logidb.StockAdjustmentRequests.FirstOrDefault(s => s.StockAdjustmentID == stockadjustmentid);
+            if (requeststatus != null && requeststatus.AdjustmentRStatus == "Requested")
             {
                 requeststatus.AdjustmentRStatus = "Rejected";
                 logidb.SaveChanges();
             }
-            return RedirectToAction("StockAdjustmentRequests","StockAdjustment");
+            return RedirectToAction("StockAdjustmentRequests", "StockAdjustment");
         }
 
     }

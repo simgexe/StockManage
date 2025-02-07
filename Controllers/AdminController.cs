@@ -40,6 +40,9 @@ namespace LogiManage.Controllers
                 {
                     UserID = ws.UserID,
                     Username = ws.Username,
+                    UserFirstName=ws.UserFirstName,
+                    UserLastName=ws.UserLastName,
+                    UserEmail=ws.UserEmail,
                     RoleID = (int)ws.RoleID,
                     WarehouseID = (int)ws.WarehouseID,
                     WarehouseName = ws.Warehouses.WarehouseName
@@ -151,6 +154,30 @@ namespace LogiManage.Controllers
         public ActionResult Reports()
         {
             return View();
+        }
+     
+        public ActionResult WarehousesStocks(int? warehouseId)
+        {
+            if (warehouseId == null && logidb.Warehouses.Any())
+                warehouseId = logidb.Warehouses.First().WarehouseID;
+
+            var productsInWarehouse = logidb.WarehouseStocks
+                .Where(ws => ws.WarehouseID == warehouseId)
+                .Select(ws => new LogiManage.ViewModels.WarehouseProductViewModel
+                {
+                    ProductID = ws.Products.ProductID,
+                    ProductName = ws.Products.ProductName,
+                    Category = ws.Products.Category,
+                    Price = (int)ws.Products.Price,
+                    Quantity = (int)ws.Quantity,
+                    CriticalStockLevel = (int)ws.Products.CriticalStockLevel
+
+                }).ToList();
+            ViewBag.Warehouses = logidb.Warehouses.ToList();
+            ViewBag.SelectedWarehouseId = warehouseId;
+            ViewBag.Products = logidb.Products.ToList();
+
+            return View(productsInWarehouse);
         }
     }
 }
