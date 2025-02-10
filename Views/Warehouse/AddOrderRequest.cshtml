@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "OrderRequest";
     Layout = "~/Views/Shared/_LayoutWarehouseManager.cshtml";
 }
@@ -13,12 +12,13 @@
         @Html.HiddenFor(m => m.OrderRequestID)
         <div class="form-group">
             @Html.LabelFor(m => m.OrderRequestStatus)
-            @Html.TextBoxFor(m => m.OrderRequestStatus, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.OrderRequestStatus, new { @class = "form-control", @Value = Model.OrderRequestStatus = "Requested", @readonly ="readonly"})
         </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.OrderRequestDate)
-            @Html.TextBoxFor(m => m.OrderRequestDate, new { @class = "form-control" })
-        </div>
+       
+            <div class="form-group">
+                @Html.LabelFor(m => m.OrderRequestDate)
+                @Html.TextBoxFor(m => m.OrderRequestDate, new { @class = "form-control", @Value = DateTime.Now.ToString("dd.MM.yyyy"), @readonly = "readonly" })
+            </div>
         <div class="form-group">
             @Html.LabelFor(m => m.ProductID)
             @Html.TextBoxFor(m => m.ProductID, new {  @class = "form-control"})

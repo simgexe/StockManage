@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using System.Web.Mvc;
 using LogiManage.Models;
+using LogiManage.ViewModels;
 using Microsoft.Ajax.Utilities;
 
 namespace LogiManage.Controllers
@@ -17,11 +18,34 @@ namespace LogiManage.Controllers
         LogiManageDbEntities1 logidb = new LogiManageDbEntities1();
 
         // GET: Admin - Displays the main admin page
-        public ActionResult Index()
+        public ActionResult Index() { return View(); }
+    
+        public List<TransferViewModel> GetTransfers()
         {
-            return View();
+            var transferList = from wt in logidb.WarehouseTransfers
+                               join p in logidb.Products on wt.ProductID equals p.ProductID
+                               join sw in logidb.Warehouses on wt.SourceWarehouseID equals sw.WarehouseID
+                               join dw in logidb.Warehouses on wt.DestinationWarehouseID equals dw.WarehouseID
+                               select new TransferViewModel
+                               {
+                                   TransferID = wt.TransferID,
+                                   SourceWarehouseID = sw.WarehouseID,
+                                   DestinationWarehouseID = dw.WarehouseID,
+                                   ProductID = wt.ProductID ?? 0,
+                                   Quantity = wt.Quantity ?? 0,
+                                   TransferDate = wt.TransferDate ?? DateTime.Now,
+                                   TransferStatus = wt.TransferStatus,
+                                   ProductName = p.ProductName,
+                                   SourceWarehouseName = sw.WarehouseName,
+                                   DestinationWarehouseName = dw.WarehouseName
+                               };
+            return transferList.ToList();
         }
-
+        public ActionResult ATransfers()
+        {
+            return View(GetTransfers());
+        }
+        
         // ManageUsers - Displays users in a specific warehouse
         public ActionResult ManageUsers(int? warehouseId)
         {
@@ -72,14 +96,13 @@ namespace LogiManage.Controllers
             return View(user);
         }
 
-        // UserUpdate - Handles the post request to update user details
+        
         [HttpPost]
         public ActionResult UserUpdate(int userId, Users updatedUser)
         {
-            // Find the user to update
             var user = logidb.Users.FirstOrDefault(u => u.UserID == updatedUser.UserID);
 
-            // If user not found, return not found response
+           
             if (user == null)
             {
                 return HttpNotFound("User not found.");
@@ -94,63 +117,63 @@ namespace LogiManage.Controllers
             user.RoleID = updatedUser.RoleID;
             user.WarehouseID = updatedUser.WarehouseID;
 
-            // Save changes to the database
+            
             logidb.SaveChanges();
 
-            // Redirect to ManageUsers action with the updated warehouse ID
+           
             return RedirectToAction("ManageUsers", new { warehouseId = user.WarehouseID });
         }
 
-        // UserDelete - Deletes a user by ID
+        
         public ActionResult UserDelete(int userID)
         {
-            // Find the user to delete
+            
             var user = logidb.Users.FirstOrDefault(u => u.UserID == userID);
 
-            // If user exists, remove from the database
+            
             if (user != null)
             {
                 logidb.Users.Remove(user);
             }
             logidb.SaveChanges();
 
-            // Redirect to ManageUsers action
+            
             return user != null
                 ? RedirectToAction("ManageUsers", new { warehouseId = user.WarehouseID })
                 : RedirectToAction("ManageUsers");
         }
 
-        // AddUser - Displays the form to add a new user
+        
         [HttpGet]
         public ActionResult AddUser()
         {
-            // Populate role and warehouse lists for dropdowns in the view
+            
             ViewBag.RoleList = new SelectList(logidb.Roles, "RoleID", "RoleName");
            ViewBag.WarehouseList = new SelectList(logidb.Warehouses, "WarehouseID", "WarehouseName");
             return View();
         }
 
-        // AddUser - Handles the post request to add a new user
+        
         [HttpPost]
         public ActionResult AddUser(Users newuser)
         {
-            // Check if the model state is valid
+           
             if (ModelState.IsValid)
             {
-                // Add the new user to the database
+                
                 logidb.Users.Add(newuser);
                 logidb.SaveChanges();
-                // Redirect to ManageUsers action with the new user's warehouse ID
+                
                 return RedirectToAction("ManageUsers", new { warehouseId = newuser.WarehouseID });
             }
 
-            // If model state is invalid, repopulate dropdowns and return to view
+            
             ViewBag.RoleList = new SelectList(logidb.Roles, "RoleID", "RoleName");
             ViewBag.WarehouseList = new SelectList(logidb.Warehouses, "WarehouseID", "WarehouseName");
             return View(newuser);
         }
 
-        // Reports - Displays the reports page
+        
         public ActionResult Reports()
         {
             return View();

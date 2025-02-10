@@ -307,6 +307,8 @@
     <Content Include="Views\StockAdjustment\AddStockAdjustmentRequest.cshtml" />
     <Content Include="Views\StockAdjustment\StockAdjustmentRequests.cshtml" />
     <Content Include="Views\StockAdjustment\OStockAdjustmentRequests.cshtml" />
+    <Content Include="Views\Admin\ATransfers.cshtml" />
+    <Content Include="Views\Admin\AdminDashboard.cshtml" />
     <None Include="Views\Admin\WarehousesStocks.cshtml" />
   </ItemGroup>
   <ItemGroup>

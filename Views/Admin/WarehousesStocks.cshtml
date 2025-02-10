@@ -7,10 +7,10 @@
 
 @model IEnumerable<LogiManage.ViewModels.WarehouseProductViewModel>
 <!-- Depo Seçimi -->
-<form method="get" action="@Url.Action("WarehousesStocks", "Admin")">
-
-    <label for="warehouseId"> choose a warehouse  </label>
-    <select id="warehouseId" name="warehouseId" onchange="this.form.submit()">
+<form method="get" action="@Url.Action("WarehousesStocks", "Admin")" class="mb-3">
+    <label for="warehouseId" class="form-label fw-bold">Choose a warehouse:</label>
+    <select id="warehouseId" name="warehouseId" class="form-select" onchange="this.form.submit()">
+        <option disabled selected>Select a warehouse</option>
         @foreach (var warehouse in ViewBag.Warehouses)
         {
             <option value="@warehouse.WarehouseID" @(ViewBag.SelectedWarehouseId == warehouse.WarehouseID ? "selected" : "")>
@@ -19,6 +19,7 @@
         }
     </select>
 </form>
+
 
 <hr />
 

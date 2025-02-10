@@ -30,7 +30,7 @@
             foreach (var request in Model.Where(x => x.OrderRequestStatus == "OrderRequested" && x.WarehouseID == @warehouseId))
             {
                 <tr>
-                    
+
                     <td>@Html.DisplayFor(modelItem => request.OrderRequestStatus)</td>
                     <td>@Html.DisplayFor(modelItem => request.ProductName)</td>
                     <td>@Html.DisplayFor(modelItem => request.WarehouseName)</td>
@@ -82,6 +82,45 @@
         @if (Model != null && Model.Any())
         {
             foreach (var request in Model.Where(x => x.OrderRequestStatus == "OrderRejected" && x.WarehouseID == @warehouseId))
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => request.OrderRequestStatus)</td>
+                    <td>@Html.DisplayFor(modelItem => request.ProductName)</td>
+                    <td>@Html.DisplayFor(modelItem => request.WarehouseName)</td>
+                    <td>@Html.DisplayFor(modelItem => request.RequestQuantity)</td>
+                    <td>@Html.DisplayFor(modelItem => request.OrderRequestDate)</td>
+
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7">No  rejected order found.</td>
+            </tr>
+        }
+
+
+    </tbody>
+</table>
+<br />
+<h2> Preparing Orders </h2>
+
+<table class="table" border="1">
+    <thead>
+        <tr>
+            <th>Order Request Status</th>
+            <th>Product Name</th>
+            <th> Warehouse</th>
+            <th>Quantity</th>
+            <th>Order Request Date</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var request in Model.Where(x => x.OrderRequestStatus == "OrderPreparing" && x.WarehouseID == @warehouseId))
             {
                 <tr>
                     <td>@Html.DisplayFor(modelItem => request.OrderRequestStatus)</td>

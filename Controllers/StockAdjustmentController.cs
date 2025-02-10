@@ -21,37 +21,43 @@ namespace LogiManage.Controllers
         {
             int warehouseid = (int)Session["WarehouseID"];
 
-
-            //incele
+            // Güncellenmiş stok listesini çek
             var guncelStok = logidb.WarehouseStocks
-               .Where(x =>
-                x.WarehouseID == warehouseid)
-               .OrderByDescending(x => x.StockID)
-               .GroupBy(z =>
-                new { z.ProductID, z.WarehouseID })
-               .Select(x => x.FirstOrDefault());
+                .Where(x => x.WarehouseID == warehouseid)
+                .OrderByDescending(x => x.StockID)
+                .GroupBy(z => new { z.ProductID, z.WarehouseID })
+                .Select(x => x.FirstOrDefault())
+                .ToList(); // Belleğe çekiyoruz
 
+            // Önce StockAdjustmentRequests verilerini çekiyoruz (Veritabanı sorgusu olarak)
             var adjustrequest = (from sr in logidb.StockAdjustmentRequests
                                  join p in logidb.Products on sr.ProductID equals p.ProductID
-                                 join gStok in guncelStok on sr.ProductID equals gStok.ProductID
-                                 join w in logidb.Warehouses on sr.WarehouseID equals w.WarehouseID 
+                                 join w in logidb.Warehouses on sr.WarehouseID equals w.WarehouseID
                                  where sr.WarehouseID == warehouseid
                                  select new StocksViewModel
                                  {
                                      StockAdjustmentID = sr.StockAdjustmentID,
                                      ProductID = p.ProductID,
                                      ProductName = p.ProductName,
-
-
                                      WarehouseID = (int)sr.WarehouseID,
                                      WarehouseName = w.WarehouseName,
                                      ExpectedQuantity = sr.ExpectedQuantity ?? 0,
-                                     CurrentQuantity = gStok != null ? (int?)gStok.Quantity ?? 0 : 0,
                                      AdjustmentRStatus = sr.AdjustmentRStatus,
-                                     RequestDate = sr.RequestDate ?? DateTime.Now,
-                                 }).ToList();
+                                     RequestDate = sr.RequestDate ?? DateTime.Now
+                                 }).ToList(); // Buraya kadar sadece veritabanı sorgusu çalışıyor.
+
+            // Şimdi CurrentQuantity değerini güncelliyoruz
+            foreach (var item in adjustrequest)
+            {
+                var stok = guncelStok.FirstOrDefault(s => s.ProductID == item.ProductID);
+                item.CurrentQuantity = stok != null ? stok.Quantity ?? 0 : 0;
+            }
+
             return adjustrequest;
         }
+
+
+
 
 
         public ActionResult StockAdjustmentRequests() { return View(GetStockAdjustmentRequests()); }
@@ -64,12 +70,23 @@ namespace LogiManage.Controllers
                 .Where(w => w.WarehouseID == warehouseid)
                 .Select(w => w.WarehouseName)
                 .FirstOrDefault();
-            var model = new StocksViewModel();
-            ViewBag.CurrentQuantity = logidb.WarehouseStocks
-                 .Where(ws => ws.ProductID == model.ProductID && ws.WarehouseID == warehouseid)
-                 .Select(ws => ws.Quantity)
-                 .FirstOrDefault();
+
             ViewBag.ProductList = new SelectList(logidb.Products, "ProductID", "ProductName");
+
+            var model = new StocksViewModel();
+
+            if (model.ProductID > 0) 
+            {
+                ViewBag.CurrentQuantity = logidb.WarehouseStocks
+                     .Where(ws => ws.ProductID == model.ProductID && ws.WarehouseID == warehouseid)
+                     .Select(ws => ws.Quantity)
+                     .FirstOrDefault() ?? 0;
+            }
+            else
+            {
+                ViewBag.CurrentQuantity = 0;
+            }
+
             return View(new StocksViewModel() { RequestDate = DateTime.Now, AdjustmentRStatus = "Requested" });
         }
 
@@ -83,7 +100,7 @@ namespace LogiManage.Controllers
                 ProductID = addStockARequest.ProductID,
                 WarehouseID = warehouseid,
                 ExpectedQuantity = addStockARequest.ExpectedQuantity,
-                CurrentQuantity = addStockARequest.CurrentQuantity,
+                CurrentQuantity = addStockARequest.CurrentQuantity ,
                 AdjustmentRStatus = addStockARequest.AdjustmentRStatus = "Requested",
                 RequestDate = DateTime.Now,
 

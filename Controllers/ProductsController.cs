@@ -36,7 +36,7 @@ namespace LogiManage.Controllers
 
                 logidb.Products.Add(newProduct);
                 logidb.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Purchase");
         }
         
         [HttpPost]

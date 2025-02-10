@@ -41,8 +41,8 @@
                 <td>@Html.DisplayFor(modelItem => supplier.ContactName)</td>
 
                 <td>
-                    @Html.ActionLink("Edit", "SupplierUpdate", new { supplierid = supplier.SupplierID }) |
-                    @Html.ActionLink("Delete", "SupplierDelete", new { supplierid = supplier.SupplierID })
+                    @Html.ActionLink("Edit", "SupplierUpdate", new { supplierid = supplier.SupplierID }, new {@class = "btn btn-warning" }) |
+                    @Html.ActionLink("Delete", "SupplierDelete", new { supplierid = supplier.SupplierID }, new { @class = "btn btn-danger" })
                 </td>
             </tr>
         }

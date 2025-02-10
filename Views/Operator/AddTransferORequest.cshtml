@@ -30,11 +30,11 @@
         </div>
         <div class="form-group">
             @Html.LabelFor(m => m.TransferDate)
-            @Html.TextBoxFor(m => m.TransferDate, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.TransferDate, new { @class = "form-control" , @readonly="readonly"})
         </div>
         <div class="form-group">
             @Html.LabelFor(m => m.TransferStatus)
-            @Html.TextBoxFor(m => m.TransferStatus, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.TransferStatus, new { @class = "form-control", @readonly="readonly" })
             </div>
 
 

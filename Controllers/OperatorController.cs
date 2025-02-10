@@ -258,7 +258,7 @@ namespace LogiManage.Controllers
             ViewBag.WarehouseList2 = new SelectList(logidb.Warehouses, "WarehouseID", "WarehouseName");
             ViewBag.ProductList = new SelectList(logidb.Products, "ProductID", "ProductName");
 
-            return View(new TransferViewModel() { TransferDate = DateTime.Now, DestinationWarehouseName = Session["WarehouseName"].ToString() });
+            return View(new TransferViewModel() { TransferDate = DateTime.Now, DestinationWarehouseName = Session["WarehouseName"].ToString(),TransferStatus="ORequested" });
 
         }
 
@@ -287,7 +287,7 @@ namespace LogiManage.Controllers
 
             }
             return RedirectToAction("TransferORequest");
-            ;
+            
         }
 
         public ActionResult TransferORequest()

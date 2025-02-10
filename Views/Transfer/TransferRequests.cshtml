@@ -10,6 +10,7 @@
     var warehouseId = (int)Session["WarehouseID"];
 }
 
+<h3> Opertor's Transfer Requests</h3>
 <table class="table" border="1">
     <thead>
         <tr>
@@ -36,7 +37,7 @@
                     @using (Html.BeginForm("AcceptO", "Transfer", FormMethod.Post))
                     {
                         @Html.Hidden("transferId", transfer.TransferID)
-                        <button type="submit" class="btn-outline-success">Accept Transfer</button>
+                        <button type="submit" class="btn btn-outline-success">Accept Transfer</button>
                     }
                 </td>
                 <td>
@@ -52,6 +53,7 @@
     </tbody>
 </table>
 <br />
+<h3> Delivered Transfers (incoming)</h3>
 <table class="table" border="1">
     <thead>
         <tr>
@@ -78,7 +80,7 @@
                     @using (Html.BeginForm("Completed", "Transfer", FormMethod.Post))
                     {
                         @Html.Hidden("transferId", transfer.TransferID)
-                        <button type="submit" class="btn-btn-success">Complete</button>
+                        <button type="submit" class="btn btn-success">Complete</button>
                     }
                 </td>
                 <td>
@@ -94,6 +96,8 @@
     </tbody>
 </table>
 <br />
+
+<h3>Requested Transfers from Other Warehouses </h3>
 <table class="table" border="1">
     <thead>
         <tr>
@@ -120,7 +124,7 @@
                     @using (Html.BeginForm("Accept", "Transfer", FormMethod.Post))
                     {
                         @Html.Hidden("transferId", transfer.TransferID)
-                        <button type="submit" class="btn-btn-success">Accept</button>
+                        <button type="submit" class="btn btn-success">Accept</button>
                     }
                 </td>
                 <td>

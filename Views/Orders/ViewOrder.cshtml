@@ -7,39 +7,141 @@
 
 @model IEnumerable<LogiManage.ViewModels.ViewOrderViewModel>
 
+<br />
+<h3> Ordered </h3>
 <table class="table" border="1">
     <thead>
         <tr>
-            <th >Sipariş No</th>
-            <th >Sipariş Tarihi</th>
-            <th >Durum</th>
-            
-            <th >Tedarikçi Adı</th>
-            
-            <th >Depo adı</th>
-            
-           
-            <th > ürün adı </th>
-            <th >miktar</th>
-            <th >Fiyat</th>
+            <th>OrderNo</th>
+            <th>Order Date</th>
+            <th>Order Status</th>
+            <th>Supplier</th>
+            <th>Warehouse Name</th>
+            <th> Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var order in Model)
+        @foreach (var order in Model.Where(x => x.OrderStatus == "Ordered"))
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => order.OrderID)</td>
                 <td>@Html.DisplayFor(modelItem => order.OrderDate)</td>
                 <td>@Html.DisplayFor(modelItem => order.OrderStatus)</td>
-                
+
                 <td>@Html.DisplayFor(modelItem => order.SupplierName)</td>
-                
+
                 <td>@Html.DisplayFor(modelItem => order.WarehouseName)</td>
-                
+
                 <td>@Html.DisplayFor(modelItem => order.ProductName)</td>
                 <td>@Html.DisplayFor(modelItem => order.Quantity)</td>
                 <td>@Html.DisplayFor(modelItem => order.UnitPrice)</td>
             </tr>
-    }
-        </tbody>
-    </table>
+        }
+    </tbody>
+    <br />
+</table>
+<br />
+<h3>Delivered Orders</h3>
+<table class="table" border="1">
+    <thead>
+        <tr>
+            <th>OrderNo</th>
+            <th>Order Date</th>
+            <th>Order Status</th>
+            <th>Supplier</th>
+            <th>Warehouse Name</th>
+            <th> Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model.Where(x => x.OrderStatus == "Delivered"))
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => order.OrderID)</td>
+                <td>@Html.DisplayFor(modelItem => order.OrderDate)</td>
+                <td>@Html.DisplayFor(modelItem => order.OrderStatus)</td>
+
+                <td>@Html.DisplayFor(modelItem => order.SupplierName)</td>
+
+                <td>@Html.DisplayFor(modelItem => order.WarehouseName)</td>
+
+                <td>@Html.DisplayFor(modelItem => order.ProductName)</td>
+                <td>@Html.DisplayFor(modelItem => order.Quantity)</td>
+                <td>@Html.DisplayFor(modelItem => order.UnitPrice)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<h3> Cancelled Orders </h3>
+<table class="table" border="1">
+    <thead>
+        <tr>
+            <th>OrderNo</th>
+            <th>Order Date</th>
+            <th>Order Status</th>
+            <th>Supplier</th>
+            <th>Warehouse Name</th>
+            <th> Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model.Where(x => x.OrderStatus == "Cancelled"))
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => order.OrderID)</td>
+                <td>@Html.DisplayFor(modelItem => order.OrderDate)</td>
+                <td>@Html.DisplayFor(modelItem => order.OrderStatus)</td>
+
+                <td>@Html.DisplayFor(modelItem => order.SupplierName)</td>
+
+                <td>@Html.DisplayFor(modelItem => order.WarehouseName)</td>
+
+                <td>@Html.DisplayFor(modelItem => order.ProductName)</td>
+                <td>@Html.DisplayFor(modelItem => order.Quantity)</td>
+                <td>@Html.DisplayFor(modelItem => order.UnitPrice)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br>
+<h3> Completed Orders </h3>
+<table class="table" border="1">
+    <thead>
+        <tr>
+            <th>OrderNo</th>
+            <th>Order Date</th>
+            <th>Order Status</th>
+            <th>Supplier</th>
+            <th>Warehouse Name</th>
+            <th> Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model.Where(x => x.OrderStatus == "Completed"))
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => order.OrderID)</td>
+                <td>@Html.DisplayFor(modelItem => order.OrderDate)</td>
+                <td>@Html.DisplayFor(modelItem => order.OrderStatus)</td>
+
+                <td>@Html.DisplayFor(modelItem => order.SupplierName)</td>
+
+                <td>@Html.DisplayFor(modelItem => order.WarehouseName)</td>
+
+                <td>@Html.DisplayFor(modelItem => order.ProductName)</td>
+                <td>@Html.DisplayFor(modelItem => order.Quantity)</td>
+                <td>@Html.DisplayFor(modelItem => order.UnitPrice)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

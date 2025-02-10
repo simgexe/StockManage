@@ -16,25 +16,33 @@ namespace LogiManage.Controllers
         LogiManageDbEntities1 logidb = new LogiManageDbEntities1();
 
         [HttpGet]
-        public ActionResult CreateOrder()
+        public ActionResult CreateOrder(string selectedCategory)
         {
-            ViewBag.ProductList = new SelectList(logidb.Products, "ProductID", "ProductName");
             ViewBag.CategoryList = new SelectList(
-            logidb.Products
-                 .Select(p => new { Category = p.Category })
-                 .Distinct()
-                 .ToList(), "Category",  "Category" );
-            var model = new ViewOrderViewModel();
-            ViewBag.Price = logidb.Products
-                .Where(p => p.ProductID == model.ProductID)
-                .Select(p => p.Price)
-                .FirstOrDefault();
+                logidb.Products.Select(p => p.Category).Distinct().ToList());
+
+            if (!string.IsNullOrEmpty(selectedCategory))
+            {
+                ViewBag.ProductList = new SelectList(
+                    logidb.Products.Where(p => p.Category == selectedCategory)
+                                   .Select(p => new { p.ProductID, p.ProductName, p.Price })
+                                   .ToList(),
+                    "ProductID",
+                    "ProductName"
+                );
+            }
+            else
+            {
+                ViewBag.ProductList = new SelectList(Enumerable.Empty<SelectListItem>());
+            }
+
             ViewBag.SupplierList = new SelectList(logidb.Suppliers, "SupplierID", "SupplierName");
             ViewBag.WarehouseList = new SelectList(logidb.Warehouses, "WarehouseID", "WarehouseName");
 
-
             return View(new ViewOrderViewModel() { OrderDate = DateTime.Now, OrderStatus = "Ordered" });
         }
+
+
 
         [HttpPost]
         public ActionResult CreateOrder(ViewOrderViewModel model)
@@ -46,13 +54,13 @@ namespace LogiManage.Controllers
                     string getProductPriceQuery = @"SELECT Price FROM Products WHERE ProductID = @ProductID";
 
                     string insertOrderQuery = @"
-                INSERT INTO Orders (OrderDate, OrderStatus, SupplierID, WarehouseID) 
-                OUTPUT INSERTED.OrderID
-                VALUES (@OrderDate, @OrderStatus, @SupplierID, @WarehouseID)";
+                                             INSERT INTO Orders (OrderDate, OrderStatus, SupplierID, WarehouseID) 
+                                             OUTPUT INSERTED.OrderID
+                                             VALUES (@OrderDate, @OrderStatus, @SupplierID, @WarehouseID)";
 
                     string insertOrderDetailQuery = @"
-                INSERT INTO OrderDetails (OrderID, ProductID, Quantity, UnitPrice) 
-                VALUES (@OrderID, @ProductID, @Quantity, @UnitPrice)";
+                                             INSERT INTO OrderDetails (OrderID, ProductID, Quantity, UnitPrice) 
+                                             VALUES (@OrderID, @ProductID, @Quantity, @UnitPrice)";
 
                     connection.Open();
                     SqlTransaction transaction = connection.BeginTransaction();
@@ -95,23 +103,13 @@ namespace LogiManage.Controllers
                     {
                         connection.Close();
                     }
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Purchase");
                 }
             }
 
             return View(model);
         }
-        public JsonResult GetProductsByCategory(string category)
-        {
-            var products = logidb.Products
-                .Where(p => p.Category == category)
-                .Select(p => new { p.ProductID, p.ProductName })
-                .ToList();
-
-            return Json(products, JsonRequestBehavior.AllowGet);
-        }
-       
-
+     
         public ActionResult ViewOrder()
         {
             SqlConnection connection = new SqlConnection("Data Source=RAKUNSY;Initial Catalog=LogiManageDb;Integrated Security=True");
@@ -172,7 +170,7 @@ namespace LogiManage.Controllers
                 orderrequest.OrderRequestStatus = "OrderRejected";
                 logidb.SaveChanges();
             }
-            return RedirectToAction("OrderRequests");
+            return RedirectToAction("OrderRequests", "Purchase");
         }
 
     }

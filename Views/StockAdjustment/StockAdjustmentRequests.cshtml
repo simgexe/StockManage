@@ -1,6 +1,4 @@
-﻿
-
-@{
+﻿@{
     ViewBag.Title = "StockAdjustmentRequests";
     Layout = "~/Views/Shared/_LayoutWarehouseManager.cshtml";
 }
@@ -20,20 +18,28 @@
             <th>Current Quantity</th>
             <th>Adjustment Request Status</th>
             <th>Request Date</th>
-            <th>Actions</th>
+           
         </tr>
     </thead>
     <tbody>
-        @foreach (var adjustrequest in Model)
+        @if (Model.Any())
+        {
+            foreach (var adjustrequest in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => adjustrequest.ProductName)</td>
+                    <td>@Html.DisplayFor(modelItem => adjustrequest.WarehouseName)</td>
+                    <td>@Html.DisplayFor(modelItem => adjustrequest.ExpectedQuantity)</td>
+                    <td>@Html.DisplayFor(modelItem => adjustrequest.CurrentQuantity)</td>
+                    <td>@Html.DisplayFor(modelItem => adjustrequest.AdjustmentRStatus)</td>
+                    <td>@Html.DisplayFor(modelItem => adjustrequest.RequestDate)</td>
+                </tr>
+            }
+        }
+        else
         {
             <tr>
-
-                <td>@Html.DisplayFor(modelItem => adjustrequest.ProductName)</td>
-                <td>@Html.DisplayFor(modelItem => adjustrequest.WarehouseName)</td>
-                <td>@Html.DisplayFor(modelItem => adjustrequest.ExpectedQuantity)</td>
-                <td>@Html.DisplayFor(modelItem => adjustrequest.CurrentQuantity)</td>
-                <td>@Html.DisplayFor(modelItem => adjustrequest.AdjustmentRStatus)</td>
-                <td>@Html.DisplayFor(modelItem => adjustrequest.RequestDate)</td>
+                <td colspan="7" class="text-center">No stock adjustment requests available.</td>
             </tr>
         }
     </tbody>
@@ -53,33 +59,38 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var adjustrequest in Model.Where(s => s.AdjustmentRStatus == "Requested" && s.WarehouseID == warehouseId))
+        @if (Model.Any(s => s.AdjustmentRStatus == "Requested" && s.WarehouseID == warehouseId))
+        {
+            foreach (var adjustrequest in Model.Where(s => s.AdjustmentRStatus == "Requested" && s.WarehouseID == warehouseId))
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => adjustrequest.ProductName)</td>
+                    <td>@Html.DisplayFor(modelItem => adjustrequest.WarehouseName)</td>
+                    <td>@Html.DisplayFor(modelItem => adjustrequest.ExpectedQuantity)</td>
+                    <td>@Html.DisplayFor(modelItem => adjustrequest.CurrentQuantity)</td>
+                    <td>@Html.DisplayFor(modelItem => adjustrequest.AdjustmentRStatus)</td>
+                    <td>@Html.DisplayFor(modelItem => adjustrequest.RequestDate)</td>
+                    <td>
+                        @using (Html.BeginForm("Corrected", "StockAdjustment", FormMethod.Post))
+                        {
+                            @Html.Hidden("stockadjustmentid", adjustrequest.StockAdjustmentID)
+                            <button type="submit" class="btn btn-outline-success">Correct Current Quantity</button>
+                        }
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("RejectStockAdjustmentRequest", "StockAdjustment", FormMethod.Post))
+                        {
+                            @Html.Hidden("stockadjustmentid", adjustrequest.StockAdjustmentID)
+                            <button type="submit" class="btn btn-outline-warning"> Reject </button>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        else
         {
             <tr>
-
-                <td>@Html.DisplayFor(modelItem => adjustrequest.ProductName)</td>
-                <td>@Html.DisplayFor(modelItem => adjustrequest.WarehouseName)</td>
-                <td>@Html.DisplayFor(modelItem => adjustrequest.ExpectedQuantity)</td>
-                <td>@Html.DisplayFor(modelItem => adjustrequest.CurrentQuantity)</td>
-                <td>@Html.DisplayFor(modelItem => adjustrequest.AdjustmentRStatus)</td>
-                <td>@Html.DisplayFor(modelItem => adjustrequest.RequestDate)</td>
-            
-                
-                <td>
-                    @using (Html.BeginForm("Corrected", "StockAdjustment", FormMethod.Post))
-                    {
-                        @Html.Hidden("stockadjustmentid", adjustrequest.StockAdjustmentID)
-                        <button type="submit" class="btn btn-outline-success">Correct Current Quantity</button>
-                    }
-                </td>
-                <td>
-                    @using (Html.BeginForm("RejectStockAdjustmentRequest", "StockAdjustment", FormMethod.Post))
-                    {
-                        @Html.Hidden("stockadjustmentid", adjustrequest.StockAdjustmentID)
-                        <button type="submit" class="btn btn-outline-warning"> Reject </button>
-                    }
-                </td>
-
+                <td colspan="7" class="text-center">No requests available for this warehouse.</td>
             </tr>
         }
     </tbody>

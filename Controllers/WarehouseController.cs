@@ -65,6 +65,7 @@ namespace LogiManage.Controllers
 
 
             return View(productsInWarehouse);
+            
         }
        //....diğer depolardaki ürün miktarlarını kontrol etme....
         [HttpGet]
@@ -103,7 +104,7 @@ namespace LogiManage.Controllers
             var model = new WarehouseProductViewModel();
             ViewBag.ProductList = new SelectList(productList, "Value", "Text");
 
-            return View();
+            return View(new OrderRequestViewModel() { OrderRequestStatus = "Requested", OrderRequestDate = DateTime.Now });
         }
         [HttpPost]
         public ActionResult AddOrderRequest(OrderRequestViewModel addOrderRequest)
@@ -120,7 +121,6 @@ namespace LogiManage.Controllers
                     int count = (int)checkCmd.ExecuteScalar();
                     if (count == 0)
                     {
-                        // Handle the case where the ProductID does not exist
                         ModelState.AddModelError("", "Invalid ProductID.");
                         return View(addOrderRequest);
                     }
@@ -139,6 +139,7 @@ namespace LogiManage.Controllers
                 return RedirectToAction("PurchaseRequests");
             }
         }
+        
         
 
         //...sipariş isteklerini görme

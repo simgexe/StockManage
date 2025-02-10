@@ -4,39 +4,38 @@
     Layout = "~/Views/Shared/_LayoutOperator.cshtml";
 }
 @model LogiManage.ViewModels.StocksViewModel
-<h2>AddStockAdjustmentRequest</h2>
-<div>
-    <h3> Add new Transfer </h3>
-    @using (Html.BeginForm("AddStockAdjustmentRequest", "StockAdjustment", FormMethod.Post))
-    {
-        @Html.HiddenFor(m => m.StockAdjustmentID)
-        <div class="form-group">
-            @Html.LabelFor(m => m.ProductID)
-            @Html.DropDownListFor(m => m.ProductID, (SelectList)ViewBag.ProductList, "Select Product", new { @class = "form-control" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.WarehouseID)
-            @Html.TextBoxFor(m => m.WarehouseID, new { @Value = ViewBag.WarehouseName, @class = "form-control", @readonly = "readonly" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.ExpectedQuantity)
-            @Html.TextBoxFor(m => m.ExpectedQuantity, new  { @class ="form-control"})
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.CurrentQuantity)
-            @Html.TextBoxFor(m => m.CurrentQuantity, new { @class = "form-control"})
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.AdjustmentRStatus)
-            @Html.TextBoxFor(m => m.AdjustmentRStatus, new { @class = "form-control", @readonly ="readonly" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.RequestDate)
-            @Html.TextBoxFor(m => m.RequestDate, new { @class = "form-control" ,@readonly ="readonly"})
-        </div>
 
 
-        <button type="submit" class="btn btn-outline-success">Add </button>
-    }
-</div>
+<h2>Yeni Stok Ayarlama Talebi Ekle</h2>
 
+@using (Html.BeginForm("AddStockAdjustmentRequest", "StockAdjustment", FormMethod.Post))
+{
+    <div class="form-group">
+        <label>Depo Adı:</label>
+        <input type="text" class="form-control" value="@ViewBag.WarehouseName" readonly />
+    </div>
+
+    <div class="form-group">
+        <label>Ürün Seçiniz:</label>
+        @Html.DropDownListFor(m => m.ProductID, ViewBag.ProductList as SelectList, "-- Ürün Seçiniz --",
+        new { @class = "form-control", onchange = "this.form.submit();" })
+    </div>
+
+    <div class="form-group">
+        <label>Mevcut Stok Miktarı:</label>
+        <input type="text" class="form-control" value="@ViewBag.CurrentQuantity" readonly />
+    </div>
+
+    <div class="form-group">
+        <label>Beklenen Yeni Miktar:</label>
+        @Html.TextBoxFor(m => m.ExpectedQuantity, new { @class = "form-control", type = "number", required = "required" })
+    </div>
+
+    <div class="form-group">
+        <label>Talep Durumu:</label>
+        <input type="text" class="form-control" value="Requested" readonly />
+        @Html.HiddenFor(m => m.AdjustmentRStatus, new { Value = "Requested" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Talep Oluştur</button>
+}

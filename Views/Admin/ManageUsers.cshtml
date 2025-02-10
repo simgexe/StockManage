@@ -9,7 +9,7 @@
 <form method="get" action="@Url.Action("ManageUsers", "Admin")">
     <div>
         <label for="WarehouseID">Select Warehouse:</label>
-        @Html.DropDownList("WarehouseID", (SelectList)ViewBag.WarehouseID, "Select a Warehouse", new { @onchange = "this.form.submit();" })
+        @Html.DropDownList("WarehouseID", (SelectList)ViewBag.WarehouseID, "Select a Warehouse", new { @class = "form-control", @onchange = "this.form.submit();" })
     </div>
 
     <div>

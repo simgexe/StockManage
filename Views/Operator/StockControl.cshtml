@@ -32,8 +32,7 @@
                 <td>@product.Price.ToString("C")</td>
                 <td>@product.Quantity</td>
                 <td>@product.CriticalStockLevel</td>
-                <td>@Html.ActionLink("Diğer depolara bak", "OtherStockControl")</td>
-
+                <td>@Html.ActionLink("Diğer depolara bak", "OtherStockControl", null, new { @class = "btn btn-primary" })</td>
 
             </tr>
         }

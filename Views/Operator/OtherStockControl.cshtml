@@ -7,9 +7,10 @@
 @model IEnumerable<LogiManage.ViewModels.WarehouseProductViewModel>
 
 
-<form method="get" action="@Url.Action("OtherStockControl", "Operator")">
-    <label for="productId">Ürün Seç:</label>
-    <select id="productId" name="productId" onchange="this.form.submit()">
+<form method="get" action="@Url.Action("OtherStockControl", "Operator")" class="form-inline">
+    <label for="productId">Select product</label>
+    <select id="productId" name="productId" class="form-control" onchange="this.form.submit()">
+        <option value="">Select a product</option>
         @foreach (var product in ViewBag.Products)
         {
             <option value="@product.ProductID" @(ViewBag.SelectedProductId == product.ProductID ? "selected" : "")>
@@ -42,7 +43,10 @@
                 <td>@product.Quantity</td>
                 <td>@product.CriticalStockLevel</td>
                 <td>@product.WarehouseName</td>
-                <td>@Html.ActionLink("Transfer isteğinde bulun", "AddTransferORequest")</td>
+                <td>
+                    @Html.ActionLink("Transfer isteğinde bulun", "AddTransferORequest", null, new { @class = "btn btn-primary" })
+                </td>
+
 
 
             </tr>
