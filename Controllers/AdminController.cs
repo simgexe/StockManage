@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using LogiManage.Models;
 using LogiManage.ViewModels;
-using Microsoft.Ajax.Utilities;
+
 
 namespace LogiManage.Controllers
 {
@@ -14,11 +14,20 @@ namespace LogiManage.Controllers
 //AdminController handles administrative tasks related to users and warehouses
     public class AdminController : Controller
     {
-        // Database context for LogiManage
+        
         LogiManageDbEntities1 logidb = new LogiManageDbEntities1();
 
         // GET: Admin - Displays the main admin page
-        public ActionResult Index() { return View(); }
+        public ActionResult Index() {
+            // kaç kullanıcı var,
+            //depolar ne kadar dolu (bunun icin warehouse capacity ile diğer fonkların beraber çalışması lazım o yüzden baska yöntem olarak,
+            //warehouse stocks içindeki ürünleri toplayan dinamik fonk lazım.
+            //kaç sipariş var oranları pasta grafiği şeklinde görülebilir.
+            //kaç ürün çeşidi var, kaç depo var, card şeklinde olabilir
+            //reddedilen isteklerin oranı falan yeterli olur.
+            
+            return View();
+        }
     
         public List<TransferViewModel> GetTransfers()
         {
@@ -46,18 +55,18 @@ namespace LogiManage.Controllers
             return View(GetTransfers());
         }
         
-        // ManageUsers - Displays users in a specific warehouse
+        
         public ActionResult ManageUsers(int? warehouseId)
         {
-            // Check if there are any warehouses available
+           
             if (!logidb.Warehouses.Any())
                 return HttpNotFound("Warehouse bulunamadı.");
 
-            // If warehouseId is not provided, select the first warehouse
+           
             if (!warehouseId.HasValue)
                 warehouseId = logidb.Warehouses.First().WarehouseID;
 
-            // Select users belonging to the specified warehouse and map to ViewModel
+            
             var usersInWarehouse = logidb.Users
                 .Where(u => u.WarehouseID == warehouseId)
                 .Select(ws => new LogiManage.ViewModels.UserViewModel
@@ -68,26 +77,27 @@ namespace LogiManage.Controllers
                     UserLastName=ws.UserLastName,
                     UserEmail=ws.UserEmail,
                     RoleID = (int)ws.RoleID,
+                    
                     WarehouseID = (int)ws.WarehouseID,
                     WarehouseName = ws.Warehouses.WarehouseName
                 }).ToList();
 
-            // Create a selection list for warehouses to be used in the view
+            
             ViewBag.WarehouseID = new SelectList(logidb.Warehouses, "WarehouseID", "WarehouseName", warehouseId);
 
             return View(usersInWarehouse);
         }
 
-        // UserUpdate - Displays the user update form for a specific user
+        
         [HttpGet]
         public ActionResult UserUpdate(int userId)
         {
-            // Find the user by ID
+           
             var user = logidb.Users.FirstOrDefault(u => u.UserID == userId);
             if (user == null)
                 return HttpNotFound();
 
-            // Get roles and warehouses for dropdown lists in the view
+            
             var roles = logidb.Roles.ToList();
             ViewBag.RoleList = new SelectList(roles, "RoleID", "RoleName", user.RoleID);
             var warehouses = logidb.Warehouses.ToList();
@@ -108,7 +118,7 @@ namespace LogiManage.Controllers
                 return HttpNotFound("User not found.");
             }
 
-            // Update user properties with the new values
+            
             user.UserFirstName = updatedUser.UserFirstName;
             user.UserLastName = updatedUser.UserLastName;
             user.Userpassword = updatedUser.Userpassword;

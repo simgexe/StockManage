@@ -19,6 +19,8 @@ namespace LogiManage.Controllers
         // GET: Purchasing
         public ActionResult Index()
         {
+            //sipariş istekleri bildirimleri
+            //reddedilen sipariş oranları
             return View();
         }
         public List<OrderRequestViewModel> GetOrderRequests()

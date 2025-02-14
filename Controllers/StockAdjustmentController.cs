@@ -21,15 +21,15 @@ namespace LogiManage.Controllers
         {
             int warehouseid = (int)Session["WarehouseID"];
 
-            // Güncellenmiş stok listesini çek
+            
             var guncelStok = logidb.WarehouseStocks
                 .Where(x => x.WarehouseID == warehouseid)
                 .OrderByDescending(x => x.StockID)
                 .GroupBy(z => new { z.ProductID, z.WarehouseID })
                 .Select(x => x.FirstOrDefault())
-                .ToList(); // Belleğe çekiyoruz
+                .ToList(); 
 
-            // Önce StockAdjustmentRequests verilerini çekiyoruz (Veritabanı sorgusu olarak)
+            
             var adjustrequest = (from sr in logidb.StockAdjustmentRequests
                                  join p in logidb.Products on sr.ProductID equals p.ProductID
                                  join w in logidb.Warehouses on sr.WarehouseID equals w.WarehouseID
@@ -44,9 +44,9 @@ namespace LogiManage.Controllers
                                      ExpectedQuantity = sr.ExpectedQuantity ?? 0,
                                      AdjustmentRStatus = sr.AdjustmentRStatus,
                                      RequestDate = sr.RequestDate ?? DateTime.Now
-                                 }).ToList(); // Buraya kadar sadece veritabanı sorgusu çalışıyor.
+                                 }).ToList(); 
 
-            // Şimdi CurrentQuantity değerini güncelliyoruz
+            
             foreach (var item in adjustrequest)
             {
                 var stok = guncelStok.FirstOrDefault(s => s.ProductID == item.ProductID);
@@ -54,6 +54,7 @@ namespace LogiManage.Controllers
             }
 
             return adjustrequest;
+            
         }
 
 

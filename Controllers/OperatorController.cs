@@ -18,6 +18,12 @@ namespace LogiManage.Controllers
 
         public ActionResult Index()
         {
+            //reddedilen istek oranı (transfer ve stok düzeltme)
+            //depoda ürün miktarı kapasite oranı 
+            //yeni verilen sipariş bildirimi(preparing olanlar)
+            //reddedilen sipariş bildirimi
+            //reddedilen stok düzeltme bildirimi 
+            
             return View();
         }
         private TransferViewModel ReadTransfer(SqlDataReader dr)

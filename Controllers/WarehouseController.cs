@@ -21,6 +21,12 @@ namespace LogiManage.Controllers
 
         public ActionResult Index()
         {
+            //depo doluluk oranı
+            // reddedilen transfer oranı ve bildirimleri
+            //gelen transfer oranı bildirimleri
+            //giden transfer oranı 
+            //reddedilen sipariş oranı ve bildirimleri 
+            //tamamlanamayan sipariş oranı ve bildirimleri 
 
             return View();
         }

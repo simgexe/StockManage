@@ -43,69 +43,7 @@ namespace LogiManage.Controllers
         }
         public ActionResult Transfers()
         {
-           /* var viewModel = new TransferListViewModel();
-            SqlConnection connection = new SqlConnection("Data Source=RAKUNSY;Initial Catalog=LogiManageDb;Integrated Security=True");
-
-            // Giden transferler için sorgu
-            const string outgoingQuery = @"Select wt.TransferID,
-                                            wt.TransferDate,
-                                            wt.TransferStatus,
-                                            wt.SourceWarehouseID,
-                                            sw.WarehouseName as SourceWarehouseName,
-                                            wt.DestinationWarehouseID,
-                                            dw.WarehouseName as DestinationWarehouseName,
-                                            wt.ProductID,
-                                            p.ProductName,
-                                            wt.Quantity
-                                    from WarehouseTransfers wt 
-                                    join Warehouses sw on wt.SourceWarehouseID = sw.WarehouseID
-                                    join Warehouses dw on wt.DestinationWarehouseID = dw.WarehouseID
-                                    join Products p on wt.ProductID = p.ProductID
-                                    where  wt.SourceWarehouseID = @warehouseID";
-
-            // Gelen transferler için sorgu
-            const string incomingQuery = @"Select wt.TransferID,
-                                            wt.TransferDate,
-                                            wt.TransferStatus,
-                                            wt.SourceWarehouseID,
-                                            sw.WarehouseName as SourceWarehouseName,
-                                            wt.DestinationWarehouseID,
-                                            dw.WarehouseName as DestinationWarehouseName,
-                                            wt.ProductID,
-                                            p.ProductName,
-                                            wt.Quantity
-                                    from WarehouseTransfers wt 
-                                    join Warehouses sw on wt.SourceWarehouseID = sw.WarehouseID
-                                    join Warehouses dw on wt.DestinationWarehouseID = dw.WarehouseID
-                                    join Products p on wt.ProductID = p.ProductID
-                                    where  wt.DestinationWarehouseID = @warehouseID";
-
-            connection.Open();
-
-            SqlCommand outgoingCommand = new SqlCommand(outgoingQuery, connection);
-            outgoingCommand.Parameters.AddWithValue("@warehouseId", (int)Session["WarehouseID"]);
-            SqlDataReader outgoingDr = outgoingCommand.ExecuteReader();
-            viewModel.OtherTransfers = new List<TransferViewModel>();
-            while (outgoingDr.Read())
-            {
-                viewModel.OtherTransfers.Add(ReadTransfer(outgoingDr));
-            }
-            outgoingDr.Close();
-
-
-            SqlCommand incomingCommand = new SqlCommand(incomingQuery, connection);
-            incomingCommand.Parameters.AddWithValue("@warehouseId", (int)Session["WarehouseID"]);
-            SqlDataReader incomingDr = incomingCommand.ExecuteReader();
-            viewModel.Transfers = new List<TransferViewModel>();
-            while (incomingDr.Read())
-            {
-                viewModel.Transfers.Add(ReadTransfer(incomingDr));
-            }
-            incomingDr.Close();
-
-            connection.Close();
-
-            return View(viewModel);*/
+           
            return View(GetTransfers());
         }
         public ActionResult TransferRequests()
